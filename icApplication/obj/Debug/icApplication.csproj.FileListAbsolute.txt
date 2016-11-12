@@ -1,0 +1,47 @@
+E:\Dev\Crypto\InCrypto\icApplication\bin\Debug\icApplication.exe.config
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.csprojResolveAssemblyReference.cache
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\View\MainWindowView.g.cs
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.cache
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\App.g.cs
+E:\Dev\Crypto\InCrypto\icApplication\bin\Debug\icApplication.exe
+E:\Dev\Crypto\InCrypto\icApplication\bin\Debug\icApplication.pdb
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\View\MainWindowView.baml
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.g.resources
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.Properties.Resources.resources
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.exe
+E:\Dev\Crypto\InCrypto\icApplication\obj\Debug\icApplication.pdb
+E:\Dev\Crypto\InCrypto\icApplication\bin\Debug\icModel.dll
+E:\Dev\Crypto\InCrypto\icApplication\bin\Debug\icModel.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\bin\Debug\icApplication.exe.config
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.exe
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.csprojResolveAssemblyReference.cache
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\View\MainWindowView.g.cs
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.cache
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\bin\Debug\icApplication.exe
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\bin\Debug\icApplication.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\bin\Debug\icModel.dll
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\bin\Debug\icModel.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\App.g.cs
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\View\MainWindowView.baml
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.g.resources
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.Properties.Resources.resources
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\bin\Debug\icApplication.exe.config
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.exe
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.pdb
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\bin\Debug\icApplication.exe
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\bin\Debug\icApplication.pdb
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\bin\Debug\icModel.dll
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\bin\Debug\icModel.pdb
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.csprojResolveAssemblyReference.cache
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\View\MainWindowView.g.cs
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\App.g.cs
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication_MarkupCompile.cache
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\View\MainWindowView.baml
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.g.resources
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.Properties.Resources.resources
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache

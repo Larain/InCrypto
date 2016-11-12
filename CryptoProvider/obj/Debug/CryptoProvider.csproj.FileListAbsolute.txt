@@ -1,0 +1,5 @@
+E:\Dev\Crypto\InCrypto\CryptoProvider\bin\Debug\CryptoProvider.dll
+E:\Dev\Crypto\InCrypto\CryptoProvider\bin\Debug\CryptoProvider.pdb
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\CryptoProvider.csprojResolveAssemblyReference.cache
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\CryptoProvider.dll
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\CryptoProvider.pdb

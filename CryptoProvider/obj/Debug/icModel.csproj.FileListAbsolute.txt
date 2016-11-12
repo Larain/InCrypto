@@ -1,0 +1,15 @@
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.csprojResolveAssemblyReference.cache
+E:\Dev\Crypto\InCrypto\CryptoProvider\bin\Debug\icModel.dll
+E:\Dev\Crypto\InCrypto\CryptoProvider\bin\Debug\icModel.pdb
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.dll
+E:\Dev\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\CryptoProvider\bin\Debug\icModel.dll
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\CryptoProvider\bin\Debug\icModel.pdb
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.csprojResolveAssemblyReference.cache
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.dll
+C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\CryptoProvider\obj\Debug\icModel.pdb
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\CryptoProvider\bin\Debug\icModel.dll
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\CryptoProvider\bin\Debug\icModel.pdb
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\CryptoProvider\obj\Debug\icModel.csprojResolveAssemblyReference.cache
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\CryptoProvider\obj\Debug\icModel.dll
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\CryptoProvider\obj\Debug\icModel.pdb

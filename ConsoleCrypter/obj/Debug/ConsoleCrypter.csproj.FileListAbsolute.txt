@@ -1,0 +1,8 @@
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\bin\Debug\ConsoleCrypter.exe.config
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\bin\Debug\ConsoleCrypter.exe
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\bin\Debug\ConsoleCrypter.pdb
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\obj\Debug\ConsoleCrypter.csprojResolveAssemblyReference.cache
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\obj\Debug\ConsoleCrypter.exe
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\obj\Debug\ConsoleCrypter.pdb
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\bin\Debug\icModel.dll
+E:\Dev\Crypto\InCrypto\ConsoleCrypter\bin\Debug\icModel.pdb
