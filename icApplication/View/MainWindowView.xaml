@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:icApplication.Converter"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
 
@@ -16,25 +17,44 @@
             <RowDefinition Height="2*" />
             <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converter:MultilineConverter x:Key="MultilineConverter" />
+        </Grid.Resources>
 
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="0 0 0 5">Select Method</TextBlock>
+                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
                       SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Visibility="Hidden">
+                <TextBlock Margin="0 0 0 5">Select crypto key:</TextBlock>
+                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
+                      SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </StackPanel>
         </StackPanel>
-        
-        <TextBox Name="TbEncryptedText" Text="{Binding Path=EcnryptoText}" Grid.Row="1" Grid.Column="0"/>
+
+        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0"
+            Text="{Binding Path=EncryptoText, UpdateSourceTrigger=PropertyChanged}"/>
         
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Width="120" Height="40" Margin="10">Encrypt>></Button>
-            <Button Width="120" Height="40" Margin="10">&lt;&lt;Decrypt</Button>
+            <Button Command="{Binding EncryptCommand}"  Width="120" Height="40" Margin="10">Encrypt>></Button>
+            <Button Command="{Binding DecryptCommand}" Width="120" Height="40" Margin="10">&lt;&lt;Decrypt</Button>
         </StackPanel>
-        
-        <TextBox Text="{Binding DecryptoText}" Grid.Row="1" Grid.Column="2"/>
+
+        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" 
+            Text="{Binding Path=DecryptoText, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

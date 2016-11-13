@@ -17,25 +17,38 @@ namespace icModel.Method
             alphabet = characterTable;
             length = alphabet.Length;
         }
-        public string Encrypt(string message, ICryptoKey key)
+        public string[] Encrypt(string[] message, ICryptoKey key)
         {
             int[] parameters = key.Key;
 
-            // Encrypting message to digit code.
-            int[] codedDigitMessage = new int[message.Length];
+            // Decrypting message to digit code.
+            List<int[]> codedDigitMessage = new List<int[]>();
             for (int i = 0; i < message.Length; i++)
-                codedDigitMessage[i] = EncryptoFunc(alphabet.GetIndex
-                    (Convert.ToChar(message[i])), parameters[0], parameters[1]);
+            {
+                int[] lineDigitMessage = new int[message[i].Length];
+                for (int j = 0; j < message[i].Length; j++)
+                {
+                    lineDigitMessage[j] = EncryptoFunc(alphabet.GetIndex(Convert.ToChar(message[i][j])), parameters[0], parameters[1]);
+                }
+                codedDigitMessage.Add(lineDigitMessage);
+            }
 
             // Convert digits to char Array.
-            char[] codedMessage = new char[message.Length];
+            List<string> codedMessage = new List<string>();
             for (int i = 0; i < message.Length; i++)
-                codedMessage[i] = alphabet.GetSymbol(codedDigitMessage[i]);
+            {
+                char[] codedLineMessage = new char[message[i].Length];
+                for (int j = 0; j < message[i].Length; j++)
+                {
+                    codedLineMessage[j] = alphabet.GetSymbol(codedDigitMessage[i][j]);
+                }
+                codedMessage.Add(new string(codedLineMessage));
+            }
 
-            return new string(codedMessage);
+            return codedMessage.ToArray();
         }
 
-        public string Decrypt(string message, ICryptoKey key)
+        public string[] Decrypt(string[] message, ICryptoKey key)
         {
             int[] parameters = key.Key;
             int? InvA = GetInvA(parameters[0]);
@@ -45,17 +58,30 @@ namespace icModel.Method
             int a = InvA ?? InvA.Value;
 
             // Decrypting message to digit code.
-            int[] codedDigitMessage = new int[message.Length];
+            List<int[]> codedDigitMessage = new List<int[]>();
             for (int i = 0; i < message.Length; i++)
-                codedDigitMessage[i] = DecryptoFunc(alphabet.GetIndex
-                    (Convert.ToChar(message[i])), a, parameters[1]);
+            {
+                int[] lineDigitMessage = new int[message[i].Length];
+                for (int j = 0; j < message[i].Length; j++)
+                {
+                    lineDigitMessage[j] = DecryptoFunc(alphabet.GetIndex(Convert.ToChar(message[i][j])), a, parameters[1]);
+                }
+                codedDigitMessage.Add(lineDigitMessage);
+            }
 
             // Convert digits to char Array.
-            char[] codedMessage = new char[message.Length];
+            List<string> codedMessage = new List<string>();
             for (int i = 0; i < message.Length; i++)
-                codedMessage[i] = alphabet.GetSymbol(codedDigitMessage[i]);
+            {
+                char[] codedLineMessage = new char[message[i].Length];
+                for (int j = 0; j < message[i].Length; j++)
+                {
+                    codedLineMessage[j] = alphabet.GetSymbol(codedDigitMessage[i][j]);
+                }
+                codedMessage.Add(new string(codedLineMessage));
+            }
 
-            return new string(codedMessage);
+            return (codedMessage.ToArray());
         }
         private int EncryptoFunc(int x, int a, int b)
         {

@@ -17,12 +17,12 @@ namespace icModel.Provider
             CryptoKey = cryptoKey;
             CryptoMethod = cryptoMethod;
         }
-        public string Encrypt(string message)
+        public string[] Encrypt(string[] message)
         {
             return CryptoMethod.Encrypt(message, CryptoKey);
         }
 
-        public string Decrypt(string message)
+        public string[] Decrypt(string[] message)
         {
             return CryptoMethod.Decrypt(message, CryptoKey);
         }

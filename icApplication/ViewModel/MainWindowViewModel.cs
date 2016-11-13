@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using icApplication.Helper;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using icApplication.Command;
+using System.Windows;
 
 namespace icApplication.ViewModel
 {
@@ -23,10 +26,15 @@ namespace icApplication.ViewModel
         ICryptoMethod _method;
         ICryptoProvider _provider;
 
-        int selectedKey;
+        int? selectedKey;
         string encryptoText;
         string decryptoText;
         ObservableCollection<int> avaibleKeys;
+
+        private ICommand decryptCommand;
+        private ICommand ecnryptCommand;
+
+        private bool canExecute = true;
         #endregion
 
         /// <summary>
@@ -35,6 +43,10 @@ namespace icApplication.ViewModel
         public MainWindowViewModel()
         {
             InitializeCryptoComponents();
+            EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
+            DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
+            if (AvaibleKeys != null && AvaibleKeys.Count > 0)
+                SelectedKey = AvaibleKeys[(int)(avaibleKeys.Count / 2)];
         }
 
         private void InitializeCryptoComponents()
@@ -44,8 +56,6 @@ namespace icApplication.ViewModel
             avaibleKeys = new ObservableCollection<int>();
 
             GetAvaibleKeys();
-            if (AvaibleKeys != null && AvaibleKeys.Count > 0)
-                SelectedKey = AvaibleKeys[0];
         }
 
         #region Properties
@@ -61,7 +71,7 @@ namespace icApplication.ViewModel
                 base.NotifyPropertyChanged("AvaibleKeys");
             }
         }
-        public string EcnryptoText
+        public string EncryptoText
         {
             get
             {
@@ -85,7 +95,7 @@ namespace icApplication.ViewModel
                 base.NotifyPropertyChanged("DecryptoText");
             }
         }
-        public int SelectedKey
+        public int? SelectedKey
         {
             get
             {
@@ -93,20 +103,103 @@ namespace icApplication.ViewModel
             }
             set
             {
-                this.selectedKey = value;
-                _key = new AffineKey(value, _alphabet.Length);
-                base.NotifyPropertyChanged("SelectedKey");
+                if (value == null)
+                {
+                    _key = null;
+                    MessageBox.Show("Key can not be null!");
+                }
+                else
+                {
+                    _key = new AffineKey((int)value, _alphabet.Length);
+                    _provider = new CryptoProvider(_key, _method);
+                    base.NotifyPropertyChanged("SelectedKey");
+                }
+                selectedKey = value;
+            }
+        }
+        #endregion
+
+        #region Commands
+        public bool CanExecute
+        {
+            get
+            {
+                return this.canExecute;
+            }
+
+            set
+            {
+                if (this.canExecute == value)
+                {
+                    return;
+                }
+
+                this.canExecute = value;
+            }
+        }
+        public ICommand EncryptCommand
+        {
+            get
+            {
+                return ecnryptCommand;
+            }
+            set
+            {
+                ecnryptCommand = value;
+            }
+        }
+        public ICommand DecryptCommand
+        {
+            get
+            {
+                return decryptCommand;
+            }
+            set
+            {
+                decryptCommand = value;
             }
         }
         #endregion
 
         #region Private Methods
+        public void EncryptMessage(object obj)
+        {
+            DecryptoText = ConvertToString(_provider.Encrypt(ConvertToStringArray(EncryptoText)));
+            EncryptoText = null;
+        }
+        public void DecryptMessage(object obj)
+        {
+            EncryptoText = ConvertToString(_provider.Decrypt(ConvertToStringArray(DecryptoText)));
+            DecryptoText = null;
+        }
+        public bool CanEncrypt(object obj)
+        {
+            return EncryptoText == null ? false : (EncryptoText.Length > 0 && SelectedKey != null && _key != null);
+        }
+        public bool CanDecrypt(object obj)
+        {
+            return DecryptoText == null ? false : (DecryptoText.Length > 0 && SelectedKey != null && _key != null);
+        }
         private void GetAvaibleKeys()
         {
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 140; i++)
                 if (NodHelper.IsNod(i, _alphabet.Length))
                     AvaibleKeys.Add(i);
         }
         #endregion
+
+        #region Converters
+        public string ConvertToString(string[] text)
+        {
+            if (text.Length < 2)
+                return text[0];
+            else return string.Join(Environment.NewLine, text);
+        }
+
+        public string[] ConvertToStringArray(string text)
+        {
+            return text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        }
     }
+    #endregion
 }

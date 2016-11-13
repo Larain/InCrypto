@@ -13,7 +13,7 @@ namespace icModel.Key
         ICryptoKey CryptoKey { get; set; }
         ICryptoMethod CryptoMethod { get; set; }
 
-        string Encrypt(string message);
-        string Decrypt(string message);
+        string[] Encrypt(string[] message);
+        string[] Decrypt(string[] message);
     }
 }
