@@ -1,8 +1,4 @@
-﻿using icModel.Alphabet;
-using icModel.Key;
-using icModel.Model;
-using icModel.Method;
-using icModel.Provider;
+﻿using icModel.Model;
 using System.Collections.Generic;
 using icApplication.Helper;
 using System;
@@ -10,6 +6,11 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using icApplication.Command;
 using System.Windows;
+using icModel.Abstract;
+using icModel.Model.Alphabet;
+using icModel.Model.KeyGenerators;
+using icModel.Model.Methods;
+using icModel.Model.Providers;
 
 namespace icApplication.ViewModel
 {
@@ -23,7 +24,7 @@ namespace icApplication.ViewModel
         #region fields
         IAlphabet _alphabet;
         ICryptoKey _key;
-        ICryptoMethod _method;
+        CryptoMethod _method;
         ICryptoProvider _provider;
 
         int? selectedKey;
@@ -52,10 +53,10 @@ namespace icApplication.ViewModel
         private void InitializeCryptoComponents()
         {
             _alphabet = new CharactersAlphabet();
-            _method = new AffineCipher(_alphabet);
             avaibleKeys = new ObservableCollection<int>();
 
             GetAvaibleKeys();
+            _method = new AffineCipher(_alphabet, _key);
         }
 
         #region Properties
@@ -111,6 +112,7 @@ namespace icApplication.ViewModel
                 else
                 {
                     _key = new AffineKey((int)value, _alphabet.Length);
+                    _method = new AffineCipher(_alphabet, _key);
                     _provider = new CryptoProvider(_key, _method);
                     base.NotifyPropertyChanged("SelectedKey");
                 }

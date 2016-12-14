@@ -1,118 +1,56 @@
-﻿using icModel.Alphabet;
-using icModel.Key;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using icModel.Abstract;
+using icModel.Model.Entities;
+using icModel.Model.Helpers;
 
-namespace icModel.Method
-{
-    public class AffineCipher : ICryptoMethod
-    {
-        IAlphabet alphabet;
-        int length;
-        public AffineCipher(IAlphabet characterTable)
-        {
-            alphabet = characterTable;
-            length = alphabet.Length;
+namespace icModel.Model.Methods {
+    public class AffineCipher : CryptoMethod {
+
+        public AffineCipher(IAlphabet characterTable, ICryptoKey key) {
+            Alphabet = characterTable;
+            Key = key;
         }
-        public string[] Encrypt(string[] message, ICryptoKey key)
-        {
-            int[] parameters = key.Key;
+
+        public override string[] Encrypt(string[] message) {
+            return ConvertDigitsToChar(Proccess(message, Mode.Encrypt));
+        }
+
+        public override string[] Decrypt(string[] message) {
+            return ConvertDigitsToChar(Proccess(message, Mode.Decrypt));
+        }
+
+        private List<int[]> Proccess(string[] message, Mode mode) {
+            int[] parameters = Key.KeyCodes;
+
+            int a = 0;
+            if (mode == Mode.Decrypt)
+                a = CryptoHelper.GetInvA(parameters[0], Alphabet.Length);
 
             // Decrypting message to digit code.
             List<int[]> codedDigitMessage = new List<int[]>();
-            for (int i = 0; i < message.Length; i++)
-            {
+            for (int i = 0; i < message.Length; i++) {
                 int[] lineDigitMessage = new int[message[i].Length];
-                for (int j = 0; j < message[i].Length; j++)
-                {
-                    lineDigitMessage[j] = EncryptoFunc(alphabet.GetIndex(Convert.ToChar(message[i][j])), parameters[0], parameters[1]);
+                for (int j = 0; j < message[i].Length; j++) {
+                    if (mode == Mode.Encrypt)
+                        lineDigitMessage[j] = EncryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])),
+                            parameters[0], parameters[1]);
+                    if (mode == Mode.Decrypt)
+                        lineDigitMessage[j] = DecryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])), a,
+                            parameters[1]);
                 }
                 codedDigitMessage.Add(lineDigitMessage);
             }
-
-            // Convert digits to char Array.
-            List<string> codedMessage = new List<string>();
-            for (int i = 0; i < message.Length; i++)
-            {
-                char[] codedLineMessage = new char[message[i].Length];
-                for (int j = 0; j < message[i].Length; j++)
-                {
-                    codedLineMessage[j] = alphabet.GetSymbol(codedDigitMessage[i][j]);
-                }
-                codedMessage.Add(new string(codedLineMessage));
-            }
-
-            return codedMessage.ToArray();
+            return codedDigitMessage;
         }
 
-        public string[] Decrypt(string[] message, ICryptoKey key)
-        {
-            int[] parameters = key.Key;
-            int? InvA = GetInvA(parameters[0]);
-            if (InvA == null)
-                throw new ArgumentException("Can not find InvA :(");
+        private int EncryptoFunc(int x, int a, int b) {
+            return CryptoHelper.Mod((a*x + b), Alphabet.Length);
+        }
 
-            int a = InvA ?? InvA.Value;
+        private int DecryptoFunc(int x, int a, int b) {
+            return CryptoHelper.Mod((a*(x - b)), Alphabet.Length);
+        }
 
-            // Decrypting message to digit code.
-            List<int[]> codedDigitMessage = new List<int[]>();
-            for (int i = 0; i < message.Length; i++)
-            {
-                int[] lineDigitMessage = new int[message[i].Length];
-                for (int j = 0; j < message[i].Length; j++)
-                {
-                    lineDigitMessage[j] = DecryptoFunc(alphabet.GetIndex(Convert.ToChar(message[i][j])), a, parameters[1]);
-                }
-                codedDigitMessage.Add(lineDigitMessage);
-            }
-
-            // Convert digits to char Array.
-            List<string> codedMessage = new List<string>();
-            for (int i = 0; i < message.Length; i++)
-            {
-                char[] codedLineMessage = new char[message[i].Length];
-                for (int j = 0; j < message[i].Length; j++)
-                {
-                    codedLineMessage[j] = alphabet.GetSymbol(codedDigitMessage[i][j]);
-                }
-                codedMessage.Add(new string(codedLineMessage));
-            }
-
-            return (codedMessage.ToArray());
-        }
-        private int EncryptoFunc(int x, int a, int b)
-        {
-            return Mod((a * x + b), length);
-        }
-        private int DecryptoFunc(int x, int a, int b)
-        {
-            return Mod((a * (x - b)), length);
-        }
-        int Mod(int x, int m)
-        {
-            int r = x % m;
-            return r < 0 ? r + m : r;
-        }
-        private int? GetInvA(int a)
-        {
-            int? invA = null;
-            for (int i = 0; ; i++)
-            {
-                if ((i * a) % length == 1)
-                {
-                    invA = i;
-                    break;
-                }
-                if (i > 200)
-                    break;
-            }
-            if (invA != null)
-                return invA.Value;
-            else
-                return null;
-        }
     }
 }

@@ -46,3 +46,5 @@ C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icAppli
 C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache
 C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication_MarkupCompile.lref

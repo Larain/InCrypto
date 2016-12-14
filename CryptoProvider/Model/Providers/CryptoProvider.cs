@@ -1,30 +1,24 @@
-﻿using icModel.Key;
-using icModel.Method;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using icModel.Abstract;
 
-namespace icModel.Provider
+namespace icModel.Model.Providers
 {
     public class CryptoProvider : ICryptoProvider
     {
         public ICryptoKey CryptoKey { get; set; }
-        public ICryptoMethod CryptoMethod { get; set; }
-        public CryptoProvider(ICryptoKey cryptoKey, ICryptoMethod cryptoMethod)
+        public CryptoMethod CryptoMethod { get; set; }
+        public CryptoProvider(ICryptoKey cryptoKey, CryptoMethod cryptoMethod)
         {
             CryptoKey = cryptoKey;
             CryptoMethod = cryptoMethod;
         }
         public string[] Encrypt(string[] message)
         {
-            return CryptoMethod.Encrypt(message, CryptoKey);
+            return CryptoMethod.Encrypt(message);
         }
 
         public string[] Decrypt(string[] message)
         {
-            return CryptoMethod.Decrypt(message, CryptoKey);
+            return CryptoMethod.Decrypt(message);
         }
     }
 }

@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using icModel.Abstract;
 
-namespace icModel.Alphabet
-{
-    public class CharactersAlphabet : IAlphabet
-    {
-        public int Length { get; private set; }
-        private string alphabet;
-        public CharactersAlphabet()
-        {
-            alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ";
-            Length = alphabet.Length;
+namespace icModel.Model.Alphabet {
+    public class CharactersAlphabet : IAlphabet {
+        public int Length {
+            get { return charactersAlphabet.Length; }
         }
 
-        public int GetIndex(char symbol)
-        {
-            return alphabet.IndexOf(symbol);
+        private string charactersAlphabet;
+
+        public CharactersAlphabet() {
+            charactersAlphabet =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ";
+
         }
-        public char GetSymbol(int index)
-        {
-            return alphabet.ElementAt(index);
+
+        public int GetIndex(char symbol) {
+            return charactersAlphabet.IndexOf(symbol);
+        }
+
+        public char GetSymbol(int index) {
+            return charactersAlphabet.ElementAt(index);
         }
     }
 }
