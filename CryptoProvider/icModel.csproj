@@ -51,6 +51,7 @@
     <Compile Include="Model\Providers\AffineCipher.cs" />
     <Compile Include="Abstract\CryptoProvider.cs" />
     <Compile Include="Abstract\ICryptoKey.cs" />
+    <Compile Include="Model\Providers\CipherException.cs" />
     <Compile Include="Model\Providers\HillCipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

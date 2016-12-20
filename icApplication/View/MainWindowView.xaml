@@ -6,55 +6,104 @@
         xmlns:converter="clr-namespace:icApplication.Converter"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
+    <Window.Resources>
+        <DataTemplate x:Key="DataTemplateLevel2">
+            <TextBox Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DataTemplate>
 
-    <Grid Margin="50">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4.5*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="4.5*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="8*" />
-        </Grid.RowDefinitions>
-        <Grid.Resources>
-            <converter:MultilineConverter x:Key="MultilineConverter" />
-        </Grid.Resources>
+        <DataTemplate x:Key="DataTemplateLevel1">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateLevel2}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
 
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Margin="0 0 0 5">Select Method</TextBlock>
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
+            <TabItem Header="TabItem" Height="Auto" Width="Auto">
+                <Grid Margin="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4.5*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="4.5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="8*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <converter:MultilineConverter x:Key="MultilineConverter" />
+                    </Grid.Resources>
+
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Margin="0 0 0 5">Select Method</TextBlock>
+                            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
                       SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Visibility="Hidden">
-                <TextBlock Margin="0 0 0 5">Select crypto key:</TextBlock>
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Visibility="Hidden">
+                            <TextBlock Margin="0 0 0 5">Select crypto key:</TextBlock>
+                            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
                       SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
-            </StackPanel>
-        </StackPanel>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                        </StackPanel>
+                    </StackPanel>
 
-        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0"
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0"
             Text="{Binding Path=EncryptoText, UpdateSourceTrigger=PropertyChanged}"/>
-        
-        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Command="{Binding EncryptCommand}"  Width="120" Height="40" Margin="10">Encrypt>></Button>
-            <Button Command="{Binding DecryptCommand}" Width="120" Height="40" Margin="10">&lt;&lt;Decrypt</Button>
-        </StackPanel>
 
-        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" 
+                    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Command="{Binding EncryptCommand}"  Width="120" Height="40" Margin="10">Encrypt>></Button>
+                        <Button Command="{Binding DecryptCommand}" Width="120" Height="40" Margin="10">&lt;&lt;Decrypt</Button>
+                    </StackPanel>
+
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" 
             Text="{Binding Path=DecryptoText, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Matrix" Height="Auto" Width="Auto">
+                
+                <Grid Margin="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4.5*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="4.5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="8*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <converter:MultilineConverter x:Key="MultilineConverter" />
+                    </Grid.Resources>
+
+                    <StackPanel Grid.Row="0">
+                        <Label>Enter size of Matrix NxN</Label>
+                        <TextBox></TextBox>
+                    </StackPanel>
+
+                    <ItemsControl x:Name="Matrix" ItemTemplate="{DynamicResource DataTemplateLevel1}"
+                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </Window>

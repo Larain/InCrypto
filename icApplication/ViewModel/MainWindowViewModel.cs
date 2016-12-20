@@ -30,9 +30,6 @@ namespace icApplication.ViewModel
         string decryptoText;
         ObservableCollection<int> avaibleKeys;
 
-        private ICommand decryptCommand;
-        private ICommand ecnryptCommand;
-
         private bool canExecute = true;
         #endregion
 
@@ -123,41 +120,23 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return this.canExecute;
+                return canExecute;
             }
 
             set
             {
-                if (this.canExecute == value)
+                if (canExecute == value)
                 {
                     return;
                 }
 
-                this.canExecute = value;
+                canExecute = value;
             }
         }
-        public ICommand EncryptCommand
-        {
-            get
-            {
-                return ecnryptCommand;
-            }
-            set
-            {
-                ecnryptCommand = value;
-            }
-        }
-        public ICommand DecryptCommand
-        {
-            get
-            {
-                return decryptCommand;
-            }
-            set
-            {
-                decryptCommand = value;
-            }
-        }
+        public ICommand EncryptCommand { get; set; }
+
+        public ICommand DecryptCommand { get; set; }
+
         #endregion
 
         #region Private Methods
@@ -173,15 +152,15 @@ namespace icApplication.ViewModel
         }
         public bool CanEncrypt(object obj)
         {
-            return EncryptoText == null ? false : (EncryptoText.Length > 0 && SelectedKey != null && _key != null);
+            return EncryptoText != null && (EncryptoText.Length > 0 && SelectedKey != null && _key != null);
         }
         public bool CanDecrypt(object obj)
         {
-            return DecryptoText == null ? false : (DecryptoText.Length > 0 && SelectedKey != null && _key != null);
+            return DecryptoText != null && (DecryptoText.Length > 0 && SelectedKey != null && _key != null);
         }
         private void GetAvaibleKeys()
         {
-            for (int i = 0; i < 140; i++)
+            for (var i = 0; i < 140; i++)
                 if (NodHelper.IsNod(i, _alphabet.Length))
                     AvaibleKeys.Add(i);
         }
@@ -199,6 +178,7 @@ namespace icApplication.ViewModel
         {
             return text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
+        #endregion
     }
-    #endregion
+
 }

@@ -51,3 +51,17 @@ C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icAppli
 D:\GitHub\InCrypto\icApplication\bin\Debug\icApplication.exe.config
 D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.exe
 D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.pdb
+D:\GitHub\InCrypto\icApplication\bin\Debug\icApplication.exe
+D:\GitHub\InCrypto\icApplication\bin\Debug\icApplication.pdb
+D:\GitHub\InCrypto\icApplication\bin\Debug\icModel.dll
+D:\GitHub\InCrypto\icApplication\bin\Debug\icModel.pdb
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.csprojResolveAssemblyReference.cache
+D:\GitHub\InCrypto\icApplication\obj\Debug\View\MainWindowView.g.cs
+D:\GitHub\InCrypto\icApplication\obj\Debug\App.g.cs
+D:\GitHub\InCrypto\icApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.cache
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+D:\GitHub\InCrypto\icApplication\obj\Debug\View\MainWindowView.baml
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.g.resources
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.Properties.Resources.resources
+D:\GitHub\InCrypto\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache
