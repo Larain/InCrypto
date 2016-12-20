@@ -243,3 +243,9 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Custom 
+*.exe
+*.pdp
+*.lref
+*.cache
