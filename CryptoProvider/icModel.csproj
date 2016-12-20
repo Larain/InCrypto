@@ -47,12 +47,11 @@
     <Compile Include="Model\Helpers\CryptoHelper.cs" />
     <Compile Include="Model\MessageRepository.cs" />
     <Compile Include="Abstract\IAlphabet.cs" />
-    <Compile Include="Abstract\ICryptoProvider.cs" />
     <Compile Include="Model\KeyGenerators\AffineKey.cs" />
-    <Compile Include="Model\Methods\AffineCipher.cs" />
-    <Compile Include="Abstract\CryptoMethod.cs" />
+    <Compile Include="Model\Providers\AffineCipher.cs" />
+    <Compile Include="Abstract\CryptoProvider.cs" />
     <Compile Include="Abstract\ICryptoKey.cs" />
-    <Compile Include="Model\Providers\CryptoProvider.cs" />
+    <Compile Include="Model\Providers\HillCipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -48,3 +48,20 @@ C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplicati
 C:\Users\yuriy\Documents\Visual Studio 2015\Projects\Crypto\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
 C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\OleynikYR\Documents\Visual Studio 2015\Projects\InCrypto-master\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\bin\Debug\icApplication.exe.config
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.exe
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.pdb
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\bin\Debug\icApplication.exe
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\bin\Debug\icApplication.pdb
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\bin\Debug\icModel.dll
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\bin\Debug\icModel.pdb
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.csprojResolveAssemblyReference.cache
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\View\MainWindowView.g.cs
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\App.g.cs
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.cache
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication_MarkupCompile.lref
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\View\MainWindowView.baml
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.g.resources
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.Properties.Resources.resources
+C:\Users\yuriy\Documents\GitHub\InCrypto\icApplication\obj\Debug\icApplication.csproj.GenerateResource.Cache
