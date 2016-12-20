@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace icModel.Abstract {
-    public abstract class CryptoMethod {
+    public abstract class CryptoProvider {
         public ICryptoKey Key { get; set; }
         public IAlphabet Alphabet { get; set; }
         public abstract string[] Encrypt(string[] message);

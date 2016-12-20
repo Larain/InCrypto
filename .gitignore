@@ -1,1 +1,7 @@
 *.cache
+*.cache
+*.cache
+*.cache
+CryptoProvider/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.lref
+icApplication/obj/Debug/icApplication_MarkupCompile.i.lref

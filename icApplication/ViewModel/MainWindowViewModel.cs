@@ -9,7 +9,6 @@ using System.Windows;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.KeyGenerators;
-using icModel.Model.Methods;
 using icModel.Model.Providers;
 
 namespace icApplication.ViewModel
@@ -24,8 +23,7 @@ namespace icApplication.ViewModel
         #region fields
         IAlphabet _alphabet;
         ICryptoKey _key;
-        CryptoMethod _method;
-        ICryptoProvider _provider;
+        CryptoProvider _provider;
 
         int? selectedKey;
         string encryptoText;
@@ -56,7 +54,7 @@ namespace icApplication.ViewModel
             avaibleKeys = new ObservableCollection<int>();
 
             GetAvaibleKeys();
-            _method = new AffineCipher(_alphabet, _key);
+            _provider = new AffineCipher(_alphabet, _key);
         }
 
         #region Properties
@@ -112,8 +110,7 @@ namespace icApplication.ViewModel
                 else
                 {
                     _key = new AffineKey((int)value, _alphabet.Length);
-                    _method = new AffineCipher(_alphabet, _key);
-                    _provider = new CryptoProvider(_key, _method);
+                    _provider = new AffineCipher(_alphabet, _key);
                     base.NotifyPropertyChanged("SelectedKey");
                 }
                 selectedKey = value;
