@@ -6,22 +6,7 @@
         xmlns:converter="clr-namespace:icApplication.Converter"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
-    <Window.Resources>
-        <DataTemplate x:Key="DataTemplateLevel2">
-            <TextBox Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </DataTemplate>
 
-        <DataTemplate x:Key="DataTemplateLevel1">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateLevel2}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-
-    </Window.Resources>
     <Grid>
         <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
             <TabItem Header="TabItem" Height="Auto" Width="Auto">
@@ -81,7 +66,6 @@
                 
                 <Grid Margin="50">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4.5*" />
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="4.5*" />
                     </Grid.ColumnDefinitions>
@@ -95,11 +79,10 @@
 
                     <StackPanel Grid.Row="0">
                         <Label>Enter size of Matrix NxN</Label>
-                        <TextBox></TextBox>
+                        <TextBox Text="{Binding Path=MatrixSize, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
 
-                    <ItemsControl x:Name="Matrix" ItemTemplate="{DynamicResource DataTemplateLevel1}"
-                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Row="1" Name="MatrixPanel" Orientation="Vertical"/>
 
                 </Grid>
             </TabItem>

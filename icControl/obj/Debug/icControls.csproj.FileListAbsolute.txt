@@ -1,0 +1,12 @@
+D:\GitHub\InCrypto\icControl\bin\Debug\icControls.dll
+D:\GitHub\InCrypto\icControl\bin\Debug\icControls.pdb
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.csprojResolveAssemblyReference.cache
+D:\GitHub\InCrypto\icControl\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls_MarkupCompile.cache
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls_MarkupCompile.lref
+D:\GitHub\InCrypto\icControl\obj\Debug\Themes\Generic.baml
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.g.resources
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.Properties.Resources.resources
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.csproj.GenerateResource.Cache
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.dll
+D:\GitHub\InCrypto\icControl\obj\Debug\icControls.pdb

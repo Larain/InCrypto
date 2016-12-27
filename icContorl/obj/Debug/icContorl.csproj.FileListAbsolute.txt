@@ -1,0 +1,12 @@
+D:\GitHub\InCrypto\icContorl\bin\Debug\icContorl.dll
+D:\GitHub\InCrypto\icContorl\bin\Debug\icContorl.pdb
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.csprojResolveAssemblyReference.cache
+D:\GitHub\InCrypto\icContorl\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl_MarkupCompile.cache
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl_MarkupCompile.lref
+D:\GitHub\InCrypto\icContorl\obj\Debug\Themes\Generic.baml
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.g.resources
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.Properties.Resources.resources
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.csproj.GenerateResource.Cache
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.dll
+D:\GitHub\InCrypto\icContorl\obj\Debug\icContorl.pdb

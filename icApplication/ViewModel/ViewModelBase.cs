@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
+using icApplication.View;
 
 namespace icApplication.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class ViewModelBase : DependencyObject, INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        public IView View { get; set; }
+
         #region Property changed
         public event PropertyChangedEventHandler PropertyChanged;
 

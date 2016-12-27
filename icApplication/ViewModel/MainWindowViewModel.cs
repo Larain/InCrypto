@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using icApplication.Command;
 using System.Windows;
+using System.Windows.Controls;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.KeyGenerators;
@@ -18,7 +19,7 @@ namespace icApplication.ViewModel
     /// <para>
     /// </para>
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase
     {
         #region fields
         IAlphabet _alphabet;
@@ -55,6 +56,21 @@ namespace icApplication.ViewModel
         }
 
         #region Properties
+
+        private int[,] myArr;
+        public int[,] MyArr {
+            get {
+                if (myArr == null) {
+                    myArr = new int[3, 3];
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            myArr[i, j] = i + j;
+                        }
+                    }
+                }
+                return myArr;
+            }
+        }
         public ObservableCollection<int> AvaibleKeys
         {
             get

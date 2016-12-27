@@ -19,7 +19,7 @@ namespace icApplication
         {
             var mw = new MainWindowView
             {
-                DataContext = new MainWindowViewModel()
+                
             };
 
             mw.Show();
