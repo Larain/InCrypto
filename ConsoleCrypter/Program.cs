@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using icModel.Abstract;
+using icModel.Model.Keys;
 
 namespace ConsoleCrypter
 {
@@ -10,7 +8,10 @@ namespace ConsoleCrypter
     {
         static void Main(string[] args)
         {
+            ICryptoKey key = new AffineKey(2, 5);
             
+            Console.WriteLine(key.Validator.IsValid(key));
+            Console.Read();
         }
     }
 }

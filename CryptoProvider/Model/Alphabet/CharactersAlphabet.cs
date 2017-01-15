@@ -4,23 +4,23 @@ using icModel.Abstract;
 namespace icModel.Model.Alphabet {
     public class CharactersAlphabet : IAlphabet {
         public int Length {
-            get { return charactersAlphabet.Length; }
+            get { return _charactersAlphabet.Length; }
         }
 
-        private string charactersAlphabet;
+        private string _charactersAlphabet;
 
         public CharactersAlphabet() {
-            charactersAlphabet =
+            _charactersAlphabet =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ";
 
         }
 
         public int GetIndex(char symbol) {
-            return charactersAlphabet.IndexOf(symbol);
+            return _charactersAlphabet.IndexOf(symbol);
         }
 
         public char GetSymbol(int index) {
-            return charactersAlphabet.ElementAt(index);
+            return _charactersAlphabet.ElementAt(index);
         }
     }
 }

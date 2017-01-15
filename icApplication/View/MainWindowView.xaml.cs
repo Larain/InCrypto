@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using icApplication.ViewModel;
 
 namespace icApplication.View
 {
@@ -36,9 +24,11 @@ namespace icApplication.View
                 }
             }
 
+            int[][] arrays = lsts.Select(a => a.ToArray()).ToArray();
+
             InitializeComponent();
 
-            Matrix.ItemsSource = lsts;
+            Matrix.ItemsSource = arrays;
         }
     }
 }

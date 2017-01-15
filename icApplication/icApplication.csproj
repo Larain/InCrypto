@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Converter\MultilineConverter.cs" />
+    <Compile Include="Exmaination\ExaminationController.cs" />
     <Compile Include="Helper\NodHelper.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

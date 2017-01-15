@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace icApplication.Command
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> execute;
+        private Action<object> _execute;
 
-        private Predicate<object> canExecute;
+        private Predicate<object> _canExecute;
 
         private event EventHandler CanExecuteChangedInternal;
 
@@ -32,8 +28,8 @@ namespace icApplication.Command
                 throw new ArgumentNullException("canExecute");
             }
 
-            this.execute = execute;
-            this.canExecute = canExecute;
+            this._execute = execute;
+            this._canExecute = canExecute;
         }
 
         public event EventHandler CanExecuteChanged
@@ -53,12 +49,12 @@ namespace icApplication.Command
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute != null && this.canExecute(parameter);
+            return this._canExecute != null && this._canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            this._execute(parameter);
         }
 
         public void OnCanExecuteChanged()
@@ -73,8 +69,8 @@ namespace icApplication.Command
 
         public void Destroy()
         {
-            this.canExecute = _ => false;
-            this.execute = _ => { return; };
+            this._canExecute = _ => false;
+            this._execute = _ => { return; };
         }
 
         private static bool DefaultCanExecute(object parameter)

@@ -1,23 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
+using icModel.Model.Keys;
 
 namespace icModel.Model.Providers {
-    public class AffineCipher : CryptoProvider {
-
-        public AffineCipher(IAlphabet characterTable, ICryptoKey key) {
+    public class AffineCipher : ICryptoProvider
+    {
+        private AffineKey _key;
+        public AffineCipher(IAlphabet characterTable, AffineKey key) {
             Alphabet = characterTable;
             Key = key;
         }
 
-        public override string[] Encrypt(string[] message) {
-            return ConvertDigitsToChar(Proccess(message, Mode.Encrypt));
+        public IAlphabet Alphabet { set; get; }
+
+        public ICryptoKey Key {
+            get { return _key; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                    _key = (AffineKey)value;
+            } }
+
+
+        #region Methods
+
+        public string[] Encrypt(string[] message) {
+            return CryptoHelper.ConvertDigitsToChar(Proccess(message, Mode.Encrypt), Alphabet);
         }
 
-        public override string[] Decrypt(string[] message) {
-            return ConvertDigitsToChar(Proccess(message, Mode.Decrypt));
+        public string[] Decrypt(string[] message) {
+            return CryptoHelper.ConvertDigitsToChar(Proccess(message, Mode.Decrypt), Alphabet);
         }
 
         private List<int[]> Proccess(string[] message, Mode mode) {
@@ -34,10 +51,10 @@ namespace icModel.Model.Providers {
                 for (int j = 0; j < message[i].Length; j++) {
                     if (mode == Mode.Encrypt)
                         lineDigitMessage[j] = EncryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])),
-                            parameters[0, 0], parameters[1, 0]);
+                            parameters[0, 0], parameters[0, 1]);
                     if (mode == Mode.Decrypt)
                         lineDigitMessage[j] = DecryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])), a,
-                            parameters[1, 0]);
+                            parameters[0, 1]);
                 }
                 codedDigitMessage.Add(lineDigitMessage);
             }
@@ -52,5 +69,6 @@ namespace icModel.Model.Providers {
             return CryptoHelper.Mod((a*(x - b)), Alphabet.Length);
         }
 
+        #endregion
     }
 }

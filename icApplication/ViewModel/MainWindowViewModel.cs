@@ -1,6 +1,4 @@
-﻿using icModel.Model;
-using System.Collections.Generic;
-using icApplication.Helper;
+﻿using icApplication.Helper;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -8,7 +6,7 @@ using icApplication.Command;
 using System.Windows;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
-using icModel.Model.KeyGenerators;
+using icModel.Model.Keys;
 using icModel.Model.Providers;
 
 namespace icApplication.ViewModel
@@ -23,14 +21,14 @@ namespace icApplication.ViewModel
         #region fields
         IAlphabet _alphabet;
         ICryptoKey _key;
-        CryptoProvider _provider;
+        ICryptoProvider _provider;
 
-        int? selectedKey;
-        string encryptoText;
-        string decryptoText;
-        ObservableCollection<int> avaibleKeys;
+        int? _selectedKey;
+        string _encryptoText;
+        string _decryptoText;
+        ObservableCollection<int> _avaibleKeys;
 
-        private bool canExecute = true;
+        private bool _canExecute = true;
         #endregion
 
         /// <summary>
@@ -39,19 +37,21 @@ namespace icApplication.ViewModel
         public MainWindowViewModel()
         {
             InitializeCryptoComponents();
-            EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
-            DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
-            if (AvaibleKeys != null && AvaibleKeys.Count > 0)
-                SelectedKey = AvaibleKeys[(int)(avaibleKeys.Count / 2)];
         }
 
         private void InitializeCryptoComponents()
         {
             _alphabet = new CharactersAlphabet();
-            avaibleKeys = new ObservableCollection<int>();
+            _avaibleKeys = new ObservableCollection<int>();
+
+            EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
+            DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
 
             GetAvaibleKeys();
-            _provider = new AffineCipher(_alphabet, _key);
+            if (AvaibleKeys != null && AvaibleKeys.Count > 0)
+                SelectedKey = AvaibleKeys[(int)(_avaibleKeys.Count / 2)];
+
+            _provider = new AffineCipher(_alphabet, _key as AffineKey);
         }
 
         #region Properties
@@ -59,11 +59,11 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return this.avaibleKeys;
+                return this._avaibleKeys;
             }
             set
             {
-                this.avaibleKeys = value;
+                this._avaibleKeys = value;
                 base.NotifyPropertyChanged("AvaibleKeys");
             }
         }
@@ -71,11 +71,11 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return this.encryptoText;
+                return this._encryptoText;
             }
             set
             {
-                this.encryptoText = value;
+                this._encryptoText = value;
                 base.NotifyPropertyChanged("EncryptoText");
             }
         }
@@ -83,11 +83,11 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return this.decryptoText;
+                return this._decryptoText;
             }
             set
             {
-                this.decryptoText = value;
+                this._decryptoText = value;
                 base.NotifyPropertyChanged("DecryptoText");
             }
         }
@@ -95,7 +95,7 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return this.selectedKey;
+                return this._selectedKey;
             }
             set
             {
@@ -107,10 +107,10 @@ namespace icApplication.ViewModel
                 else
                 {
                     _key = new AffineKey((int)value, _alphabet.Length);
-                    _provider = new AffineCipher(_alphabet, _key);
+                    _provider = new AffineCipher(_alphabet, (AffineKey) _key);
                     base.NotifyPropertyChanged("SelectedKey");
                 }
-                selectedKey = value;
+                _selectedKey = value;
             }
         }
         #endregion
@@ -120,17 +120,17 @@ namespace icApplication.ViewModel
         {
             get
             {
-                return canExecute;
+                return _canExecute;
             }
 
             set
             {
-                if (canExecute == value)
+                if (_canExecute == value)
                 {
                     return;
                 }
 
-                canExecute = value;
+                _canExecute = value;
             }
         }
         public ICommand EncryptCommand { get; set; }
