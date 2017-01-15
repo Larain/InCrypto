@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using icModel.Abstract;
 
 namespace icModel.Model.Keys {
     public class AffineKey : ICryptoKey
     {
-        private int[,] _keyCodes;
+        private List<List<int>> _keyCodes;
         private ICryptoKeyValidator _validator;
 
         public AffineKey(int a, int b)
@@ -14,7 +15,7 @@ namespace icModel.Model.Keys {
 
         #region Properties
 
-        public int[,] KeyCodes
+        public List<List<int>> KeyCodes
         {
             get { return _keyCodes; }
             set
@@ -22,7 +23,9 @@ namespace icModel.Model.Keys {
                 if (Validator.IsValid(value))
                     _keyCodes = value;
                 else 
-                    throw new ArgumentException("Key is not valid");
+                    throw new ArgumentException(
+                        $"AffineKey is not valid. Size of argument {value.Count}x{value[0].Count}"
+                    );
             }
             
         }
@@ -38,17 +41,21 @@ namespace icModel.Model.Keys {
 
         public override string ToString() {
             string output = "";
-            for (int i = 0; i < KeyCodes.Length; i++) {
-                for (int j = 0; j < KeyCodes.GetLength(0); j++) {
-                    output += "[" + KeyCodes[i, j] + "] ";
+            for (int i = 0; i < KeyCodes.Count; i++) {
+                for (int j = 0; j < KeyCodes[0].Count; j++) {
+                    output += "[" + KeyCodes[i][j] + "] ";
                 }
                 output += "\n";
             }
             return output;
         }
 
-        private int[,] GenerateNewKey(int a, int b) {
-            return new int[1, 2] { { a, b } };
+        private List<List<int>> GenerateNewKey(int a, int b)
+        {
+            List<int> inner = new List<int>() {1, 2};
+            List<List<int>> outer = new List<List<int>>();
+            outer.Add(inner);
+            return outer;
         }
 
         #endregion

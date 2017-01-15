@@ -28,7 +28,7 @@ namespace icApplication.View
 
             InitializeComponent();
 
-            Matrix.ItemsSource = arrays;
+            //Matrix.ItemsSource = arrays;
         }
     }
 }

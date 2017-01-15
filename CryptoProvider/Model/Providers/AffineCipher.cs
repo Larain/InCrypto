@@ -38,11 +38,10 @@ namespace icModel.Model.Providers {
         }
 
         private List<int[]> Proccess(string[] message, Mode mode) {
-            int[,] parameters = Key.KeyCodes;
 
             int a = 0;
             if (mode == Mode.Decrypt)
-                a = CryptoHelper.GetInvA(parameters[0, 0], Alphabet.Length);
+                a = CryptoHelper.GetInvA(Key.KeyCodes[0][0], Alphabet.Length);
 
             // Decrypting message to digit code.
             List<int[]> codedDigitMessage = new List<int[]>();
@@ -51,10 +50,10 @@ namespace icModel.Model.Providers {
                 for (int j = 0; j < message[i].Length; j++) {
                     if (mode == Mode.Encrypt)
                         lineDigitMessage[j] = EncryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])),
-                            parameters[0, 0], parameters[0, 1]);
+                            Key.KeyCodes[0][0], Key.KeyCodes[0][1]);
                     if (mode == Mode.Decrypt)
                         lineDigitMessage[j] = DecryptoFunc(Alphabet.GetIndex(Convert.ToChar(message[i][j])), a,
-                            parameters[0, 1]);
+                            Key.KeyCodes[0][1]);
                 }
                 codedDigitMessage.Add(lineDigitMessage);
             }

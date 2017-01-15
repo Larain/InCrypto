@@ -1,14 +1,15 @@
-﻿using icModel.Abstract;
+﻿using System.Collections.Generic;
+using icModel.Abstract;
 
 namespace icModel.Model.Keys
 {
     public class AffineKeyValidator : ICryptoKeyValidator
     {
-        public bool IsValid(int[,] digits)
+        public bool IsValid(List<List<int>> digits)
         {
             if (digits != null)
-                if (digits.GetLength(0) == 1)
-                    if (digits.GetLength(1) == 2)
+                if (digits.Count == 1)
+                    if (digits[0].Count == 2)
                         return true;
             return false;
         }

@@ -4,24 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converter="clr-namespace:icApplication.Converter"
+        xmlns:controls="clr-namespace:icApplication.Controls"
+        xmlns:viewModel="clr-namespace:icApplication.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
-    <Window.Resources>
-        <DataTemplate x:Key="DataTemplateLevel2">
-            <TextBox Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="DataTemplateLevel1">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateLevel2}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-
-    </Window.Resources>
     <Grid>
         <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
             <TabItem Header="TabItem" Height="Auto" Width="Auto">
@@ -54,7 +40,7 @@
                         <StackPanel Orientation="Vertical" Visibility="Hidden">
                             <TextBlock Margin="0 0 0 5">Select crypto key:</TextBlock>
                             <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
-                      SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
+                                      SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"></StackPanel>
@@ -76,9 +62,9 @@
             Text="{Binding Path=DecryptoText, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </TabItem>
-            
+
             <TabItem Header="Matrix" Height="Auto" Width="Auto">
-                
+
                 <Grid Margin="50">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4.5*" />
@@ -93,17 +79,20 @@
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <StackPanel Grid.Row="0">
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
                         <Label>Enter size of Matrix NxN</Label>
                         <TextBox></TextBox>
                     </StackPanel>
 
-                    <ItemsControl x:Name="Matrix" ItemTemplate="{DynamicResource DataTemplateLevel1}"
-                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+                    <controls:ExaminationControl x:Name="Matrix2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                                 Number="{Binding Number}" Message="{Binding Message}" Key="{Binding Key.KeyCodes}">
+                        <controls:ExaminationControl.DataContext>
+                            <viewModel:ExaminationViewModel/>
+                        </controls:ExaminationControl.DataContext>
+                    </controls:ExaminationControl>
+                    
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>

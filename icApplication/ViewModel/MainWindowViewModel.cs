@@ -16,7 +16,7 @@ namespace icApplication.ViewModel
     /// <para>
     /// </para>
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase
     {
         #region fields
         IAlphabet _alphabet;
