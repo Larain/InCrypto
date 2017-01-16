@@ -82,9 +82,9 @@ namespace icModel.Model.Entities
         /// <summary>
         /// Class attributes/members
         /// </summary>
-        int m_iRows;
-        int m_iCols;
-        Fraction[,] m_iElement;
+        int _mIRows;
+        int _mICols;
+        Fraction[,] _mIElement;
 
 
         /// <summary>
@@ -92,16 +92,16 @@ namespace icModel.Model.Entities
         /// </summary>
         public MatrixClass(Fraction[,] elements)
         {
-            m_iElement = elements;
-            m_iRows = elements.GetLength(0);
-            m_iCols = elements.GetLength(1);
+            _mIElement = elements;
+            _mIRows = elements.GetLength(0);
+            _mICols = elements.GetLength(1);
         }
 
         public MatrixClass(int[,] elements)
         {
-            m_iRows = elements.GetLength(0);
-            m_iCols = elements.GetLength(1); ;
-            m_iElement = new Fraction[m_iRows, m_iCols];
+            _mIRows = elements.GetLength(0);
+            _mICols = elements.GetLength(1); ;
+            _mIElement = new Fraction[_mIRows, _mICols];
             for (int i = 0; i < elements.GetLength(0); i++)
             {
                 for (int j = 0; j < elements.GetLength(1); j++)
@@ -113,9 +113,9 @@ namespace icModel.Model.Entities
 
         public MatrixClass(double[,] elements)
         {
-            m_iRows = elements.GetLength(0);
-            m_iCols = elements.GetLength(1); ;
-            m_iElement = new Fraction[m_iRows, m_iCols];
+            _mIRows = elements.GetLength(0);
+            _mICols = elements.GetLength(1); ;
+            _mIElement = new Fraction[_mIRows, _mICols];
             for (int i = 0; i < elements.GetLength(0); i++)
             {
                 for (int j = 0; j < elements.GetLength(1); j++)
@@ -127,9 +127,9 @@ namespace icModel.Model.Entities
 
         public MatrixClass(int iRows, int iCols)
         {
-            m_iRows = iRows;
-            m_iCols = iCols;
-            m_iElement = new Fraction[iRows, iCols];
+            _mIRows = iRows;
+            _mICols = iCols;
+            _mIElement = new Fraction[iRows, iCols];
         }
 
         /// <summary>
@@ -137,12 +137,12 @@ namespace icModel.Model.Entities
         /// </summary>
         public int Rows
         {
-            get { return m_iRows; }
+            get { return _mIRows; }
         }
 
         public int Cols
         {
-            get { return m_iCols; }
+            get { return _mICols; }
         }
 
         /// <summary>
@@ -161,14 +161,14 @@ namespace icModel.Model.Entities
         {
             if (iRow < 0 || iRow > Rows - 1 || iCol < 0 || iCol > Cols - 1)
                 throw new MatrixClassException("Invalid index specified");
-            return m_iElement[iRow, iCol];
+            return _mIElement[iRow, iCol];
         }
 
         private void SetElement(int iRow, int iCol, Fraction value)
         {
             if (iRow < 0 || iRow > Rows - 1 || iCol < 0 || iCol > Cols - 1)
                 throw new MatrixClassException("Invalid index specified");
-            m_iElement[iRow, iCol] = value.Duplicate();
+            _mIElement[iRow, iCol] = value.Duplicate();
         }
 
 
@@ -191,20 +191,20 @@ namespace icModel.Model.Entities
         /// <summary>
         /// The function return the Minor of element[Row,Col] of a MatrixClass object 
         /// </summary>
-        public static MatrixClass Minor(MatrixClass MatrixClass, int iRow, int iCol)
+        public static MatrixClass Minor(MatrixClass matrixClass, int iRow, int iCol)
         {
-            MatrixClass minor = new MatrixClass(MatrixClass.Rows - 1, MatrixClass.Cols - 1);
+            MatrixClass minor = new MatrixClass(matrixClass.Rows - 1, matrixClass.Cols - 1);
             int m = 0, n = 0;
-            for (int i = 0; i < MatrixClass.Rows; i++)
+            for (int i = 0; i < matrixClass.Rows; i++)
             {
                 if (i == iRow)
                     continue;
                 n = 0;
-                for (int j = 0; j < MatrixClass.Cols; j++)
+                for (int j = 0; j < matrixClass.Cols; j++)
                 {
                     if (j == iCol)
                         continue;
-                    minor[m, n] = MatrixClass[i, j];
+                    minor[m, n] = matrixClass[i, j];
                     n++;
                 }
                 m++;
@@ -269,20 +269,20 @@ namespace icModel.Model.Entities
         /// The function concatenates the two given matrices column-wise
         /// it can be helpful in a equation solver class where the augmented MatrixClass is obtained by concatenation
         /// </summary>
-        public static MatrixClass Concatenate(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
+        public static MatrixClass Concatenate(MatrixClass matrixClass1, MatrixClass matrixClass2)
         {
-            if (MatrixClass1.Rows != MatrixClass2.Rows)
+            if (matrixClass1.Rows != matrixClass2.Rows)
                 throw new MatrixClassException("Concatenation not possible");
-            MatrixClass MatrixClass = new MatrixClass(MatrixClass1.Rows, MatrixClass1.Cols + MatrixClass2.Cols);
-            for (int i = 0; i < MatrixClass.Rows; i++)
-                for (int j = 0; j < MatrixClass.Cols; j++)
+            MatrixClass matrixClass = new MatrixClass(matrixClass1.Rows, matrixClass1.Cols + matrixClass2.Cols);
+            for (int i = 0; i < matrixClass.Rows; i++)
+                for (int j = 0; j < matrixClass.Cols; j++)
                 {
-                    if (j < MatrixClass1.Cols)
-                        MatrixClass[i, j] = MatrixClass1[i, j];
+                    if (j < matrixClass1.Cols)
+                        matrixClass[i, j] = matrixClass1[i, j];
                     else
-                        MatrixClass[i, j] = MatrixClass2[i, j - MatrixClass1.Cols];
+                        matrixClass[i, j] = matrixClass2[i, j - matrixClass1.Cols];
                 }
-            return MatrixClass;
+            return matrixClass;
         }
 
         /// <summary>
@@ -299,27 +299,27 @@ namespace icModel.Model.Entities
             Fraction det = new Fraction(1);
             try
             {
-                MatrixClass ReducedEchelonMatrixClass = this.Duplicate();
+                MatrixClass reducedEchelonMatrixClass = this.Duplicate();
                 for (int i = 0; i < this.Rows; i++)
                 {
-                    if (ReducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
-                        for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
-                            if (ReducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
+                    if (reducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
+                        for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
+                            if (reducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
                             {
-                                ReducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                                reducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
                                 det *= -1;	//interchanging two rows negates the determinent
                             }
 
-                    det *= ReducedEchelonMatrixClass[i, i];
-                    ReducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(ReducedEchelonMatrixClass[i, i]));
+                    det *= reducedEchelonMatrixClass[i, i];
+                    reducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(reducedEchelonMatrixClass[i, i]));
 
-                    for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
+                    for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
                     {
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                     }
                     for (int j = i - 1; j >= 0; j--)
                     {
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                     }
                 }
                 return det;
@@ -345,15 +345,15 @@ namespace icModel.Model.Entities
         /// The helper function for the above Determinent() method
         /// it calls itself recursively and computes determinent using minors
         /// </summary>
-        private Fraction Determinent(MatrixClass MatrixClass)
+        private Fraction Determinent(MatrixClass matrixClass)
         {
             Fraction det = new Fraction(0);
-            if (MatrixClass.Rows != MatrixClass.Cols)
+            if (matrixClass.Rows != matrixClass.Cols)
                 throw new MatrixClassException("Determinent of a non-square MatrixClass doesn't exist");
-            if (MatrixClass.Rows == 1)
-                return MatrixClass[0, 0];
-            for (int j = 0; j < MatrixClass.Cols; j++)
-                det += (MatrixClass[0, j] * Determinent(MatrixClass.Minor(MatrixClass, 0, j)) * (int)System.Math.Pow(-1, 0 + j));
+            if (matrixClass.Rows == 1)
+                return matrixClass[0, 0];
+            for (int j = 0; j < matrixClass.Cols; j++)
+                det += (matrixClass[0, j] * Determinent(MatrixClass.Minor(matrixClass, 0, j)) * (int)System.Math.Pow(-1, 0 + j));
             return det;
         }
 
@@ -365,24 +365,24 @@ namespace icModel.Model.Entities
         {
             try
             {
-                MatrixClass EchelonMatrixClass = this.Duplicate();
+                MatrixClass echelonMatrixClass = this.Duplicate();
                 for (int i = 0; i < this.Rows; i++)
                 {
-                    if (EchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
-                        for (int j = i + 1; j < EchelonMatrixClass.Rows; j++)
-                            if (EchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
-                                EchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
-                    if (EchelonMatrixClass[i, i] == 0)	// if not found any non-zero diagonal entry
+                    if (echelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
+                        for (int j = i + 1; j < echelonMatrixClass.Rows; j++)
+                            if (echelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
+                                echelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                    if (echelonMatrixClass[i, i] == 0)	// if not found any non-zero diagonal entry
                         continue;	// increment i;
-                    if (EchelonMatrixClass[i, i] != 1)	// if diagonal entry is not 1 , 	
-                        for (int j = i + 1; j < EchelonMatrixClass.Rows; j++)
-                            if (EchelonMatrixClass[j, i] == 1)	 //check if some below entry is 1
-                                EchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
-                    EchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(EchelonMatrixClass[i, i]));
-                    for (int j = i + 1; j < EchelonMatrixClass.Rows; j++)
-                        EchelonMatrixClass.AddRow(j, i, -EchelonMatrixClass[j, i]);
+                    if (echelonMatrixClass[i, i] != 1)	// if diagonal entry is not 1 , 	
+                        for (int j = i + 1; j < echelonMatrixClass.Rows; j++)
+                            if (echelonMatrixClass[j, i] == 1)	 //check if some below entry is 1
+                                echelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                    echelonMatrixClass.MultiplyRow(i, Fraction.Inverse(echelonMatrixClass[i, i]));
+                    for (int j = i + 1; j < echelonMatrixClass.Rows; j++)
+                        echelonMatrixClass.AddRow(j, i, -echelonMatrixClass[j, i]);
                 }
-                return EchelonMatrixClass;
+                return echelonMatrixClass;
             }
             catch (Exception)
             {
@@ -397,26 +397,26 @@ namespace icModel.Model.Entities
         {
             try
             {
-                MatrixClass ReducedEchelonMatrixClass = this.Duplicate();
+                MatrixClass reducedEchelonMatrixClass = this.Duplicate();
                 for (int i = 0; i < this.Rows; i++)
                 {
-                    if (ReducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
-                        for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
-                            if (ReducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
-                                ReducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
-                    if (ReducedEchelonMatrixClass[i, i] == 0)	// if not found any non-zero diagonal entry
+                    if (reducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
+                        for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
+                            if (reducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
+                                reducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                    if (reducedEchelonMatrixClass[i, i] == 0)	// if not found any non-zero diagonal entry
                         continue;	// increment i;
-                    if (ReducedEchelonMatrixClass[i, i] != 1)	// if diagonal entry is not 1 , 	
-                        for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
-                            if (ReducedEchelonMatrixClass[j, i] == 1)	 //check if some below entry is 1
-                                ReducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
-                    ReducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(ReducedEchelonMatrixClass[i, i]));
-                    for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                    if (reducedEchelonMatrixClass[i, i] != 1)	// if diagonal entry is not 1 , 	
+                        for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
+                            if (reducedEchelonMatrixClass[j, i] == 1)	 //check if some below entry is 1
+                                reducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                    reducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(reducedEchelonMatrixClass[i, i]));
+                    for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                     for (int j = i - 1; j >= 0; j--)
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                 }
-                return ReducedEchelonMatrixClass;
+                return reducedEchelonMatrixClass;
             }
             catch (Exception)
             {
@@ -435,32 +435,32 @@ namespace icModel.Model.Entities
                 throw new MatrixClassException("Inverse of a singular MatrixClass is not possible");
             try
             {
-                MatrixClass IdentityMatrixClass = MatrixClass.IdentityMatrixClass(this.Rows, this.Cols);
-                MatrixClass ReducedEchelonMatrixClass = this.Duplicate();
+                MatrixClass identityMatrixClass = MatrixClass.IdentityMatrixClass(this.Rows, this.Cols);
+                MatrixClass reducedEchelonMatrixClass = this.Duplicate();
                 for (int i = 0; i < this.Rows; i++)
                 {
-                    if (ReducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
-                        for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
-                            if (ReducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
+                    if (reducedEchelonMatrixClass[i, i] == 0)	// if diagonal entry is zero, 
+                        for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
+                            if (reducedEchelonMatrixClass[j, i] != 0)	 //check if some below entry is non-zero
                             {
-                                ReducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
-                                IdentityMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                                reducedEchelonMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
+                                identityMatrixClass.InterchangeRow(i, j);	// then interchange the two rows
                             }
-                    IdentityMatrixClass.MultiplyRow(i, Fraction.Inverse(ReducedEchelonMatrixClass[i, i]));
-                    ReducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(ReducedEchelonMatrixClass[i, i]));
+                    identityMatrixClass.MultiplyRow(i, Fraction.Inverse(reducedEchelonMatrixClass[i, i]));
+                    reducedEchelonMatrixClass.MultiplyRow(i, Fraction.Inverse(reducedEchelonMatrixClass[i, i]));
 
-                    for (int j = i + 1; j < ReducedEchelonMatrixClass.Rows; j++)
+                    for (int j = i + 1; j < reducedEchelonMatrixClass.Rows; j++)
                     {
-                        IdentityMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                        identityMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                     }
                     for (int j = i - 1; j >= 0; j--)
                     {
-                        IdentityMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
-                        ReducedEchelonMatrixClass.AddRow(j, i, -ReducedEchelonMatrixClass[j, i]);
+                        identityMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
+                        reducedEchelonMatrixClass.AddRow(j, i, -reducedEchelonMatrixClass[j, i]);
                     }
                 }
-                return IdentityMatrixClass;
+                return identityMatrixClass;
             }
             catch (Exception)
             {
@@ -481,12 +481,12 @@ namespace icModel.Model.Entities
             return this.Adjoint(b);
         }
 
-        private int FindB(int Det)
+        private int FindB(int det)
         {
             int result = 0;
             for (int i = 2; i < 26; i++)
             {
-                if (((i * Det) % 26) == 1)
+                if (((i * det) % 26) == 1)
                 {
                     result = i;
                     break;
@@ -502,11 +502,11 @@ namespace icModel.Model.Entities
         {
             if (this.Rows != this.Cols)
                 throw new MatrixClassException("Adjoint of a non-square MatrixClass does not exists");
-            MatrixClass AdjointMatrixClass = new MatrixClass(this.Rows, this.Cols);
+            MatrixClass adjointMatrixClass = new MatrixClass(this.Rows, this.Cols);
             for (int i = 0; i < this.Rows; i++)
                 for (int j = 0; j < this.Cols; j++)
-                    AdjointMatrixClass[i, j] = b * Math.Pow(-1, i + j) * (Minor(this, j, i).Determinent());
-            return AdjointMatrixClass;
+                    adjointMatrixClass[i, j] = b * Math.Pow(-1, i + j) * (Minor(this, j, i).Determinent());
+            return adjointMatrixClass;
         }
 
         /// <summary>
@@ -514,11 +514,11 @@ namespace icModel.Model.Entities
         /// </summary>
         public MatrixClass Transpose()
         {
-            MatrixClass TransposeMatrixClass = new MatrixClass(this.Cols, this.Rows);
-            for (int i = 0; i < TransposeMatrixClass.Rows; i++)
-                for (int j = 0; j < TransposeMatrixClass.Cols; j++)
-                    TransposeMatrixClass[i, j] = this[j, i];
-            return TransposeMatrixClass;
+            MatrixClass transposeMatrixClass = new MatrixClass(this.Cols, this.Rows);
+            for (int i = 0; i < transposeMatrixClass.Rows; i++)
+                for (int j = 0; j < transposeMatrixClass.Cols; j++)
+                    transposeMatrixClass[i, j] = this[j, i];
+            return transposeMatrixClass;
         }
 
         /// <summary>
@@ -526,30 +526,30 @@ namespace icModel.Model.Entities
         /// </summary>
         public MatrixClass Duplicate()
         {
-            MatrixClass MatrixClass = new MatrixClass(Rows, Cols);
+            MatrixClass matrixClass = new MatrixClass(Rows, Cols);
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Cols; j++)
-                    MatrixClass[i, j] = this[i, j];
-            return MatrixClass;
+                    matrixClass[i, j] = this[i, j];
+            return matrixClass;
         }
 
         /// <summary>
         /// The function returns a Scalar MatrixClass of dimension ( Row x Col ) and scalar K
         /// </summary>
-        public static MatrixClass ScalarMatrixClass(int iRows, int iCols, int K)
+        public static MatrixClass ScalarMatrixClass(int iRows, int iCols, int k)
         {
             Fraction zero = new Fraction(0);
-            Fraction scalar = new Fraction(K);
-            MatrixClass MatrixClass = new MatrixClass(iRows, iCols);
+            Fraction scalar = new Fraction(k);
+            MatrixClass matrixClass = new MatrixClass(iRows, iCols);
             for (int i = 0; i < iRows; i++)
                 for (int j = 0; j < iCols; j++)
                 {
                     if (i == j)
-                        MatrixClass[i, j] = scalar;
+                        matrixClass[i, j] = scalar;
                     else
-                        MatrixClass[i, j] = zero;
+                        matrixClass[i, j] = zero;
                 }
-            return MatrixClass;
+            return matrixClass;
         }
 
         /// <summary>
@@ -566,11 +566,11 @@ namespace icModel.Model.Entities
         public static MatrixClass UnitMatrixClass(int iRows, int iCols)
         {
             Fraction temp = new Fraction(1);
-            MatrixClass MatrixClass = new MatrixClass(iRows, iCols);
+            MatrixClass matrixClass = new MatrixClass(iRows, iCols);
             for (int i = 0; i < iRows; i++)
                 for (int j = 0; j < iCols; j++)
-                    MatrixClass[i, j] = temp;
-            return MatrixClass;
+                    matrixClass[i, j] = temp;
+            return matrixClass;
         }
 
         /// <summary>
@@ -579,103 +579,103 @@ namespace icModel.Model.Entities
         public static MatrixClass NullMatrixClass(int iRows, int iCols)
         {
             Fraction temp = new Fraction(0);
-            MatrixClass MatrixClass = new MatrixClass(iRows, iCols);
+            MatrixClass matrixClass = new MatrixClass(iRows, iCols);
             for (int i = 0; i < iRows; i++)
                 for (int j = 0; j < iCols; j++)
-                    MatrixClass[i, j] = temp;
-            return MatrixClass;
+                    matrixClass[i, j] = temp;
+            return matrixClass;
         }
 
         /// <summary>
         /// Operators for the MatrixClass object
         /// includes -(unary), and binary opertors such as +,-,*,/
         /// </summary>
-        public static MatrixClass operator -(MatrixClass MatrixClass)
-        { return MatrixClass.Negate(MatrixClass); }
+        public static MatrixClass operator -(MatrixClass matrixClass)
+        { return MatrixClass.Negate(matrixClass); }
 
-        public static MatrixClass operator +(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
-        { return MatrixClass.Add(MatrixClass1, MatrixClass2); }
+        public static MatrixClass operator +(MatrixClass matrixClass1, MatrixClass matrixClass2)
+        { return MatrixClass.Add(matrixClass1, matrixClass2); }
 
-        public static MatrixClass operator -(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
-        { return MatrixClass.Add(MatrixClass1, -MatrixClass2); }
+        public static MatrixClass operator -(MatrixClass matrixClass1, MatrixClass matrixClass2)
+        { return MatrixClass.Add(matrixClass1, -matrixClass2); }
 
-        public static MatrixClass operator *(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
-        { return MatrixClass.Multiply(MatrixClass1, MatrixClass2); }
+        public static MatrixClass operator *(MatrixClass matrixClass1, MatrixClass matrixClass2)
+        { return MatrixClass.Multiply(matrixClass1, matrixClass2); }
 
-        public static MatrixClass operator *(MatrixClass MatrixClass1, int iNo)
-        { return MatrixClass.Multiply(MatrixClass1, iNo); }
+        public static MatrixClass operator *(MatrixClass matrixClass1, int iNo)
+        { return MatrixClass.Multiply(matrixClass1, iNo); }
 
-        public static MatrixClass operator *(MatrixClass MatrixClass1, double dbl)
-        { return MatrixClass.Multiply(MatrixClass1, Fraction.ToFraction(dbl)); }
+        public static MatrixClass operator *(MatrixClass matrixClass1, double dbl)
+        { return MatrixClass.Multiply(matrixClass1, Fraction.ToFraction(dbl)); }
 
-        public static MatrixClass operator *(MatrixClass MatrixClass1, Fraction frac)
-        { return MatrixClass.Multiply(MatrixClass1, frac); }
+        public static MatrixClass operator *(MatrixClass matrixClass1, Fraction frac)
+        { return MatrixClass.Multiply(matrixClass1, frac); }
 
-        public static MatrixClass operator *(int iNo, MatrixClass MatrixClass1)
-        { return MatrixClass.Multiply(MatrixClass1, iNo); }
+        public static MatrixClass operator *(int iNo, MatrixClass matrixClass1)
+        { return MatrixClass.Multiply(matrixClass1, iNo); }
 
-        public static MatrixClass operator *(double dbl, MatrixClass MatrixClass1)
-        { return MatrixClass.Multiply(MatrixClass1, Fraction.ToFraction(dbl)); }
+        public static MatrixClass operator *(double dbl, MatrixClass matrixClass1)
+        { return MatrixClass.Multiply(matrixClass1, Fraction.ToFraction(dbl)); }
 
-        public static MatrixClass operator *(Fraction frac, MatrixClass MatrixClass1)
-        { return MatrixClass.Multiply(MatrixClass1, frac); }
+        public static MatrixClass operator *(Fraction frac, MatrixClass matrixClass1)
+        { return MatrixClass.Multiply(matrixClass1, frac); }
 
-        public static MatrixClass operator /(MatrixClass MatrixClass1, int iNo)
-        { return MatrixClass.Multiply(MatrixClass1, Fraction.Inverse(new Fraction(iNo))); }
+        public static MatrixClass operator /(MatrixClass matrixClass1, int iNo)
+        { return MatrixClass.Multiply(matrixClass1, Fraction.Inverse(new Fraction(iNo))); }
 
-        public static MatrixClass operator /(MatrixClass MatrixClass1, double dbl)
-        { return MatrixClass.Multiply(MatrixClass1, Fraction.Inverse(Fraction.ToFraction(dbl))); }
+        public static MatrixClass operator /(MatrixClass matrixClass1, double dbl)
+        { return MatrixClass.Multiply(matrixClass1, Fraction.Inverse(Fraction.ToFraction(dbl))); }
 
-        public static MatrixClass operator /(MatrixClass MatrixClass1, Fraction frac)
-        { return MatrixClass.Multiply(MatrixClass1, Fraction.Inverse(frac)); }
+        public static MatrixClass operator /(MatrixClass matrixClass1, Fraction frac)
+        { return MatrixClass.Multiply(matrixClass1, Fraction.Inverse(frac)); }
 
 
         /// <summary>
         /// Internal Fucntions for the above operators
         /// </summary>
-        private static MatrixClass Negate(MatrixClass MatrixClass)
+        private static MatrixClass Negate(MatrixClass matrixClass)
         {
-            return MatrixClass.Multiply(MatrixClass, -1);
+            return MatrixClass.Multiply(matrixClass, -1);
         }
 
-        private static MatrixClass Add(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
+        private static MatrixClass Add(MatrixClass matrixClass1, MatrixClass matrixClass2)
         {
-            if (MatrixClass1.Rows != MatrixClass2.Rows || MatrixClass1.Cols != MatrixClass2.Cols)
+            if (matrixClass1.Rows != matrixClass2.Rows || matrixClass1.Cols != matrixClass2.Cols)
                 throw new MatrixClassException("Operation not possible");
-            MatrixClass result = new MatrixClass(MatrixClass1.Rows, MatrixClass1.Cols);
+            MatrixClass result = new MatrixClass(matrixClass1.Rows, matrixClass1.Cols);
             for (int i = 0; i < result.Rows; i++)
                 for (int j = 0; j < result.Cols; j++)
-                    result[i, j] = MatrixClass1[i, j] + MatrixClass2[i, j];
+                    result[i, j] = matrixClass1[i, j] + matrixClass2[i, j];
             return result;
         }
 
-        private static MatrixClass Multiply(MatrixClass MatrixClass1, MatrixClass MatrixClass2)
+        private static MatrixClass Multiply(MatrixClass matrixClass1, MatrixClass matrixClass2)
         {
-            if (MatrixClass1.Cols != MatrixClass2.Rows)
+            if (matrixClass1.Cols != matrixClass2.Rows)
                 throw new MatrixClassException("Operation not possible");
-            MatrixClass result = MatrixClass.NullMatrixClass(MatrixClass1.Rows, MatrixClass2.Cols);
+            MatrixClass result = MatrixClass.NullMatrixClass(matrixClass1.Rows, matrixClass2.Cols);
             for (int i = 0; i < result.Rows; i++)
                 for (int j = 0; j < result.Cols; j++)
-                    for (int k = 0; k < MatrixClass1.Cols; k++)
-                        result[i, j] += MatrixClass1[i, k] * MatrixClass2[k, j];
+                    for (int k = 0; k < matrixClass1.Cols; k++)
+                        result[i, j] += matrixClass1[i, k] * matrixClass2[k, j];
             return result;
         }
 
-        private static MatrixClass Multiply(MatrixClass MatrixClass, int iNo)
+        private static MatrixClass Multiply(MatrixClass matrixClass, int iNo)
         {
-            MatrixClass result = new MatrixClass(MatrixClass.Rows, MatrixClass.Cols);
-            for (int i = 0; i < MatrixClass.Rows; i++)
-                for (int j = 0; j < MatrixClass.Cols; j++)
-                    result[i, j] = MatrixClass[i, j] * iNo;
+            MatrixClass result = new MatrixClass(matrixClass.Rows, matrixClass.Cols);
+            for (int i = 0; i < matrixClass.Rows; i++)
+                for (int j = 0; j < matrixClass.Cols; j++)
+                    result[i, j] = matrixClass[i, j] * iNo;
             return result;
         }
 
-        private static MatrixClass Multiply(MatrixClass MatrixClass, Fraction frac)
+        private static MatrixClass Multiply(MatrixClass matrixClass, Fraction frac)
         {
-            MatrixClass result = new MatrixClass(MatrixClass.Rows, MatrixClass.Cols);
-            for (int i = 0; i < MatrixClass.Rows; i++)
-                for (int j = 0; j < MatrixClass.Cols; j++)
-                    result[i, j] = MatrixClass[i, j] * frac;
+            MatrixClass result = new MatrixClass(matrixClass.Rows, matrixClass.Cols);
+            for (int i = 0; i < matrixClass.Rows; i++)
+                for (int j = 0; j < matrixClass.Cols; j++)
+                    result[i, j] = matrixClass[i, j] * frac;
             return result;
         }
 
@@ -690,12 +690,12 @@ namespace icModel.Model.Entities
             : base()
         { }
 
-        public MatrixClassException(string Message)
-            : base(Message)
+        public MatrixClassException(string message)
+            : base(message)
         { }
 
-        public MatrixClassException(string Message, Exception InnerException)
-            : base(Message, InnerException)
+        public MatrixClassException(string message, Exception innerException)
+            : base(message, innerException)
         { }
     }	// end class MatrixClassException
 
@@ -760,8 +760,8 @@ namespace icModel.Model.Entities
         /// <summary>
         /// Class attributes/members
         /// </summary>
-        long m_iNumerator;
-        long m_iDenominator;
+        long _mINumerator;
+        long _mIDenominator;
 
         /// <summary>
         /// Constructors
@@ -809,11 +809,11 @@ namespace icModel.Model.Entities
         public long Denominator
         {
             get
-            { return m_iDenominator; }
+            { return _mIDenominator; }
             set
             {
                 if (value != 0)
-                    m_iDenominator = value;
+                    _mIDenominator = value;
                 else
                     throw new FractionException("Denominator cannot be assigned a ZERO Value");
             }
@@ -822,12 +822,12 @@ namespace icModel.Model.Entities
         public long Numerator
         {
             get
-            { return m_iNumerator; }
+            { return _mINumerator; }
             set
             {
-                m_iNumerator = value % 26;
-                if (m_iNumerator < 0)
-                    m_iNumerator += 26;
+                _mINumerator = value % 26;
+                if (_mINumerator < 0)
+                    _mINumerator += 26;
             }
         }
 
@@ -835,8 +835,8 @@ namespace icModel.Model.Entities
         {
             set
             {
-                m_iNumerator = value;
-                m_iDenominator = 1;
+                _mINumerator = value;
+                _mIDenominator = 1;
             }
         }
 
@@ -1142,7 +1142,7 @@ namespace icModel.Model.Entities
         /// <summary>
         /// The function returns GCD of two numbers (used for reducing a Fraction)
         /// </summary>
-        private static long GCD(long iNo1, long iNo2)
+        private static long Gcd(long iNo1, long iNo2)
         {
             // take absolute values
             if (iNo1 < 0) iNo1 = -iNo1;
@@ -1175,9 +1175,9 @@ namespace icModel.Model.Entities
                     return;
                 }
 
-                long iGCD = GCD(frac.Numerator, frac.Denominator);
-                frac.Numerator /= iGCD;
-                frac.Denominator /= iGCD;
+                long iGcd = Gcd(frac.Numerator, frac.Denominator);
+                frac.Numerator /= iGcd;
+                frac.Denominator /= iGcd;
 
                 if (frac.Denominator < 0)	// if -ve sign in denominator
                 {
@@ -1203,12 +1203,12 @@ namespace icModel.Model.Entities
             : base()
         { }
 
-        public FractionException(string Message)
-            : base(Message)
+        public FractionException(string message)
+            : base(message)
         { }
 
-        public FractionException(string Message, Exception InnerException)
-            : base(Message, InnerException)
+        public FractionException(string message, Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace icModel.Abstract {
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+namespace icModel.Abstract {
     public interface ICryptoKey {
-        int[,] KeyCodes { get; }
-        string Print();
+        ObservableCollection<ObservableCollection<int>> KeyCodes { get; set; }
+        ICryptoKeyValidator Validator { get; }
+        string ToString();
     }
 }

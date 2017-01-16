@@ -39,15 +39,20 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICryptoKeyValidator.cs" />
+    <Compile Include="Model\Entities\ExaminationVariant.cs" />
     <Compile Include="Model\Alphabet\CharactersAlphabet.cs" />
     <Compile Include="Model\Entities\MatrixClass.cs" />
     <Compile Include="Model\Entities\Mode.cs" />
     <Compile Include="Model\Helpers\CryptoHelper.cs" />
+    <Compile Include="Model\Keys\AffineKeyValidator.cs" />
+    <Compile Include="Model\Keys\DefaultValidator.cs" />
     <Compile Include="Model\MessageRepository.cs" />
     <Compile Include="Abstract\IAlphabet.cs" />
-    <Compile Include="Model\KeyGenerators\AffineKey.cs" />
+    <Compile Include="Model\Keys\AffineKey.cs" />
     <Compile Include="Model\Providers\AffineCipher.cs" />
     <Compile Include="Abstract\CryptoProvider.cs" />
     <Compile Include="Abstract\ICryptoKey.cs" />
