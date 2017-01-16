@@ -44,30 +44,36 @@ namespace icApplication.Controls
         public ExaminationControl()
         {
             InitializeComponent();
-        //    Key = new AffineKey(1, 2);
-        //    //MatrixControlInExam.ItemsSource = Key;
+            //ObservableCollection<ObservableCollection<int>> shit = new ObservableCollection<ObservableCollection<int>>();
+            //ObservableCollection<int> fuck = new ObservableCollection<int>();
+            //fuck.Add(5);
+            //shit.Add(fuck);
 
-        //    List<List<int>> lsts = new List<List<int>>();
+            ////Key = new AffineKey(1, 2);
+            //MatrixControlInExam.ItemsSource = shit;
 
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        lsts.Add(new List<int>());
+            //    List<List<int>> lsts = new List<List<int>>();
 
-        //        for (int j = 0; j < 5; j++)
-        //        {
-        //            lsts[i].Add(i * 10 + j);
-        //        }
-        //    }
+            //    for (int i = 0; i < 5; i++)
+            //    {
+            //        lsts.Add(new List<int>());
 
-        //    int[][] arrays = lsts.Select(a => a.ToArray()).ToArray();
-        //    int[][] asd = new int[2][];
-        //    asd[0] = new int[2] {1, 2};
-        //    asd[1] = new int[3] {1, 2, 3};
-        //    asd[1][0] = 5;
+            //        for (int j = 0; j < 5; j++)
+            //        {
+            //            lsts[i].Add(i * 10 + j);
+            //        }
+            //    }
 
-        //    InitializeComponent();
+            //    int[][] arrays = lsts.Select(a => a.ToArray()).ToArray();
+            //    int[][] asd = new int[2][];
+            //    asd[0] = new int[2] {1, 2};
+            //    asd[1] = new int[3] {1, 2, 3};
+            //    asd[1][0] = 5;
 
-        //    MatrixControlInExam.ItemsSource = Key.KeyCodes;
+            //    InitializeComponent();
+
+            //    MatrixControlInExam.ItemsSource = Key.KeyCodes;
+
         }
 
 

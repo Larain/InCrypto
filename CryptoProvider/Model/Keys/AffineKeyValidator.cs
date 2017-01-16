@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using icModel.Abstract;
 
 namespace icModel.Model.Keys
 {
     public class AffineKeyValidator : ICryptoKeyValidator
     {
-        public bool IsValid(List<List<int>> digits)
+        public bool IsValid(ObservableCollection<ObservableCollection<int>> digits)
         {
             if (digits != null)
                 if (digits.Count == 1)

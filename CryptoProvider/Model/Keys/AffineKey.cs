@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using icModel.Abstract;
 
 namespace icModel.Model.Keys {
     public class AffineKey : ICryptoKey
     {
-        private List<List<int>> _keyCodes;
+        private ObservableCollection<ObservableCollection<int>> _keyCodes;
         private ICryptoKeyValidator _validator;
 
         public AffineKey(int a, int b)
@@ -15,7 +16,7 @@ namespace icModel.Model.Keys {
 
         #region Properties
 
-        public List<List<int>> KeyCodes
+        public ObservableCollection<ObservableCollection<int>> KeyCodes
         {
             get { return _keyCodes; }
             set
@@ -50,11 +51,10 @@ namespace icModel.Model.Keys {
             return output;
         }
 
-        private List<List<int>> GenerateNewKey(int a, int b)
+        private ObservableCollection<ObservableCollection<int>> GenerateNewKey(int a, int b)
         {
-            List<int> inner = new List<int>() {1, 2};
-            List<List<int>> outer = new List<List<int>>();
-            outer.Add(inner);
+            ObservableCollection<int> inner = new ObservableCollection<int>() {1, 2};
+            ObservableCollection<ObservableCollection<int>> outer = new ObservableCollection<ObservableCollection<int>> {inner};
             return outer;
         }
 

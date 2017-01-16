@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using icModel.Abstract;
 
 namespace icModel.Model.Keys
@@ -10,7 +11,7 @@ namespace icModel.Model.Keys
             return IsValid(key.KeyCodes);
         }
 
-        public bool IsValid(List<List<int>> key)
+        public bool IsValid(ObservableCollection<ObservableCollection<int>> key)
         {
             return key == null;
         }

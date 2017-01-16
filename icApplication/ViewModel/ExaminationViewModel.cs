@@ -8,9 +8,9 @@ namespace icApplication.ViewModel
     {
         public ExaminationViewModel()
         {
-            Key = new AffineKey(1, 5);
             Number = "2";
             Message = "ARBAIT";
+            ExamKey = new AffineKey(1, 5);
         }
 
         private ExaminationVariant _examinationVariant;
@@ -47,13 +47,13 @@ namespace icApplication.ViewModel
         }
 
         private ICryptoKey _key;
-        public ICryptoKey Key
+        public ICryptoKey ExamKey
         {
             get { return _key; }
             set
             {
                 _key = value;
-                base.NotifyPropertyChanged("Key");
+                base.NotifyPropertyChanged("ExamKey");
             }
         }
     }

@@ -85,7 +85,7 @@
                     </StackPanel>
 
                     <controls:ExaminationControl x:Name="Matrix2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                                 Number="{Binding Number}" Message="{Binding Message}" Key="{Binding Key.KeyCodes}">
+                                                 Number="{Binding Number}" Message="{Binding Message}" Key="{Binding ExamKey}">
                         <controls:ExaminationControl.DataContext>
                             <viewModel:ExaminationViewModel/>
                         </controls:ExaminationControl.DataContext>
