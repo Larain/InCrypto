@@ -37,17 +37,6 @@
                                 </ListView.ItemsPanel>
                             </ListView>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Visibility="Hidden">
-                            <TextBlock Margin="0 0 0 5">Select crypto key:</TextBlock>
-                            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
-                                      SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"></StackPanel>
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-                        </StackPanel>
                     </StackPanel>
 
                     <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0"
@@ -63,13 +52,13 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Matrix" Height="Auto" Width="Auto">
+            <TabItem Header="Matrix and Examination" Height="Auto" Width="Auto">
 
-                <Grid Margin="50">
+                <Grid Margin="20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4.5*" />
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="4.5*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
@@ -79,18 +68,34 @@
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Height="30">
                         <Label>Enter size of Matrix NxN</Label>
                         <TextBox></TextBox>
                     </StackPanel>
 
-                    <controls:ExaminationControl x:Name="Matrix2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                                 Number="{Binding Number}" Message="{Binding Message}" Key="{Binding ExamKey}">
-                        <controls:ExaminationControl.DataContext>
+                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                        <Label HorizontalAlignment="Center"  Content="Generated examination variants"></Label>
+                    <ListView HorizontalAlignment="Center" 
+                             ItemsSource="{Binding Path=ExaminationVariantCollection}">
+                        <ListView.DataContext>
                             <viewModel:ExaminationViewModel/>
-                        </controls:ExaminationControl.DataContext>
-                    </controls:ExaminationControl>
-                    
+                        </ListView.DataContext>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <controls:ExaminationControl x:Name="Matrix2"
+                                                 Number="{Binding Number}" Message="{Binding Text}" Key="{Binding Key}">
+                                    </controls:ExaminationControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

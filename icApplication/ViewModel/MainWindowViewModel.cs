@@ -161,7 +161,7 @@ namespace icApplication.ViewModel
         private void GetAvaibleKeys()
         {
             for (var i = 0; i < 140; i++)
-                if (NodHelper.IsNod(i, _alphabet.Length))
+                if (OperationHelper.IsNod(i, _alphabet.Length))
                     AvaibleKeys.Add(i);
         }
         #endregion

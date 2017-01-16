@@ -88,8 +88,8 @@
       <DependentUpon>MatrixControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\MultilineConverter.cs" />
-    <Compile Include="Exmaination\ExaminationController.cs" />
-    <Compile Include="Helper\NodHelper.cs" />
+    <Compile Include="Exmaination\ExaminationManager.cs" />
+    <Compile Include="Helper\OperationHelper.cs" />
     <Compile Include="ViewModel\ExaminationViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

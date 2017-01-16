@@ -1,60 +1,74 @@
-﻿using icModel.Abstract;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using icApplication.Exmaination;
+using icModel.Abstract;
+using icModel.Model.Alphabet;
 using icModel.Model.Entities;
 using icModel.Model.Keys;
 
-namespace icApplication.ViewModel
-{
-    public partial class ExaminationViewModel : ViewModelBase
-    {
-        public ExaminationViewModel()
-        {
-            Number = "2";
-            Message = "ARBAIT";
-            ExamKey = new AffineKey(1, 5);
+namespace icApplication.ViewModel {
+    public partial class ExaminationViewModel : ViewModelBase {
+
+        private List<ExaminationVariant> _examVariants;
+        private ExaminationVariant _examinationVariant;
+        private ExaminationManager _examinationManager;
+
+        public ExaminationViewModel() {
+            CreateVariants(10);
+            //Number = "2";
+            //Message = "ARBAIT";
+            //ExamKey = new AffineKey(1, 5);
         }
 
-        private ExaminationVariant _examinationVariant;
-        public ExaminationVariant ExaminationVariant
-        {
+        public ExaminationVariant ExaminationVariant {
             get { return _examinationVariant; }
-            set
-            {
+            set {
                 _examinationVariant = value;
                 base.NotifyPropertyChanged("ExaminationVariant");
             }
         }
 
-        private string _number;
-        public string Number
+        public List<ExaminationVariant> ExaminationVariantCollection
         {
-            get { return _number; }
-            set
-            {
-                _number = value;
-                base.NotifyPropertyChanged("Number");
+            get { return _examVariants?? (_examVariants = _examinationManager.VariantsList); }
+            set {
+                _examVariants = value;
+                base.NotifyPropertyChanged("ExaminationVariantCollection");
             }
         }
 
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                _message = value;
-                base.NotifyPropertyChanged("Message");
-            }
+        private void CreateVariants(int amount) {
+            _examinationManager = new ExaminationManager(amount);
         }
 
-        private ICryptoKey _key;
-        public ICryptoKey ExamKey
-        {
-            get { return _key; }
-            set
-            {
-                _key = value;
-                base.NotifyPropertyChanged("ExamKey");
-            }
-        }
+        //private string _number;
+
+        //public string Number {
+        //    get { return _number; }
+        //    set {
+        //        _number = value;
+        //        base.NotifyPropertyChanged("Number");
+        //    }
+        //}
+
+        //private string _message;
+
+        //public string Message {
+        //    get { return _message; }
+        //    set {
+        //        _message = value;
+        //        base.NotifyPropertyChanged("Message");
+        //    }
+        //}
+
+        //private ICryptoKey _key;
+
+        //public ICryptoKey ExamKey {
+        //    get { return _key; }
+        //    set {
+        //        _key = value;
+        //        base.NotifyPropertyChanged("ExamKey");
+        //    }
+        //}
     }
 }

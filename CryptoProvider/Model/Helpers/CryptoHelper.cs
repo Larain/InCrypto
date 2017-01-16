@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using icModel.Abstract;
 
 namespace icModel.Model.Helpers {
@@ -55,6 +56,13 @@ namespace icModel.Model.Helpers {
                 codedMessage.Add(new string(codedLineMessage));
             }
             return codedMessage.ToArray();
+        }
+
+        private static readonly Random Random = new Random();
+        public static string RandomString(int length, IAlphabet alphabet)
+        {
+            return new string(Enumerable.Repeat(alphabet.Dictionary, length)
+              .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
     }
 }

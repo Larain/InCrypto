@@ -3,16 +3,20 @@ using icModel.Abstract;
 
 namespace icModel.Model.Alphabet {
     public class CharactersAlphabet : IAlphabet {
-        public int Length {
-            get { return _charactersAlphabet.Length; }
-        }
-
-        private string _charactersAlphabet;
+        private readonly string _charactersAlphabet;
 
         public CharactersAlphabet() {
-            _charactersAlphabet =
-                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ";
+            _charactersAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        }
 
+        public string Dictionary
+        {
+            get { return _charactersAlphabet; }
+        }
+
+        public int Length
+        {
+            get { return _charactersAlphabet.Length; }
         }
 
         public int GetIndex(char symbol) {

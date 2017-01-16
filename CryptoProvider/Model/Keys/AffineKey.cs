@@ -53,7 +53,7 @@ namespace icModel.Model.Keys {
 
         private ObservableCollection<ObservableCollection<int>> GenerateNewKey(int a, int b)
         {
-            ObservableCollection<int> inner = new ObservableCollection<int>() {1, 2};
+            ObservableCollection<int> inner = new ObservableCollection<int>() {a, b};
             ObservableCollection<ObservableCollection<int>> outer = new ObservableCollection<ObservableCollection<int>> {inner};
             return outer;
         }
