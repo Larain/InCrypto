@@ -16,17 +16,16 @@ namespace icApplication.ViewModel
     /// <para>
     /// </para>
     /// </summary>
-    public partial class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         #region fields
-        IAlphabet _alphabet;
-        ICryptoKey _key;
-        ICryptoProvider _provider;
-
-        int? _selectedKey;
-        string _encryptoText;
-        string _decryptoText;
-        ObservableCollection<int> _avaibleKeys;
+        private IAlphabet _alphabet;
+        private ICryptoKey _key;
+        private ICryptoProvider _provider;
+        private int? _selectedKey;
+        private string _encryptoText;
+        private string _decryptoText;
+        private ObservableCollection<int> _avaibleKeys;
 
         private bool _canExecute = true;
         #endregion
@@ -139,7 +138,7 @@ namespace icApplication.ViewModel
 
         #endregion
 
-        #region Private Methods
+        #region Command Methods
         public void EncryptMessage(object obj)
         {
             DecryptoText = ConvertToString(_provider.Encrypt(ConvertToStringArray(EncryptoText)));

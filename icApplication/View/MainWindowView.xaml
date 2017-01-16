@@ -10,9 +10,6 @@
         Title="MainWindow" Height="720" Width="1280">
     <Grid>
         <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
-            <TabItem.DataContext>
-                <viewModel:MainWindowViewModel/>
-            </TabItem.DataContext>
             
             <TabItem Header="Encrypting" Height="Auto" Width="Auto">
                 <Grid Margin="50">

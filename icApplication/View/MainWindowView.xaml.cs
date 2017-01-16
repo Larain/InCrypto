@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using icApplication.ViewModel;
 
 namespace icApplication.View
 {
@@ -12,6 +13,8 @@ namespace icApplication.View
         public MainWindowView()
         {
             InitializeComponent();
+            MainWindowViewModel mwModel = new MainWindowViewModel();
+            DataContext = mwModel;
         }
     }
 }

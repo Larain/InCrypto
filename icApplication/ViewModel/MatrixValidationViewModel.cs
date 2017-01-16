@@ -10,7 +10,7 @@ using icModel.Model.Keys;
 
 namespace icApplication.ViewModel
 {
-    public partial class MatrixValidationViewModel : ViewModelBase
+    public class MatrixValidationViewModel : ViewModelBase
     {
 
         private int _matrixSize;

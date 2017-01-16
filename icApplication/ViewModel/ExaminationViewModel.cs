@@ -9,12 +9,11 @@ using icModel.Model.Entities;
 using icModel.Model.Keys;
 
 namespace icApplication.ViewModel {
-    public partial class ExaminationViewModel : ViewModelBase {
+    public class ExaminationViewModel : ViewModelBase {
 
         private int _matrixSize;
         private int _variantAmount;
         private int[][] _userMatrix;
-        private string _message;
 
         private List<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
@@ -26,14 +25,7 @@ namespace icApplication.ViewModel {
             CreateVariants(null);
 
             GenerateVariantsCommand = new RelayCommand(CreateVariants, CanCreateVariants);
-            FindInvertCommand = new RelayCommand(FindInvert, CanFindInvert);
-            ValidateCommand = new RelayCommand(ValidateUserMatrix, CanValidateUserMatrix);
         }
-
-
-        public RelayCommand ValidateCommand { get; set; }
-
-        public RelayCommand FindInvertCommand { get; set; }
 
         public RelayCommand GenerateVariantsCommand { get; set; }
 
@@ -61,14 +53,6 @@ namespace icApplication.ViewModel {
                 _matrixSize = value;
                 base.NotifyPropertyChanged("MatrixSize");
                 FillMatrixWithZeros();
-            }
-        }
-
-        public string Message {
-            get { return _message; }
-            set {
-                _message = value;
-                base.NotifyPropertyChanged("Message");
             }
         }
 
@@ -111,22 +95,6 @@ namespace icApplication.ViewModel {
 
         private bool CanCreateVariants(object obj) {
             return VariantAmount > 0 && VariantAmount < 100;
-        }
-
-        private bool CanValidateUserMatrix(object obj) {
-            throw new NotImplementedException();
-        }
-
-        private void ValidateUserMatrix(object obj) {
-            throw new NotImplementedException();
-        }
-
-        private bool CanFindInvert(object obj) {
-            throw new NotImplementedException();
-        }
-
-        private void FindInvert(object obj) {
-            throw new NotImplementedException();
         }
 
         #endregion

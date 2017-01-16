@@ -9,13 +9,8 @@ namespace icApplication
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            var mw = new MainWindowView
-            {
-                DataContext = new MainWindowViewModel()
-            };
-
+        public App() {
+            var mw = new MainWindowView();
             mw.Show();
         }
     }
