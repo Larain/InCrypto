@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Windows;
 using icApplication.Command;
 using icApplication.Exmaination;
 using icModel.Abstract;
-using icModel.Model.Alphabet;
 using icModel.Model.Entities;
-using icModel.Model.Keys;
 
-namespace icApplication.ViewModel
-{
-    public class MatrixValidationViewModel : ViewModelBase
-    {
+namespace icApplication.ViewModel {
+    public class MatrixValidationViewModel : ViewModelBase {
 
         private int _matrixSize;
         private int _variantAmount;
         private int[][] _userMatrix;
         private string _message;
+        ICryptoKeyValidator _validator;
 
         private List<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
         private ExaminationManager _examinationManager;
 
-        public MatrixValidationViewModel()
-        {
+        public MatrixValidationViewModel() {
             MatrixSize = 3;
             VariantAmount = 20;
             CreateVariants(null);
@@ -42,77 +38,71 @@ namespace icApplication.ViewModel
 
         #region Properties
 
-        public ExaminationVariant SelectedExaminationVariant
-        {
+        public ExaminationVariant SelectedExaminationVariant {
             get { return _examinationVariant; }
-            set
-            {
+            set {
                 _examinationVariant = value;
                 base.NotifyPropertyChanged("SelectedExaminationVariant");
             }
         }
 
-        public List<ExaminationVariant> ExaminationVariantCollection
-        {
+        public List<ExaminationVariant> ExaminationVariantCollection {
             get { return _examVariants ?? (_examVariants = _examinationManager.VariantsList); }
-            set
-            {
+            set {
                 _examVariants = value;
                 base.NotifyPropertyChanged("ExaminationVariantCollection");
             }
         }
 
-        public int MatrixSize
-        {
+        public int MatrixSize {
             get { return _matrixSize; }
-            set
-            {
+            set {
                 _matrixSize = value;
                 base.NotifyPropertyChanged("MatrixSize");
                 FillMatrixWithZeros();
             }
         }
 
-        public string Message
-        {
+        public string Message {
             get { return _message; }
-            set
-            {
+            set {
                 _message = value;
                 base.NotifyPropertyChanged("Message");
             }
         }
 
-        public int[][] UserMatrix
-        {
+        public int[][] UserMatrix {
             get { return _userMatrix; }
-            set
-            {
+            set {
                 _userMatrix = value;
                 base.NotifyPropertyChanged("UserMatrix");
             }
         }
 
-        public int VariantAmount
-        {
+        public int VariantAmount {
             get { return _variantAmount; }
-            set
-            {
+            set {
                 _variantAmount = value;
                 base.NotifyPropertyChanged("VariantAmount");
             }
         }
 
+        public ICryptoKeyValidator Validator {
+            get { return _validator; }
+
+            set {
+                _validator = value;
+                base.NotifyPropertyChanged("Validator");
+            }
+        }
+
         #endregion
 
-        private void FillMatrixWithZeros()
-        {
+        private void FillMatrixWithZeros() {
             int[][] matrix = new int[MatrixSize][];
-            for (int i = 0; i < MatrixSize; i++)
-            {
+            for (int i = 0; i < MatrixSize; i++) {
                 int[] arr = new int[MatrixSize];
-                for (int j = 0; j < MatrixSize; j++)
-                {
+                for (int j = 0; j < MatrixSize; j++) {
                     arr[j] = 0;
                 }
                 matrix[i] = arr;
@@ -122,39 +112,35 @@ namespace icApplication.ViewModel
 
         #region Commands
 
-        private void CreateVariants(object obj)
-        {
+        private void CreateVariants(object obj) {
             _examinationManager = new ExaminationManager(VariantAmount);
             ExaminationVariantCollection = _examinationManager.VariantsList;
         }
 
-        private bool CanCreateVariants(object obj)
-        {
+        private bool CanCreateVariants(object obj) {
             return VariantAmount > 0 && VariantAmount < 100;
         }
 
-        private bool CanValidateUserMatrix(object obj)
-        {
+        private bool CanValidateUserMatrix(object obj) {
+            return UserMatrix != null;
+        }
+
+        private void ValidateUserMatrix(object obj) {
+            if (_validator.IsValid(UserMatrix))
+                MessageBox.Show("Matrix is valid.", "Success", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            else {
+                MessageBox.Show("Invalid matrix.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private bool CanFindInvert(object obj) {
             throw new NotImplementedException();
         }
 
-        private void ValidateUserMatrix(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool CanFindInvert(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void FindInvert(object obj)
-        {
+        private void FindInvert(object obj) {
             throw new NotImplementedException();
         }
 
         #endregion
-
-
     }
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using icApplication.Command;
 using icApplication.Exmaination;
-using icModel.Abstract;
-using icModel.Model.Alphabet;
 using icModel.Model.Entities;
-using icModel.Model.Keys;
 
 namespace icApplication.ViewModel {
     public class ExaminationViewModel : ViewModelBase {

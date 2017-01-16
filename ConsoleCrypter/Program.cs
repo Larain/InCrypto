@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Keys;

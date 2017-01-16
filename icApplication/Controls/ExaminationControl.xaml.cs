@@ -1,48 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using icModel.Abstract;
-using icModel.Model.Keys;
 
-namespace icApplication.Controls
-{
+namespace icApplication.Controls {
     /// <summary>
     /// Interaction logic for ExaminationControl.xaml
     /// </summary>
-    public partial class ExaminationControl : UserControl
-    {
+    public partial class ExaminationControl : UserControl {
         public static DependencyProperty NumberProperty;
         public static DependencyProperty MessageProperty;
         public static DependencyProperty KeyProperty;
 
-        static ExaminationControl()
-        {
-            NumberProperty = DependencyProperty.Register("Number", typeof(String),
-                typeof(ExaminationControl), new FrameworkPropertyMetadata(null));
+        static ExaminationControl() {
+            NumberProperty = DependencyProperty.Register("Number", typeof (String),
+                typeof (ExaminationControl), new FrameworkPropertyMetadata(null));
 
-            MessageProperty = DependencyProperty.Register("Message", typeof(String),
-                typeof(ExaminationControl), new FrameworkPropertyMetadata(null));
+            MessageProperty = DependencyProperty.Register("Message", typeof (String),
+                typeof (ExaminationControl), new FrameworkPropertyMetadata(null));
 
-            KeyProperty = DependencyProperty.Register("Key", typeof(ICryptoKey),
-                typeof(ExaminationControl), new FrameworkPropertyMetadata(null));
+            KeyProperty = DependencyProperty.Register("Key", typeof (ICryptoKey),
+                typeof (ExaminationControl), new FrameworkPropertyMetadata(null));
         }
 
         //ObservableCollection<List<int>> Try
 
-        public ExaminationControl()
-        {
+        public ExaminationControl() {
             InitializeComponent();
             //ObservableCollection<ObservableCollection<int>> shit = new ObservableCollection<ObservableCollection<int>>();
             //ObservableCollection<int> fuck = new ObservableCollection<int>();
@@ -77,22 +60,19 @@ namespace icApplication.Controls
         }
 
 
-        public String Number
-        {
+        public String Number {
             get { return GetValue(NumberProperty).ToString(); }
             set { SetValue(NumberProperty, value); }
         }
 
 
-        public String Message
-        {
+        public String Message {
             get { return GetValue(MessageProperty).ToString(); }
             set { SetValue(MessageProperty, value); }
         }
 
-        public ICryptoKey Key
-        {
-            get { return (ICryptoKey)GetValue( KeyProperty); }
+        public ICryptoKey Key {
+            get { return (ICryptoKey) GetValue(KeyProperty); }
             set { SetValue(KeyProperty, value); }
         }
     }

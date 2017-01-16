@@ -11,7 +11,7 @@
     <Grid>
         <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
             
-            <TabItem Header="Encrypting" Height="Auto" Width="Auto">
+            <TabItem x:Name="Tab1" Header="Encrypting" Height="Auto" Width="Auto">
                 <Grid Margin="50">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4.5*" />
@@ -54,11 +54,8 @@
             </TabItem>
 
             <!--TAB 2-->
-            
-            <TabItem Header="Examination" Height="Auto" Width="Auto">
-                <TabItem.DataContext>
-                    <viewModel:ExaminationViewModel/>
-                </TabItem.DataContext>
+
+            <TabItem x:Name="Tab2" Header="Examination" Height="Auto" Width="Auto">
 
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
@@ -118,11 +115,8 @@
             </TabItem>
             
             <!--TAB 3-->
-            
-            <TabItem Header="Matrix Validation" Height="Auto" Width="Auto">
-                <TabItem.DataContext>
-                    <viewModel:MatrixValidationViewModel/>
-                </TabItem.DataContext>
+
+            <TabItem x:Name="Tab3" Header="Matrix Validation" Height="Auto" Width="Auto">
 
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>

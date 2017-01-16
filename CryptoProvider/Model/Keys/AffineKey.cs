@@ -1,38 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using icModel.Abstract;
 
 namespace icModel.Model.Keys {
-    public class AffineKey : ICryptoKey
-    {
+    public class AffineKey : ICryptoKey {
         private ObservableCollection<ObservableCollection<int>> _keyCodes;
         private ICryptoKeyValidator _validator;
 
-        public AffineKey(int a, int b)
-        {
+        public AffineKey(int a, int b) {
             KeyCodes = GenerateNewKey(a, b);
         }
 
         #region Properties
 
-        public ObservableCollection<ObservableCollection<int>> KeyCodes
-        {
+        public ObservableCollection<ObservableCollection<int>> KeyCodes {
             get { return _keyCodes; }
-            set
-            {
+            set {
                 if (Validator.IsValid(value))
                     _keyCodes = value;
-                else 
+                else
                     throw new ArgumentException(
                         $"AffineKey is not valid. Size of argument {value.Count}x{value[0].Count}"
-                    );
+                        );
             }
-            
+
         }
 
-        public ICryptoKeyValidator Validator
-        {
+        public ICryptoKeyValidator Validator {
             get { return _validator ?? (_validator = new AffineKeyValidator()); }
         }
 
@@ -51,10 +45,10 @@ namespace icModel.Model.Keys {
             return output;
         }
 
-        private ObservableCollection<ObservableCollection<int>> GenerateNewKey(int a, int b)
-        {
+        private ObservableCollection<ObservableCollection<int>> GenerateNewKey(int a, int b) {
             ObservableCollection<int> inner = new ObservableCollection<int>() {a, b};
-            ObservableCollection<ObservableCollection<int>> outer = new ObservableCollection<ObservableCollection<int>> {inner};
+            ObservableCollection<ObservableCollection<int>> outer =
+                new ObservableCollection<ObservableCollection<int>> {inner};
             return outer;
         }
 

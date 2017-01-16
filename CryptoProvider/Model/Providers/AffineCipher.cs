@@ -21,8 +21,7 @@ namespace icModel.Model.Providers {
             get { return _key; }
             set
             {
-                if (value == null)
-                    throw new NoNullAllowedException();
+                if (value != null)
                     _key = (AffineKey)value;
             } }
 

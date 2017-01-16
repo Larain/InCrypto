@@ -17,6 +17,27 @@ namespace icModel.Model.Helpers {
         }
 
         /// <summary>
+        /// Indicate is m and n Nods
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static bool IsNod(int m, int n)
+        {
+            int nod = 0;
+            for (int i = 1; i < (n * m + 1); i++)
+            {
+                if (m % i == 0 && n % i == 0)
+                {
+                    nod = i;
+                }
+            }
+            if (nod == 1)
+                return true;
+            return false;
+        }
+
+        /// <summary>
         /// Search reciprocal number
         /// </summary>
         /// <param name="a">The number to which find reciprocation</param>
@@ -43,11 +64,9 @@ namespace icModel.Model.Helpers {
         /// <param name="codedDigitMessage">Message represented in digit format</param>
         /// <param name="alphabet">Used Crypto Alphabet</param>
         /// <returns></returns>
-        public static string[] ConvertDigitsToChar(List<int[]> codedDigitMessage, IAlphabet alphabet)
-        {
+        public static string[] ConvertDigitsToChar(List<int[]> codedDigitMessage, IAlphabet alphabet) {
             List<string> codedMessage = new List<string>();
-            for (int i = 0; i < codedDigitMessage.Count; i++)
-            {
+            for (int i = 0; i < codedDigitMessage.Count; i++) {
                 char[] codedLineMessage = new char[codedDigitMessage[i].Length];
 
                 for (int j = 0; j < codedDigitMessage[i].Length; j++)
@@ -59,10 +78,16 @@ namespace icModel.Model.Helpers {
         }
 
         private static readonly Random Random = new Random();
-        public static string RandomString(int length, IAlphabet alphabet)
-        {
+
+        /// <summary>
+        /// Generate string with random characters
+        /// </summary>
+        /// <param name="length">Legth of generated string</param>
+        /// <param name="alphabet">Alphabet of charaters to use for generating</param>
+        /// <returns></returns>
+        public static string RandomString(int length, IAlphabet alphabet) {
             return new string(Enumerable.Repeat(alphabet.Dictionary, length)
-              .Select(s => s[Random.Next(s.Length)]).ToArray());
+                .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
     }
 }
