@@ -22,6 +22,7 @@ namespace icApplication.Exmaination
         {
             _alphabet = new SimpleAlphabet();
             GenerateNewVariants(variantsAmount);
+
         }
 
         public List<ExaminationVariant> VariantsList {

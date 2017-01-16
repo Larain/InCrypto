@@ -30,5 +30,9 @@ namespace icApplication.View
 
             //Matrix.ItemsSource = arrays;
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
+            
+        }
     }
 }

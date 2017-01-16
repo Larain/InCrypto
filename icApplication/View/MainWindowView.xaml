@@ -53,49 +53,64 @@
             </TabItem>
 
             <TabItem Header="Matrix and Examination" Height="Auto" Width="Auto">
+                <TabItem.DataContext>
+                    <viewModel:ExaminationViewModel/>
+                </TabItem.DataContext>
 
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="0.8*" />
                         <ColumnDefinition Width="4.5*" />
+                        <ColumnDefinition Width="0.8*" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="8*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="5*" />
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Height="30">
-                        <Label>Enter size of Matrix NxN</Label>
-                        <TextBox></TextBox>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>Enter amount of required variants:</TextBlock>
+                            <TextBox Text="{Binding VariantAmount, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
+                        </StackPanel>
+                        <Button Command="{Binding GenerateVariantsCommand}" Margin="10">Generate</Button>
                         <Label HorizontalAlignment="Center"  Content="Generated examination variants"></Label>
-                    <ListView HorizontalAlignment="Center" 
+                        <ListView
+                             
+                             SelectedItem="{Binding Path=SelectedExaminationVariant, Mode=TwoWay}"
                              ItemsSource="{Binding Path=ExaminationVariantCollection}">
-                        <ListView.DataContext>
-                            <viewModel:ExaminationViewModel/>
-                        </ListView.DataContext>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
                                     <controls:ExaminationControl x:Name="Matrix2"
                                                  Number="{Binding Number}" Message="{Binding Text}" Key="{Binding Key}">
                                     </controls:ExaminationControl>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
                     </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" Margin="5" Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock>Enter size of Matrix NxN</TextBlock>
+                        <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Left" Width="50"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2">
+                        <TextBlock>User Matrix:</TextBlock>
+                        <controls:MatrixControl x:Name="UserMatrixControl" ItemsSource="{Binding UserMatrix}"/>
+                        <Button Margin="0, 10, 0, 10">Validate user matrix</Button>
+                        <Button Margin="0, 10, 0, 10">Find Inverted</Button>
+                    </StackPanel>
+                   
                 </Grid>
             </TabItem>
         </TabControl>
