@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\GitHub\InCrypto\icApplication\App.xaml
-1-1182396735
+5-1646917987
 
-16-2123049059
+201324576623
 14-614881196
-View\MainWindowView.xaml;
+Controls\ExaminationControl.xaml;Controls\MatrixControl.xaml;Resources\ExaminationVariantTemplate.xaml;Resources\MatrixTemplate.xaml;View\MainWindowView.xaml;
 
-True
+False
 

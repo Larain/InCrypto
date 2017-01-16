@@ -15,12 +15,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using icApplication.ViewModel;
 
-namespace icApplication.View
-{
+namespace icApplication.View {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindowView : IView{
+    public partial class MainWindowView : IView {
         TextBox[,] _inputs;
 
         public MainWindowView() {
@@ -32,18 +31,15 @@ namespace icApplication.View
         }
 
         #region Methods
-        public TextBox[,] UpdateMatrix(int size)
-        {
+
+        public TextBox[,] UpdateMatrix(int size) {
             MatrixPanel.Children.Clear();
 
             _inputs = new TextBox[size, size];
-            for (int i = 0; i < size; i++)
-            {
-                StackPanel sp = new StackPanel { Orientation = Orientation.Horizontal };
-                for (int j = 0; j < size; j++)
-                {
-                    TextBox tb = new TextBox
-                    {
+            for (int i = 0; i < size; i++) {
+                StackPanel sp = new StackPanel {Orientation = Orientation.Horizontal};
+                for (int j = 0; j < size; j++) {
+                    TextBox tb = new TextBox {
                         Margin = new Thickness(5),
                         MaxLength = 5,
                         Text = (i + j).ToString(),
@@ -63,11 +59,9 @@ namespace icApplication.View
             var size = matrix.Length;
 
             _inputs = new TextBox[size, size];
-            for (int i = 0; i < size; i++)
-            {
+            for (int i = 0; i < size; i++) {
                 StackPanel sp = new StackPanel {Orientation = Orientation.Horizontal};
-                for (int j = 0; j < size; j++)
-                {
+                for (int j = 0; j < size; j++) {
                     TextBox tb = new TextBox {
                         Margin = new Thickness(5),
                         MaxLength = 5,
@@ -81,6 +75,7 @@ namespace icApplication.View
 
             return _inputs;
         }
+
         #endregion
     }
 }
