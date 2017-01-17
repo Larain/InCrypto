@@ -19,6 +19,14 @@ namespace icModel.Model.Keys {
             return false;
         }
 
+        public bool IsValid(int[,] key)
+        {
+            if (key != null)
+                if (key.Length == key.GetLength(0))
+                        return true;
+            return false;
+        }
+
         public bool IsValid(ICryptoKey key) {
             return IsValid(key.KeyCodes);
         }

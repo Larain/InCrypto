@@ -13,6 +13,9 @@ namespace icApplication.View {
             ExaminationViewModel examinationViewModel = new ExaminationViewModel();
             MatrixValidationViewModel matrixValidationViewModel = new MatrixValidationViewModel();
 
+            examinationViewModel.MainView = mainWindowViewModel;
+            matrixValidationViewModel.MainView = mainWindowViewModel;
+
             Tab1.DataContext = mainWindowViewModel;
             Tab2.DataContext = examinationViewModel;
             Tab3.DataContext = matrixValidationViewModel;

@@ -26,7 +26,8 @@
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
+                    <TextBlock Text="{Binding Message}"></TextBlock>
+                    <StackPanel Visibility="Hidden" Grid.Row="0" Grid.ColumnSpan="3">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Margin="0 0 0 5">Select Method</TextBlock>
                             <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
@@ -99,7 +100,7 @@
                                   ItemsSource="{Binding Path=ExaminationVariantCollection}" ScrollViewer.CanContentScroll="True">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <controls:ExaminationControl x:Name="Matrix2"
+                                    <controls:ExaminationControl HorizontalAlignment="Center" x:Name="Matrix2"
                                                  Number="{Binding Number}" Message="{Binding Text}" Key="{Binding Key}">
                                     </controls:ExaminationControl>
                                 </DataTemplate>

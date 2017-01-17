@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using icApplication.Command;
 using icApplication.Exmaination;
+using icApplication.ViewModel.Interface;
 using icModel.Model.Entities;
 
 namespace icApplication.ViewModel {
@@ -30,6 +31,12 @@ namespace icApplication.ViewModel {
             get { return _examinationVariant; }
             set {
                 _examinationVariant = value;
+                if (MainView != null) {
+                    MainView.SetCryptoKey(value.Key);
+                    MainView.SendMessage("Key used from examination variant #" + value.Number);
+                    MainView.SetEncryptoText(value.Text);
+                }
+
                 base.NotifyPropertyChanged("SelectedExaminationVariant");
             }
         }
@@ -66,6 +73,8 @@ namespace icApplication.ViewModel {
                 base.NotifyPropertyChanged("VariantAmount");
             }
         }
+
+        public ICryptoView MainView { get; set; }
 
         #endregion
 

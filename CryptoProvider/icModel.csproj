@@ -51,6 +51,8 @@
     <Compile Include="Model\Helpers\CryptoHelper.cs" />
     <Compile Include="Model\Keys\AffineKeyValidator.cs" />
     <Compile Include="Model\Keys\DefaultValidator.cs" />
+    <Compile Include="Model\Keys\HillKey.cs" />
+    <Compile Include="Model\Keys\HillKeyValidator.cs" />
     <Compile Include="Model\MessageRepository.cs" />
     <Compile Include="Abstract\IAlphabet.cs" />
     <Compile Include="Model\Keys\AffineKey.cs" />

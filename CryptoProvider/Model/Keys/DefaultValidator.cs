@@ -14,5 +14,9 @@ namespace icModel.Model.Keys {
         public bool IsValid(int[][] key) {
             return key != null;
         }
+
+        public bool IsValid(int[,] key) {
+            return key != null;
+        }
     }
 }

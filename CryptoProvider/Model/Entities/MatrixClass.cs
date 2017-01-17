@@ -77,7 +77,7 @@ namespace icModel.Model.Entities
     /// 		* for two matrices or one MatrixClass with integer or fraction or double
     /// 		/ for MatrixClass with integer or fraction or double
     /// </summary>
-    internal class MatrixClass
+    public class MatrixClass
     {
         /// <summary>
         /// Class attributes/members
@@ -339,6 +339,10 @@ namespace icModel.Model.Entities
         public Fraction Determinent()
         {
             return Determinent(this);
+        }
+
+        public bool IsIvertable {
+            get { return Determinent(this) != 0; }
         }
 
         /// <summary>

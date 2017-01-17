@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using icModel.Abstract;
+using icModel.Model.Helpers;
 
 namespace icModel.Model.Keys {
     public class AffineKey : ICryptoKey {
+        private int[,] _keyArray;
         private ObservableCollection<ObservableCollection<int>> _keyCodes;
         private ICryptoKeyValidator _validator;
 
@@ -24,6 +26,11 @@ namespace icModel.Model.Keys {
                         );
             }
 
+        }
+
+        public int[,] KeyArray {
+            get { return _keyArray ?? (_keyArray = (_keyCodes != null ? this.ToIntArray() : null)); }
+            private set { _keyArray = value; }
         }
 
         public ICryptoKeyValidator Validator {

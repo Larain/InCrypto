@@ -5,5 +5,6 @@ namespace icModel.Abstract {
         bool IsValid(ICryptoKey key);
         bool IsValid(ObservableCollection<ObservableCollection<int>> key);
         bool IsValid(int[][] key);
+        bool IsValid(int[,] key);
     }
 }

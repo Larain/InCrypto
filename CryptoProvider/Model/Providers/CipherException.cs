@@ -5,13 +5,13 @@ using icModel.Abstract;
 namespace icModel.Model.Providers {
     public class CipherException : Exception {
         private string _plainText;
-        private ICryptoKey _key;
+
+        public ICryptoKey Key { get; set; }
 
         public CipherException() {}
 
-        public CipherException(string plainText, ICryptoKey key) {
-            _plainText = plainText;
-            _key = key;
+        public CipherException(string plainText, ICryptoKey key) : base(plainText) {
+            Key = key;
         }
 
         public CipherException(string message)

@@ -54,7 +54,7 @@ namespace icModel.Model.Helpers {
                     break;
             }
             if (invA == null)
-                throw new ArgumentException("InvA is unracheable");
+                throw new ArgumentException("Reciprocal InvA is unracheable");
             return invA.Value;
         }
 
@@ -88,6 +88,20 @@ namespace icModel.Model.Helpers {
         public static string RandomString(int length, IAlphabet alphabet) {
             return new string(Enumerable.Repeat(alphabet.Dictionary, length)
                 .Select(s => s[Random.Next(s.Length)]).ToArray());
+        }
+
+        public static int[,] ToIntArray(this ICryptoKey key)
+        {
+            int[,] newArr = new int[key.KeyCodes.Count, key.KeyCodes.Count];
+            for (int i = 0; i < key.KeyCodes.Count; i++)
+            {
+                for (int j = 0; j < key.KeyCodes.Count; j++)
+                {
+                    newArr[i, j] = key.KeyCodes[i][j];
+                }
+            }
+
+            return newArr;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace ConsoleCrypter
             ////int[,] newKyes = new int[2,2] { {1,2}, {3,4} };
             ////key.KeyCodes = newKyes;
 
-            AffineCipher cipher = new AffineCipher(new CharactersAlphabet(), (AffineKey)key);
+            //AffineCipher cipher = new AffineCipher(new CharactersAlphabet(), (AffineKey)key);
             //cipher.Key = key2;
 
             Console.Read();

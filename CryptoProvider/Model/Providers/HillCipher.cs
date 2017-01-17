@@ -1,73 +1,104 @@
-﻿//using icModel.Abstract;
-//using icModel.Model.Entities;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Text;
+using icModel.Abstract;
+using icModel.Model.Entities;
+using System.Windows.Input;
+using icModel.Model.Keys;
 
-//namespace icModel.Model.Providers
-//{
-//    class HillCipher : CryptoProvider
-//    {
-//        readonly int[,] key;
+namespace icModel.Model.Providers
+{
+    public class HillCipher : ICryptoProvider
+    {
+        private ICryptoKey _key;
 
-//        public HillCipher(IAlphabet characterTable, ICryptoKey key)
-//        {
-//            Alphabet = characterTable;
-//            Key = key;
-//        }
+        public HillCipher(IAlphabet characterTable)
+        {
+            Alphabet = characterTable;
+        }
 
-//        #region Public Methods
+        #region Public Methods
 
-//        public override string[] Encrypt(string[] plainText)
-//        {
-//            return Process(plainText, Mode.Encrypt);
-//        }
+        public IAlphabet Alphabet { set; get; }
 
-//        public override string[] Decrypt(string[] cipher)
-//        {
-//            return Process(cipher, Mode.Decrypt);
-//        }
+        public ICryptoKey Key
+        {
+            get { return _key; }
+            set
+            {
+                if (value != null)
+                    _key = (HillKey)value;
+            }
+        }
 
-//        #endregion
+        public string[] Encrypt(string[] plainText)
+        {
+            return Process(plainText, Mode.Encrypt);
+        }
 
-//        #region Private Methods
+        public string[] Decrypt(string[] cipher)
+        {
+            return Process(cipher, Mode.Decrypt);
+        }
 
-//        private string[] Process(string[] message, Mode mode)
-//        {
-//            MatrixClass matrix = new MatrixClass(key);
+        #endregion
 
-//            if (mode == Mode.Decrypt)
-//            {
-//                matrix = matrix.Inverse();
-//            }
+        #region Private Methods
 
-//            int pos = 0, charPosition;
-//            string substring, result = "";
-//            int matrixSize = key.GetLength(0);
+        private string[] Process(string[] message, Mode mode)
+        {
+            MatrixClass matrix = new MatrixClass(_key.KeyArray);
 
-//            while (pos < message.Length)
-//            {
-//                substring = message.Substring(pos, matrixSize);
-//                pos += matrixSize;
+            if (mode == Mode.Decrypt)
+            {
+                matrix = matrix.Inverse();
+            }
 
-//                for (int i = 0; i < matrixSize; i++)
-//                {
-//                    charPosition = 0;
+            int index = 0;
+            string[] proccessedString = new string[message.Length];
 
-//                    for (int j = 0; j < matrixSize; j++)
-//                    {
-//                        charPosition += (int)matrix[j, i].Numerator * alphabet[substring[j]];
-//                    }
+            foreach (string line in message) {
 
-//                    result += alphabet.Keys.ElementAt(charPosition % 26);
-//                }
-//            }
+                int pos = 0;
 
-//            return result;
-//        }
+                int matrixSize = _key.KeyArray.GetLength(0);
 
-//        #endregion
-//    }
-//}
+                string newLine = "";
+                while (pos < line.Length)
+                {
+                    string result = "";
+                    string substring = "";
+                    try {
+                        substring = line.Substring(pos, matrixSize);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        throw new CipherException(string.Format("Invalid length of string {0} in line {1}", line.Length, index));
+                        return null;
+                    }
+                    
+                    pos += matrixSize;
+
+                    for (int i = 0; i < matrixSize; i++)
+                    {
+                        string portion = "";
+                        var charPosition = 0;
+
+                        for (int j = 0; j < matrixSize; j++)
+                        {
+                            charPosition += (int)matrix[j, i].Numerator * Alphabet.GetIndex(substring[j]);
+                        }
+
+                        result += Alphabet.GetSymbol(charPosition % 26);
+                    }
+
+                    newLine += result;
+                }
+                proccessedString[index++] = newLine;
+            }
+
+            return proccessedString;
+        }
+
+        #endregion
+    }
+}

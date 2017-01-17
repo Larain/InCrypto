@@ -10,20 +10,20 @@ namespace icModel.Model.Providers {
     public class AffineCipher : ICryptoProvider
     {
         private AffineKey _key;
-        public AffineCipher(IAlphabet characterTable, AffineKey key) {
+
+        public AffineCipher(IAlphabet characterTable) {
             Alphabet = characterTable;
-            Key = key;
         }
 
         public IAlphabet Alphabet { set; get; }
 
         public ICryptoKey Key {
             get { return _key; }
-            set
-            {
+            set {
                 if (value != null)
-                    _key = (AffineKey)value;
-            } }
+                    _key = (AffineKey) value;
+            }
+        }
 
 
         #region Methods
@@ -39,8 +39,15 @@ namespace icModel.Model.Providers {
         private List<int[]> Proccess(string[] message, Mode mode) {
 
             int a = 0;
-            if (mode == Mode.Decrypt)
-                a = CryptoHelper.GetInvA(Key.KeyCodes[0][0], Alphabet.Length);
+            if (mode == Mode.Decrypt) {
+                try {
+                    a = CryptoHelper.GetInvA(Key.KeyCodes[0][0], Alphabet.Length);
+                }
+                catch (ArgumentException exc) {
+                    throw new CipherException("Decryption Failed" + exc.Message, _key);
+                }
+                
+            }
 
             // Decrypting message to digit code.
             List<int[]> codedDigitMessage = new List<int[]>();

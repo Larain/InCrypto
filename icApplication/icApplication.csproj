@@ -91,6 +91,7 @@
     <Compile Include="Exmaination\ExaminationManager.cs" />
     <Compile Include="Helper\OperationHelper.cs" />
     <Compile Include="ViewModel\ExaminationViewModel.cs" />
+    <Compile Include="ViewModel\Interface\ICryptoView.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MatrixValidationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -132,9 +133,7 @@
       <Name>icModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Iter\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

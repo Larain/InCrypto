@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using icApplication.Command;
 using icApplication.Exmaination;
+using icApplication.ViewModel.Interface;
 using icModel.Abstract;
 using icModel.Model.Entities;
 
@@ -37,6 +38,8 @@ namespace icApplication.ViewModel {
         public RelayCommand GenerateVariantsCommand { get; set; }
 
         #region Properties
+
+        public ICryptoView MainView { get; set; }
 
         public ExaminationVariant SelectedExaminationVariant {
             get { return _examinationVariant; }
@@ -113,8 +116,6 @@ namespace icApplication.ViewModel {
         #region Commands
 
         private void CreateVariants(object obj) {
-            _examinationManager = new ExaminationManager(VariantAmount);
-            ExaminationVariantCollection = _examinationManager.VariantsList;
         }
 
         private bool CanCreateVariants(object obj) {

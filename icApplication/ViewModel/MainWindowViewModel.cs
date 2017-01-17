@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using icApplication.Command;
 using System.Windows;
+using icApplication.ViewModel.Interface;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Entities;
@@ -17,18 +18,17 @@ namespace icApplication.ViewModel {
     /// <para>
     /// </para>
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase {
+    public class MainWindowViewModel : ViewModelBase, ICryptoView
+    {
         #region fields
 
         private IAlphabet _alphabet;
         private ICryptoKey _key;
         private ExaminationVariant _examinationVariant;
         private ICryptoProvider _provider;
-        private int _selectedKey;
-        private int _examVariantsAmount;
+        private string _message;
         private string _encryptoText;
         private string _decryptoText;
-        private ObservableCollection<int> _avaibleKeys;
 
         #endregion
 
@@ -37,32 +37,19 @@ namespace icApplication.ViewModel {
         /// </summary>
         public MainWindowViewModel() {
             InitializeCryptoComponents();
+            Message = "Select CryptoKey from matrix tab or examination";
         }
 
         private void InitializeCryptoComponents() {
             _alphabet = new CharactersAlphabet();
-            _avaibleKeys = new ObservableCollection<int>();
 
             EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
             DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
 
-            GetAvaibleKeys();
-            if (AvaibleExamVariants != null && AvaibleExamVariants.Count > 0)
-                SelectedKey = AvaibleExamVariants[(int) (_avaibleKeys.Count/2)];
-
-            _provider = new AffineCipher(_alphabet, _key as AffineKey);
+            _provider = new HillCipher(_alphabet);
         }
 
         #region Properties
-
-        public ObservableCollection<int> AvaibleExamVariants
-        {
-            get { return this._avaibleKeys; }
-            set {
-                this._avaibleKeys = value;
-                base.NotifyPropertyChanged("AvaibleExamVariants");
-            }
-        }
 
         public string EncryptoText {
             get { return this._encryptoText; }
@@ -80,31 +67,31 @@ namespace icApplication.ViewModel {
             }
         }
 
-        public int SelectedKey {
-            get { return this._selectedKey; }
+        public ICryptoKey SelectedKey {
+            get { return this._key; }
             set {
-                _key = new AffineKey(value, _alphabet.Length);
-                _provider = new AffineCipher(_alphabet, (AffineKey) _key);
+                _key = value;
+                _provider.Key = _key;
                 base.NotifyPropertyChanged("SelectedKey");
-
-                _selectedKey = value;
             }
         }
 
-        public int ExamVariantsAmount
+        public string Message
         {
-            get { return _examVariantsAmount; }
+            get { return _message; }
             set {
-                _examVariantsAmount = value;
-                GetAvaibleKeys();
-                base.NotifyPropertyChanged("ExamVariantsAmount");
+                _message = value;
+                base.NotifyPropertyChanged("Message");
             }
         }
 
-        public ExaminationVariant ExaminationVariant1
+        public ExaminationVariant ExaminationVariant
         {
             get { return _examinationVariant; }
-            set { _examinationVariant = value; }
+            set {
+                _examinationVariant = value;
+                base.NotifyPropertyChanged("ExaminationVariant");
+            }
         }
 
         public ICommand EncryptCommand { get; set; }
@@ -116,12 +103,25 @@ namespace icApplication.ViewModel {
         #region Command Methods
 
         public void EncryptMessage(object obj) {
-            DecryptoText = ConvertToString(_provider.Encrypt(ConvertToStringArray(EncryptoText)));
+            try {
+                DecryptoText = ConvertToString(_provider.Encrypt(ConvertToStringArray(EncryptoText)));
+            }
+            catch (CipherException e) {
+                MessageBox.Show(e.Message + "\nKey: " + e.Key, "Crypto Key error", MessageBoxButton.OK,
+                    MessageBoxImage.Stop);
+            }
+            
             EncryptoText = null;
         }
 
         public void DecryptMessage(object obj) {
-            EncryptoText = ConvertToString(_provider.Decrypt(ConvertToStringArray(DecryptoText)));
+            try {
+                EncryptoText = ConvertToString(_provider.Decrypt(ConvertToStringArray(DecryptoText)));
+            }
+            catch (CipherException e) {
+                MessageBox.Show(e.Message + "\nKey: " + e.Key, "Crypto Key error", MessageBoxButton.OK,
+                    MessageBoxImage.Stop);
+            }
             DecryptoText = null;
         }
 
@@ -134,13 +134,6 @@ namespace icApplication.ViewModel {
         }
 
         #endregion
-
-        private void GetAvaibleKeys()
-        {
-            AvaibleExamVariants.Clear();
-            for (var i = 0; i < ExamVariantsAmount; i++)
-                AvaibleExamVariants.Add(i);
-        }
 
         #region Converters
 
@@ -155,5 +148,17 @@ namespace icApplication.ViewModel {
         }
 
         #endregion
+
+        public void SetCryptoKey(ICryptoKey key) {
+            SelectedKey = key;
+        }
+
+        public void SetEncryptoText(string text) {
+            EncryptoText = text;
+        }
+
+        public void SendMessage(string text) {
+            Message = text;
+        }
     }
 }
