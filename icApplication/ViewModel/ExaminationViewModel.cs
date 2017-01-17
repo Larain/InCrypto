@@ -16,6 +16,7 @@ namespace icApplication.ViewModel {
         private ExaminationManager _examinationManager;
 
         public ExaminationViewModel() {
+            _examinationManager = new ExaminationManager();
             MatrixSize = 3;
             VariantAmount = 20;
             CreateVariants(null);
@@ -54,7 +55,6 @@ namespace icApplication.ViewModel {
             set {
                 _matrixSize = value;
                 base.NotifyPropertyChanged("MatrixSize");
-                FillMatrixWithZeros();
             }
         }
 
@@ -78,22 +78,10 @@ namespace icApplication.ViewModel {
 
         #endregion
 
-        private void FillMatrixWithZeros() {
-            int[][] matrix = new int[MatrixSize][];
-            for (int i = 0; i < MatrixSize; i++) {
-                int[] arr = new int[MatrixSize];
-                for (int j = 0; j < MatrixSize; j++) {
-                    arr[j] = 0;
-                }
-                matrix[i] = arr;
-            }
-            UserMatrix = matrix;
-        }
-
         #region Commands
 
         private void CreateVariants(object obj) {
-            _examinationManager = new ExaminationManager(VariantAmount);
+            _examinationManager.GenerateNewVariants(VariantAmount);
             ExaminationVariantCollection = _examinationManager.VariantsList;
         }
 

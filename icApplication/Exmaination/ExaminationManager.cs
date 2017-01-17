@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Entities;
@@ -9,26 +10,27 @@ using icModel.Model.Keys;
 
 namespace icApplication.Exmaination {
     class ExaminationManager {
-        private Dictionary<int, ExaminationVariant> _variants;
-        private HashSet<int[,]> _marixList;
+        private HashSet<ExaminationVariant> _variants;
+        private HashSet<MatrixClass> _marixList;
         private IAlphabet _alphabet;
         private int _matrixSize;
         private int _generatedMaxValue;
         private int _generatedMinValue;
         private int _textLength;
+        private int _variantsAmount;
 
         /// <summary>
         /// Set amount of generated variants
         /// </summary>
         /// <param name="variantsAmount"></param>
-        public ExaminationManager(int variantsAmount) {
+        public ExaminationManager() {
             InitalizeDefault();
-            GenerateNewVariants(variantsAmount);
+            GenerateNewVariants(_variantsAmount);
         }
 
         private void InitalizeDefault() {
-            _marixList = new HashSet<int[,]>();
             _alphabet = new SimpleAlphabet();
+            _variantsAmount = 20;
             MatrixSize = 2;
             GeneratedMaxValue = _alphabet.Length;
             GeneratedMinValue = 0;
@@ -38,7 +40,7 @@ namespace icApplication.Exmaination {
         #region Properties
 
         public List<ExaminationVariant> VariantsList {
-            get { return _variants.Values.ToList(); }
+            get { return _variants.ToList(); }
         }
 
         public int MatrixSize {
@@ -61,52 +63,64 @@ namespace icApplication.Exmaination {
             set { _textLength = value; }
         }
 
+        public int VariantsAmount {
+            get { return _variantsAmount; }
+            set { _variantsAmount = value; }
+        }
+
         #endregion
 
 
-        private void GenerateNewVariants(int variantsAmount) {
-            _marixList.Clear();
-            Random rnd = new Random();
-            Dictionary<int, ExaminationVariant> varList = new Dictionary<int, ExaminationVariant>();
+        public void GenerateNewVariants(int variantsAmount) {
+            _variantsAmount = variantsAmount;
+            _marixList = new HashSet<MatrixClass>();
+            _variants = new HashSet<ExaminationVariant>();
 
             for (int i = 1; i < variantsAmount + 1; i++) {
-                ExaminationVariant var = new ExaminationVariant(i) {
-                    Text = CryptoHelper.RandomString(TextLength, _alphabet),
-                    Key = new HillKey(GenerateUniqueIvertableMatrix())
-                };
-                varList.Add(i, var);
+                ExaminationVariant variant = new ExaminationVariant(i);
+
+                variant.Text = CryptoHelper.RandomString(TextLength, _alphabet);
+                variant.Key = new HillKey(GenerateUniqueIvertableMatrix());
+                
+                _variants.Add(variant);
             }
-
-            _variants = varList;
         }
 
-        public void Add(ExaminationVariant variant) {
-            _variants.Add(_variants.Count, variant);
+        public bool Add(ExaminationVariant variant) {
+            return _variants.Add(variant);
         }
 
-        public void Update(int number, ExaminationVariant variant) {
-            _variants[number] = variant;
+        public void Remove(ExaminationVariant variant) {
+            _variants.Remove(variant);
         }
 
-        public void Remove(int number) {
-            _variants.Remove(number);
-        }
-
-        public int[,] GenerateUniqueIvertableMatrix() {
+        private int[,] GenerateUniqueIvertableMatrix() {
             int[,] arrInts = new int[_matrixSize, _matrixSize];
             Random rnd = new Random();
 
-            bool success = false;
-            while (!success) {
+            while (true) {
+
                 for (int i = 0; i < _matrixSize; i++) {
                     for (int j = 0; j < _matrixSize; j++) {
                         arrInts[i, j] = rnd.Next(GeneratedMinValue, GeneratedMaxValue);
                     }
                 }
-                MatrixClass matrix = new MatrixClass(arrInts);
-                if (matrix.IsIvertable)
-                    if (!_marixList.Contains(arrInts))
-                        success = _marixList.Add(arrInts);
+
+                try {
+                    MatrixClass matrix = new MatrixClass(arrInts);
+                    if (matrix.IsIvertable) {
+                        if (!_marixList.Contains(matrix))
+                        {
+                            _marixList.Add(matrix);
+                            break;
+                        }
+                        throw new Exception("Is not unique");
+                    }
+                    throw new Exception("Is not invertable");
+                }
+                catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
             }
 
             return arrInts;

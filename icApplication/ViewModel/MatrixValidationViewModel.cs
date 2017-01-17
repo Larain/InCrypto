@@ -18,7 +18,6 @@ namespace icApplication.ViewModel {
 
         private List<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
-        private ExaminationManager _examinationManager;
 
         public MatrixValidationViewModel() {
             MatrixSize = 3;
@@ -46,14 +45,6 @@ namespace icApplication.ViewModel {
             set {
                 _examinationVariant = value;
                 base.NotifyPropertyChanged("SelectedExaminationVariant");
-            }
-        }
-
-        public List<ExaminationVariant> ExaminationVariantCollection {
-            get { return _examVariants ?? (_examVariants = _examinationManager.VariantsList); }
-            set {
-                _examVariants = value;
-                base.NotifyPropertyChanged("ExaminationVariantCollection");
             }
         }
 
