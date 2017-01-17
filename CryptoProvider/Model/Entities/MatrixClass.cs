@@ -78,7 +78,7 @@ namespace icModel.Model.Entities
     /// 		* for two matrices or one MatrixClass with integer or fraction or double
     /// 		/ for MatrixClass with integer or fraction or double
     /// </summary>
-    public class MatrixClass : IEquatable<MatrixClass>, IEqualityComparer
+    public class MatrixClass : IEquatable<MatrixClass>
 
     {
         /// <summary>
@@ -344,7 +344,7 @@ namespace icModel.Model.Entities
         }
 
         public bool IsIvertable {
-            get { return DeterminentFast() != 0; }
+            get { return Determinent() != 0; }
         }
 
         /// <summary>
@@ -627,6 +627,26 @@ namespace icModel.Model.Entities
             return true;
         }
 
+        public new bool Equals(object x, object y)
+        {
+            var mx = (MatrixClass)x;
+            var my = (MatrixClass)y;
+            return x.Equals(y);
+        }
+
+        public override int GetHashCode()
+        {
+            int hc = Rows;
+            for (int i = 0; i < Rows; ++i)
+            {
+                for (int j = 0; j < Rows; j++)
+                {
+                    hc = unchecked(hc * 314159 + Convert.ToInt32(this[i, j].Numerator));
+                }
+            }
+            return hc;
+        }
+
         /// <summary>
         /// Operators for the MatrixClass object
         /// includes -(unary), and binary opertors such as +,-,*,/
@@ -720,15 +740,6 @@ namespace icModel.Model.Entities
             return result;
         }
 
-        public new bool Equals(object x, object y) {
-            var mx = (MatrixClass) x;
-            var my = (MatrixClass) y;
-            return x.Equals(y);
-        }
-
-        public int GetHashCode(object obj) {
-            return obj.GetHashCode();
-        }
     }	//end class MatrixClass
 
     /// <summary>
