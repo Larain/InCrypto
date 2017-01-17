@@ -19,7 +19,7 @@ namespace icApplication.ViewModel {
             _examinationManager = new ExaminationManager();
             MatrixSize = 3;
             VariantAmount = 20;
-            CreateVariants(null);
+            //CreateVariants(null);
 
             GenerateVariantsCommand = new RelayCommand(CreateVariants, CanCreateVariants);
         }

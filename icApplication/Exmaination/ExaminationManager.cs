@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Entities;
@@ -25,7 +26,7 @@ namespace icApplication.Exmaination {
         /// <param name="variantsAmount"></param>
         public ExaminationManager() {
             InitalizeDefault();
-            GenerateNewVariants(_variantsAmount);
+            //GenerateNewVariants(_variantsAmount);
         }
 
         private void InitalizeDefault() {
@@ -95,11 +96,13 @@ namespace icApplication.Exmaination {
         }
 
         private int[,] GenerateUniqueIvertableMatrix() {
+            int operationCounter = 0;
+
             int[,] arrInts = new int[_matrixSize, _matrixSize];
             Random rnd = new Random();
 
             while (true) {
-
+                operationCounter++;
                 for (int i = 0; i < _matrixSize; i++) {
                     for (int j = 0; j < _matrixSize; j++) {
                         arrInts[i, j] = rnd.Next(GeneratedMinValue, GeneratedMaxValue);
@@ -109,19 +112,50 @@ namespace icApplication.Exmaination {
                 try {
                     MatrixClass matrix = new MatrixClass(arrInts);
                     if (matrix.IsIvertable) {
-                        if (!_marixList.Contains(matrix))
-                        {
+                        //if (!_marixList.Contains(matrix))
+                        //{
+                        //    _marixList.Add(matrix);
+                        //    break;
+                        //}
+                        ;
+
+                        bool diff = true;
+                        if (_marixList.Count == 0) {
                             _marixList.Add(matrix);
                             break;
                         }
-                        throw new Exception("Is not unique");
+
+                        foreach (var matr in _marixList) {
+                            if (!diff)
+                                break;
+                            for (int i = 0; i < matr.Cols; i++) {
+                                if (!diff)
+                                    break;
+                                for (int j = 0; j < matr.Rows; j++) {
+                                    if (matr[i, j] != matrix[i, j]) {
+                                        diff = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (!diff) {
+                            _marixList.Add(matrix);
+                            break;
+                        }
+                        else
+                            throw new Exception("Is not unique");
                     }
                     throw new Exception("Is not invertable");
                 }
                 catch (Exception ex) {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
             }
+
+            //MatrixClass a = new MatrixClass(new int[1,1] { {1} });
+            //MatrixClass b = new MatrixClass(new int[1, 1] { { 1 } });
+            //bool res = a.Equals(b);
 
             return arrInts;
         }

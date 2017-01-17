@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace icModel.Model.Entities
 {
@@ -77,7 +78,7 @@ namespace icModel.Model.Entities
     /// 		* for two matrices or one MatrixClass with integer or fraction or double
     /// 		/ for MatrixClass with integer or fraction or double
     /// </summary>
-    public class MatrixClass : IEquatable<MatrixClass>
+    public class MatrixClass : IEquatable<MatrixClass>, IEqualityComparer
 
     {
         /// <summary>
@@ -719,6 +720,15 @@ namespace icModel.Model.Entities
             return result;
         }
 
+        public new bool Equals(object x, object y) {
+            var mx = (MatrixClass) x;
+            var my = (MatrixClass) y;
+            return x.Equals(y);
+        }
+
+        public int GetHashCode(object obj) {
+            return obj.GetHashCode();
+        }
     }	//end class MatrixClass
 
     /// <summary>
