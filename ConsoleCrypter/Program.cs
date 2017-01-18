@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Keys;
@@ -20,9 +21,9 @@ namespace ConsoleCrypter
     {
         static void Main(string[] args)
         {
-            ICryptoKey key = new AffineKey(2, 5);
-            Console.WriteLine(key.Validator.IsValid(key));
-
+            //ICryptoKey key = new AffineKey(2, 5);
+            //Console.WriteLine(key.Validator.IsValid(key));
+            int [,] a = new int[1,1] { {1} };
             //SuperKey k = new SuperKey();
             //k.SomeNewShit.Add("some string");
 

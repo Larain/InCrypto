@@ -41,7 +41,7 @@ namespace icApplication.ViewModel {
         }
 
         private void InitializeCryptoComponents() {
-            _alphabet = new CharactersAlphabet();
+            _alphabet = new SimpleAlphabet();
 
             EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
             DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);

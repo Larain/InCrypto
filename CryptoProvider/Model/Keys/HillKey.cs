@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using icModel.Abstract;
+using icModel.Model.Entities;
 using icModel.Model.Helpers;
 using icModel.Model.Providers;
 

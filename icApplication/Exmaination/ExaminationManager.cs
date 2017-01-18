@@ -8,6 +8,9 @@ using icModel.Model.Alphabet;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
 using icModel.Model.Keys;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace icApplication.Exmaination
 {
@@ -113,33 +116,41 @@ namespace icApplication.Exmaination
         {
             int operationCounter = 0;
             Random rnd = new Random();
-            int[,] arrInts = new int[_matrixSize, _matrixSize];
+            int[,] arrInts = new int[MatrixSize, MatrixSize];
+            double[,] arrDoubles = new double[MatrixSize, MatrixSize];
 
             while (true)
             {
                 operationCounter++;
-                for (int i = 0; i < _matrixSize; i++)
+                for (int i = 0; i < MatrixSize; i++)
                 {
-                    for (int j = 0; j < _matrixSize; j++)
+                    for (int j = 0; j < MatrixSize; j++)
                     {
-                        while (true)
-                        {
                             int randomValue = rnd.Next(GeneratedMinValue, GeneratedMaxValue);
-                            if (CryptoHelper.IsNod(randomValue, GeneratedMaxValue))
-                            {
                                 arrInts[i, j] = randomValue;
-                                break;
-                            }
-                        }
+                                arrDoubles[i, j] = randomValue;
                     }
                 }
 
-                MatrixClass newMatrix = new MatrixClass(arrInts);
-                if (newMatrix.IsIvertable)
+                Matrix<double> newMatrix = DenseMatrix.OfArray(arrDoubles);
+                MatrixClass newMatrixClass = new MatrixClass(arrInts);
+
+                try
                 {
-                    if (_marixList.Add(newMatrix))
-                        return arrInts;
+                    //var c = new MatrixClass(new int[,]{ {5, 17}, {4, 16} });
+                    //var b = c.InverseFast();
+                    var det = (int)newMatrix.Determinant();
+
+                    if (det != 0 && CryptoHelper.IsNod(det, GeneratedMaxValue))
+                        if (_marixList.Add(newMatrixClass))
+                            return arrInts;
+
                 }
+                catch (Exception ex)
+                {
+                    //Log
+                }
+
             }
         }
     }

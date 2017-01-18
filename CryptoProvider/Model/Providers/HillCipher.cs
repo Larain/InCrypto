@@ -5,6 +5,8 @@ using icModel.Abstract;
 using icModel.Model.Entities;
 using System.Windows.Input;
 using icModel.Model.Keys;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace icModel.Model.Providers
 {
@@ -47,11 +49,32 @@ namespace icModel.Model.Providers
 
         private string[] Process(string[] message, Mode mode)
         {
-            MatrixClass matrix = new MatrixClass(_key.KeyArray);
+            double[,] doubleArray = new double[_key.KeyCodes.Count, _key.KeyCodes.Count];
+            for (int i = 0; i < _key.KeyCodes.Count; i++)
+            {
+                for (int j = 0; j < _key.KeyCodes.Count; j++)
+                {
+                    doubleArray[i,j] = (double) _key.KeyCodes[i][j];
+                }
+            }
+
+            Matrix<double> matrix = DenseMatrix.OfArray(doubleArray);
+            MatrixClass matr = new MatrixClass(_key.KeyArray);
+            int[,] numerator = new int[matrix.ColumnCount, matrix.ColumnCount];
 
             if (mode == Mode.Decrypt)
             {
                 matrix = matrix.Inverse();
+                matr = matr.Inverse();
+                double det = matrix.Determinant();
+
+                for (int i = 0; i < numerator.GetLength(0); i++)
+                {
+                    for (int j = 0; j < numerator.GetLength(1); j++)
+                    {
+                        numerator[i, j] = Convert.ToInt32(matrix[i, j] / det);
+                    }
+                }
             }
 
             int index = 0;
@@ -85,7 +108,7 @@ namespace icModel.Model.Providers
 
                         for (int j = 0; j < matrixSize; j++)
                         {
-                            charPosition += (int)matrix[j, i].Numerator * Alphabet.GetIndex(substring[j]);
+                            charPosition += (int)matr[j, i].Numerator * Alphabet.GetIndex(substring[j]);
                         }
 
                         result += Alphabet.GetSymbol(charPosition % 26);
