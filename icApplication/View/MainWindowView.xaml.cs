@@ -13,6 +13,8 @@ namespace icApplication.View {
             ExaminationViewModel examinationViewModel = new ExaminationViewModel();
             MatrixValidationViewModel matrixValidationViewModel = new MatrixValidationViewModel();
 
+            mainWindowViewModel.ExaminationView = examinationViewModel;
+
             examinationViewModel.MainView = mainWindowViewModel;
             matrixValidationViewModel.MainView = mainWindowViewModel;
 

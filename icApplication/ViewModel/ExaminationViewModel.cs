@@ -1,25 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using icApplication.Command;
 using icApplication.Exmaination;
 using icApplication.ViewModel.Interface;
+using icModel.Abstract;
+using icModel.Model.Alphabet;
 using icModel.Model.Entities;
 
 namespace icApplication.ViewModel {
-    public class ExaminationViewModel : ViewModelBase {
+    public class ExaminationViewModel : ViewModelBase, IExaminationView {
 
-        private int _matrixSize;
+        private int _generatedMatrixSize;
+        private int _generatedTextLength;
         private int _variantAmount;
-        private int[][] _userMatrix;
+        private IAlphabet _alphabet;
 
-        private List<ExaminationVariant> _examVariants;
+        private ObservableCollection<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
-        private ExaminationManager _examinationManager;
+        private readonly ExaminationManager _examinationManager = new ExaminationManager();
 
         public ExaminationViewModel() {
-            _examinationManager = new ExaminationManager();
-            MatrixSize = 3;
+            GeneratedMatrixSize = 2;
+            GeneratedTextLength = GeneratedMatrixSize*2;
             VariantAmount = 20;
-            //CreateVariants(null);
+            Alphabet = new SimpleAlphabet();
+
+            _examinationManager.GenerateNewVariants(VariantAmount);
 
             GenerateVariantsCommand = new RelayCommand(CreateVariants, CanCreateVariants);
         }
@@ -42,27 +48,20 @@ namespace icApplication.ViewModel {
             }
         }
 
-        public List<ExaminationVariant> ExaminationVariantCollection {
-            get { return _examVariants ?? (_examVariants = _examinationManager.VariantsList); }
+        public ObservableCollection<ExaminationVariant> ExaminationVariantCollection {
+            get { return _examVariants; }
             set {
                 _examVariants = value;
                 base.NotifyPropertyChanged("ExaminationVariantCollection");
             }
         }
 
-        public int MatrixSize {
-            get { return _matrixSize; }
+        public int GeneratedMatrixSize {
+            get { return _generatedMatrixSize; }
             set {
-                _matrixSize = value;
-                base.NotifyPropertyChanged("MatrixSize");
-            }
-        }
-
-        public int[][] UserMatrix {
-            get { return _userMatrix; }
-            set {
-                _userMatrix = value;
-                base.NotifyPropertyChanged("UserMatrix");
+                _generatedMatrixSize = value;
+                _examinationManager.MatrixSize = value;
+                base.NotifyPropertyChanged("GeneratedMatrixSize");
             }
         }
 
@@ -70,11 +69,39 @@ namespace icApplication.ViewModel {
             get { return _variantAmount; }
             set {
                 _variantAmount = value;
+                _examinationManager.VariantsAmount = value;
                 base.NotifyPropertyChanged("VariantAmount");
             }
         }
 
         public ICryptoView MainView { get; set; }
+
+        public int MatrixMaxGeneratedValue {
+            get { return _examinationManager.GeneratedMaxValue; }
+        }
+
+        public int MatrixMinGeneratedValue
+        {
+            get { return _examinationManager.GeneratedMinValue; }
+        }
+
+        public int GeneratedTextLength {
+            get { return _generatedTextLength; }
+            set {
+                _generatedTextLength = value;
+                _examinationManager.TextLength = value;
+                base.NotifyPropertyChanged("GeneratedTextLength");
+            }
+        }
+
+        public IAlphabet Alphabet {
+            get { return _alphabet; }
+            set {
+                _alphabet = value;
+                _examinationManager.Alphabet = value;
+                base.NotifyPropertyChanged("Alphabet");
+            }
+        }
 
         #endregion
 
@@ -91,6 +118,8 @@ namespace icApplication.ViewModel {
 
         #endregion
 
-
+        public void SetAlphabet(IAlphabet alphabet) {
+            throw new System.NotImplementedException();
+        }
     }
 }

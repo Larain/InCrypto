@@ -8,7 +8,7 @@ namespace icModel.Model.Alphabet {
         public SimpleAlphabet()
         {
             _charactersAlphabet =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
         }
 
         public string Dictionary
@@ -29,6 +29,10 @@ namespace icModel.Model.Alphabet {
         public char GetSymbol(int index)
         {
             return _charactersAlphabet.ElementAt(index);
+        }
+
+        public override string ToString() {
+            return "Simple Alphabet";
         }
     }
 }

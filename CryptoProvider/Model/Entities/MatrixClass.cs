@@ -78,7 +78,7 @@ namespace icModel.Model.Entities
     /// 		* for two matrices or one MatrixClass with integer or fraction or double
     /// 		/ for MatrixClass with integer or fraction or double
     /// </summary>
-    public class MatrixClass : IEquatable<MatrixClass>
+    public class MatrixClass
 
     {
         /// <summary>
@@ -590,61 +590,6 @@ namespace icModel.Model.Entities
                 for (int j = 0; j < iCols; j++)
                     matrixClass[i, j] = temp;
             return matrixClass;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                throw new NullReferenceException();
-            var sec = (MatrixClass) obj;
-            if (sec.Cols != Cols || sec.Rows != Rows)
-                return false;
-
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = 0; j < Cols; j++)
-                {
-                    if (this[i, j] != sec[i, j])
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        public bool Equals(MatrixClass obj) {
-            if (obj == null)
-                throw new NullReferenceException();
-            if (obj.Cols != Cols || obj.Rows != Rows)
-                return false;
-
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = 0; j < Cols; j++) {
-                    if (this[i, j] != obj[i, j])
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        public new bool Equals(object x, object y)
-        {
-            var mx = (MatrixClass)x;
-            var my = (MatrixClass)y;
-            return x.Equals(y);
-        }
-
-        public override int GetHashCode()
-        {
-            int hc = Rows;
-            for (int i = 0; i < Rows; ++i)
-            {
-                for (int j = 0; j < Rows; j++)
-                {
-                    hc = unchecked(hc * 314159 + Convert.ToInt32(this[i, j].Numerator));
-                }
-            }
-            return hc;
         }
 
         /// <summary>

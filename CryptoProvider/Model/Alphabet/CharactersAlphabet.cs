@@ -6,7 +6,7 @@ namespace icModel.Model.Alphabet {
         private readonly string _charactersAlphabet;
 
         public CharactersAlphabet() {
-            _charactersAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            _charactersAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?@#$%^&*()_+ ./';\\][`~=-";
         }
 
         public string Dictionary
@@ -20,11 +20,16 @@ namespace icModel.Model.Alphabet {
         }
 
         public int GetIndex(char symbol) {
-            return _charactersAlphabet.IndexOf(symbol);
+            return _charactersAlphabet.IndexOf(symbol) + 1;
         }
 
         public char GetSymbol(int index) {
-            return _charactersAlphabet.ElementAt(index);
+            return _charactersAlphabet.ElementAt(index - 1);
+        }
+
+        public override string ToString()
+        {
+            return "Full Alphabet";
         }
     }
 }

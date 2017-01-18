@@ -27,36 +27,6 @@ namespace icApplication.Controls {
 
         public ExaminationControl() {
             InitializeComponent();
-            //ObservableCollection<ObservableCollection<int>> shit = new ObservableCollection<ObservableCollection<int>>();
-            //ObservableCollection<int> fuck = new ObservableCollection<int>();
-            //fuck.Add(5);
-            //shit.Add(fuck);
-
-            ////Key = new AffineKey(1, 2);
-            //MatrixControlInExam.ItemsSource = shit;
-
-            //    List<List<int>> lsts = new List<List<int>>();
-
-            //    for (int i = 0; i < 5; i++)
-            //    {
-            //        lsts.Add(new List<int>());
-
-            //        for (int j = 0; j < 5; j++)
-            //        {
-            //            lsts[i].Add(i * 10 + j);
-            //        }
-            //    }
-
-            //    int[][] arrays = lsts.Select(a => a.ToArray()).ToArray();
-            //    int[][] asd = new int[2][];
-            //    asd[0] = new int[2] {1, 2};
-            //    asd[1] = new int[3] {1, 2, 3};
-            //    asd[1][0] = 5;
-
-            //    InitializeComponent();
-
-            //    MatrixControlInExam.ItemsSource = Key.KeyCodes;
-
         }
 
 

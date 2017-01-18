@@ -90,7 +90,11 @@
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock>Enter generated matrix size:</TextBlock>
-                                <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
+                                <TextBox Text="{Binding GeneratedMatrixSize, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <TextBlock>Enter generated string length:</TextBlock>
+                                <TextBox Text="{Binding GeneratedTextLength, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
                             </StackPanel>
                         </Grid>
                         
@@ -137,9 +141,9 @@
                     <StackPanel HorizontalAlignment="Center" Margin="5" Orientation="Vertical" Grid.Row="0" Grid.Column="0">
                         <TextBlock>Enter size of Matrix NxN</TextBlock>
                         <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Left" Width="50"></TextBox>
-                        <Button Margin="0, 10, 0, 10">Validate user matrix</Button>
-                        <Button Margin="0, 10, 0, 10">Find inverted</Button>
-                        <Button Margin="0, 10, 0, 10">Set matrix as a key</Button>
+                        <Button Command="{Binding ValidateCommand}" Margin="0, 10, 0, 10">Validate user matrix</Button>
+                        <Button Command="{Binding FindInvertCommand}" Margin="0, 10, 0, 10">Find inverted</Button>
+                        <Button Command="{Binding SetMatrixCommand}" Margin="0, 10, 0, 10">Set matrix as a key</Button>
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2">

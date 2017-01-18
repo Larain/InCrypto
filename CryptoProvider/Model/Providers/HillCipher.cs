@@ -1,117 +1,121 @@
 ﻿using System;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using System.Windows.Input;
+using icModel.Model.Helpers;
 using icModel.Model.Keys;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace icModel.Model.Providers
-{
-    public class HillCipher : ICryptoProvider
-    {
+namespace icModel.Model.Providers {
+    public class HillCipher : ICryptoProvider {
         private ICryptoKey _key;
 
-        public HillCipher(IAlphabet characterTable)
-        {
-            Alphabet = characterTable;
+        #region Formulas
+
+        public int Determinant {
+            get { return (int) Key.Matrix.Determinant(); }
         }
 
-        #region Public Methods
+        public int DeterminantModule {
+            get { return CryptoHelper.Mod(Determinant, Alphabet.Length); }
+        }
 
-        public IAlphabet Alphabet { set; get; }
+        public int ReciprocalValue {
+            get { return CryptoHelper.Reciprocal(DeterminantModule, Alphabet.Length); }
+        }
 
-        public ICryptoKey Key
-        {
-            get { return _key; }
-            set
-            {
-                if (value != null)
-                    _key = (HillKey)value;
+        public double[,] AdjugateMatrix {
+            get {
+                double[,] adjugateMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
+
+                Matrix<double> matrix = Key.Matrix.Inverse();
+
+                for (int i = 0; i < adjugateMatrix.GetLength(0); i++) {
+                    for (int j = 0; j < adjugateMatrix.GetLength(1); j++) {
+                        adjugateMatrix[i, j] = Math.Round((matrix[i, j]*Determinant));
+                    }
+                }
+                return adjugateMatrix;
             }
         }
 
-        public string[] Encrypt(string[] plainText)
-        {
-            return Process(plainText, Mode.Encrypt);
-        }
+        public double[,] DecryptoMatrix {
+            get {
+                double[,] decryptoMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
 
-        public string[] Decrypt(string[] cipher)
-        {
-            return Process(cipher, Mode.Decrypt);
+                for (int i = 0; i < decryptoMatrix.GetLength(0); i++) {
+                    for (int j = 0; j < decryptoMatrix.GetLength(1); j++) {
+                        decryptoMatrix[i, j] = CryptoHelper.Mod((int) AdjugateMatrix[i, j]*ReciprocalValue,
+                            Alphabet.Length);
+                    }
+                }
+                return decryptoMatrix;
+            }
         }
 
         #endregion
 
+
+        public IAlphabet Alphabet { set; get; }
+
+        public ICryptoKey Key {
+            get { return _key; }
+            set {
+                if (value != null)
+                    _key = (HillKey) value;
+            }
+        }
+
+        public string[] Encrypt(string[] plainText) {
+            return Process(plainText, Mode.Encrypt);
+        }
+
+        public string[] Decrypt(string[] cipher) {
+            return Process(cipher, Mode.Decrypt);
+        }
+
         #region Private Methods
 
-        private string[] Process(string[] message, Mode mode)
-        {
-            double[,] doubleArray = new double[_key.KeyCodes.Count, _key.KeyCodes.Count];
-            for (int i = 0; i < _key.KeyCodes.Count; i++)
-            {
-                for (int j = 0; j < _key.KeyCodes.Count; j++)
-                {
-                    doubleArray[i,j] = (double) _key.KeyCodes[i][j];
-                }
-            }
-
-            Matrix<double> matrix = DenseMatrix.OfArray(doubleArray);
-            MatrixClass matr = new MatrixClass(_key.KeyArray);
-            int[,] numerator = new int[matrix.ColumnCount, matrix.ColumnCount];
-
-            if (mode == Mode.Decrypt)
-            {
-                matrix = matrix.Inverse();
-                matr = matr.Inverse();
-                double det = matrix.Determinant();
-
-                for (int i = 0; i < numerator.GetLength(0); i++)
-                {
-                    for (int j = 0; j < numerator.GetLength(1); j++)
-                    {
-                        numerator[i, j] = Convert.ToInt32(matrix[i, j] / det);
-                    }
-                }
-            }
-
+        private string[] Process(string[] message, Mode mode) {
             int index = 0;
             string[] proccessedString = new string[message.Length];
+
+            double[,] matrix = Key.Matrix.ToArray();
+            if (mode == Mode.Decrypt)
+                matrix = DecryptoMatrix;
 
             foreach (string line in message) {
 
                 int pos = 0;
-
-                int matrixSize = _key.KeyArray.GetLength(0);
+                int matrixSize = _key.Matrix.ColumnCount;
 
                 string newLine = "";
-                while (pos < line.Length)
-                {
+                while (pos < line.Length) {
                     string result = "";
                     string substring = "";
                     try {
                         substring = line.Substring(pos, matrixSize);
                     }
                     catch (ArgumentOutOfRangeException) {
-                        throw new CipherException(string.Format("Invalid length of string {0} in line {1}", line.Length, index));
-                        return null;
+                        throw new CipherException(string.Format("Invalid length of string {0} in line {1}", line.Length,
+                            index));
                     }
-                    
+
                     pos += matrixSize;
 
-                    for (int i = 0; i < matrixSize; i++)
-                    {
+                    for (int i = 0; i < matrixSize; i++) {
                         string portion = "";
                         var charPosition = 0;
 
-                        for (int j = 0; j < matrixSize; j++)
-                        {
-                            charPosition += (int)matr[j, i].Numerator * Alphabet.GetIndex(substring[j]);
+                        for (int j = 0; j < matrixSize; j++) {
+                            charPosition += (int)matrix[j,i] * Alphabet.GetIndex(substring[j]);
                         }
 
-                        result += Alphabet.GetSymbol(charPosition % 26);
+                        result += Alphabet.GetSymbol(charPosition%Alphabet.Length);
                     }
 
                     newLine += result;
@@ -122,6 +126,27 @@ namespace icModel.Model.Providers
             return proccessedString;
         }
 
+        private double[,] GetDecryptMatrix() {
+
+            double det = Key.Matrix.Determinant();
+            double moduleDet = CryptoHelper.Mod((int)det, Alphabet.Length);
+            int rec = CryptoHelper.Reciprocal((int)moduleDet, Alphabet.Length);
+
+            double[,] adjugateMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
+            double[,] decryptoMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
+
+            Matrix<double> matrix = Key.Matrix.Inverse();
+            
+            for (int i = 0; i < adjugateMatrix.GetLength(0); i++) {
+                for (int j = 0; j < adjugateMatrix.GetLength(1); j++) {
+                    adjugateMatrix[i, j] = Math.Round((matrix[i, j] * det));
+                    decryptoMatrix[i, j] = CryptoHelper.Mod((int) adjugateMatrix[i, j] * rec, Alphabet.Length);
+                }
+            }
+            return decryptoMatrix;
+        }
+
         #endregion
+
     }
 }

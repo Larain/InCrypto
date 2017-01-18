@@ -96,6 +96,7 @@
     <Compile Include="Helper\OperationHelper.cs" />
     <Compile Include="ViewModel\ExaminationViewModel.cs" />
     <Compile Include="ViewModel\Interface\ICryptoView.cs" />
+    <Compile Include="ViewModel\Interface\IExaminationView.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MatrixValidationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

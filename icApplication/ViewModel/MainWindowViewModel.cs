@@ -30,6 +30,7 @@ namespace icApplication.ViewModel {
         private string _encryptoText;
         private string _decryptoText;
 
+        IExaminationView view;
         #endregion
 
         /// <summary>
@@ -46,7 +47,8 @@ namespace icApplication.ViewModel {
             EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
             DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
 
-            _provider = new HillCipher(_alphabet);
+            _provider = new HillCipher();
+            _provider.Alphabet = _alphabet;
         }
 
         #region Properties
@@ -97,6 +99,11 @@ namespace icApplication.ViewModel {
         public ICommand EncryptCommand { get; set; }
 
         public ICommand DecryptCommand { get; set; }
+
+        public IExaminationView ExaminationView {
+            get { return view; }
+            set { view = value; }
+        }
 
         #endregion
 

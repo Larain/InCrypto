@@ -43,7 +43,7 @@ namespace icModel.Model.Helpers {
         /// <param name="a">The number to which find reciprocation</param>
         /// <param name="length">Length of alphabet</param>
         /// <returns></returns>
-        public static int GetInvA(int a, int length) {
+        public static int Reciprocal(int a, int length) {
             int? invA = null;
             for (int i = 0;; i++) {
                 if ((i*a)%length == 1) {
@@ -88,20 +88,6 @@ namespace icModel.Model.Helpers {
         public static string RandomString(int length, IAlphabet alphabet) {
             return new string(Enumerable.Repeat(alphabet.Dictionary, length)
                 .Select(s => s[Random.Next(s.Length)]).ToArray());
-        }
-
-        public static int[,] ToIntArray(this ICryptoKey key)
-        {
-            int[,] newArr = new int[key.KeyCodes.Count, key.KeyCodes.Count];
-            for (int i = 0; i < key.KeyCodes.Count; i++)
-            {
-                for (int j = 0; j < key.KeyCodes.Count; j++)
-                {
-                    newArr[i, j] = key.KeyCodes[i][j];
-                }
-            }
-
-            return newArr;
         }
     }
 }

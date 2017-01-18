@@ -1,113 +1,119 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
 using icModel.Model.Providers;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace icModel.Model.Keys
-{
-    public class HillKey : ICryptoKey {
-        private int[,] _keyArray;
-        private ObservableCollection<ObservableCollection<int>> _keyCodes;
+namespace icModel.Model.Keys {
+    public class HillKey : ICryptoKey, IEquatable<HillKey> {
         private ICryptoKeyValidator _validator;
+        private Matrix<double> _matrix;
 
-        public HillKey(int[,] keyInts)
-        {
-            GenerateNewKey(keyInts);
+        public HillKey(Matrix<double> matrix, IAlphabet alphabet) {
+            Alphabet = alphabet;
+            Matrix = matrix;
         }
-        public HillKey(int[][] keyInts)
+
+        public HillKey(double[,] matrix, IAlphabet alphabet) {
+            Alphabet = alphabet;
+            Matrix = DenseMatrix.OfArray(matrix);
+        }
+
+        public HillKey(int[][] matrix, IAlphabet alphabet)
         {
-            GenerateNewKey(keyInts);
+            Alphabet = alphabet;
+            Matrix = MatrixConverters.ConvertIntListToMatrix(matrix);
+        }
+
+        public HillKey(ObservableCollection<ObservableCollection<double>> matrix, IAlphabet alphabet)
+        {
+            Alphabet = alphabet;
+            Matrix = MatrixConverters.ConvertIntObservableCollectionToMatrix(matrix);
         }
 
         #region Properties
 
-        public ObservableCollection<ObservableCollection<int>> KeyCodes
-        {
-            get { return _keyCodes; }
-            set
-            {
-                if (Validator.IsValid(value))
-                    _keyCodes = value;
-                else
-                    throw new ArgumentException($"HillKey is not valid.");
-            }
-
-        }
-
-        public int[,] KeyArray
-        {
-            get { return _keyArray ?? (_keyArray = _keyCodes != null ? this.ToIntArray() : null); }
-            private set { _keyArray = value; }
-        }
-
-        public ICryptoKeyValidator Validator
-        {
+        public ICryptoKeyValidator Validator {
             get { return _validator ?? (_validator = new HillKeyValidator()); }
+        }
+
+        public IAlphabet Alphabet { get; }
+
+        public ObservableCollection<ObservableCollection<double>> ObservableMatrix { get; private set; }
+
+        public Matrix<double> Matrix {
+            get { return _matrix; }
+            set {
+                _matrix = value;
+                if (!Validator.IsValid(this))
+                    throw new ValidationException("Matrix is not Valid");
+                ObservableMatrix = MatrixConverters.ConvertMatrixToObservableCollection(value);
+            }
         }
 
         #endregion
 
         #region Methods
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string output = "";
-            for (int i = 0; i < KeyCodes.Count; i++)
-            {
-                for (int j = 0; j < KeyCodes[0].Count; j++)
-                {
-                    output += "[" + KeyCodes[i][j] + "] ";
+            for (int i = 0; i < Matrix.RowCount; i++) {
+                for (int j = 0; j < Matrix.ColumnCount; j++) {
+                    output += "[" + Matrix[i, j] + "] ";
                 }
                 output += "\n";
             }
             return output;
         }
 
-        private void GenerateNewKey(int[][] keyInts)
-        {
-            if (!Validator.IsValid(keyInts))
-                throw new CipherException("Invalid matrix");
+        #endregion
 
-            ObservableCollection<ObservableCollection<int>> outer =
-                new ObservableCollection<ObservableCollection<int>>();
+        #region Overrides 
 
-            for (int i = 0; i < keyInts.Length; i++)
-            {
-                ObservableCollection<int> inner = new ObservableCollection<int>();
+        public override bool Equals(object obj) {
+            if (obj == null)
+                throw new NullReferenceException();
+            HillKey comarable = (HillKey) obj;
 
-                for (int j = 0; j < keyInts.Length; j++)
-                {
-                    inner.Add(keyInts[i][j]);
+            if (comarable.Matrix.ColumnCount != Matrix.ColumnCount || comarable.Matrix.RowCount != Matrix.RowCount)
+                return false;
+
+            for (int i = 0; i < Matrix.RowCount; i++) {
+                for (int j = 0; j < Matrix.ColumnCount; j++) {
+                    if (Math.Abs(Matrix[i, j] - comarable.Matrix[i, j]) > 0.001)
+                        return false;
                 }
-
-                outer.Add(inner);
             }
-
-            _keyCodes = outer;
+            return true;
         }
 
-        private void GenerateNewKey(int[,] keyInts) {
+        public bool Equals(HillKey obj) {
+            if (obj == null)
+                throw new NullReferenceException();
+            if (obj.Matrix.ColumnCount != Matrix.ColumnCount || obj.Matrix.RowCount != Matrix.RowCount)
+                return false;
 
-            if (!Validator.IsValid(keyInts))
-                throw new CipherException("Invalid matrix");
-
-            ObservableCollection<ObservableCollection<int>> outer =
-                new ObservableCollection<ObservableCollection<int>>();
-
-            for (int i = 0; i < keyInts.GetLength(0); i++) {
-
-                ObservableCollection<int> inner = new ObservableCollection<int>();
-
-                for (int j = 0; j < keyInts.GetLength(1); j++) {
-                    inner.Add(keyInts[i,j]);
+            for (int i = 0; i < Matrix.RowCount; i++) {
+                for (int j = 0; j < Matrix.ColumnCount; j++) {
+                    if (Math.Abs(Matrix[i, j] - obj.Matrix[i, j]) > 0.001)
+                        return false;
                 }
-
-                outer.Add(inner);
             }
+            return true;
+        }
 
-            _keyCodes = outer;
+        public override int GetHashCode() {
+            int hc = Matrix.RowCount;
+            for (int i = 0; i < Matrix.RowCount; ++i) {
+                for (int j = 0; j < Matrix.ColumnCount; j++) {
+                    hc = unchecked(hc*314159 + Convert.ToInt32(Matrix[i, j]));
+                }
+            }
+            return hc;
         }
 
         #endregion
