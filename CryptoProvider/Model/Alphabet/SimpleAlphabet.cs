@@ -5,7 +5,7 @@ using icModel.Abstract;
 
 namespace icModel.Model.Alphabet {
     [Serializable]
-    public class SimpleAlphabet : IAlphabet {
+    public class SimpleAlphabet : Abstract.Alphabet {
         private string _charactersAlphabet;
 
         public SimpleAlphabet()
@@ -14,46 +14,13 @@ namespace icModel.Model.Alphabet {
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
         }
 
-        public string Dictionary
+        public override string Dictionary
         {
             get { return _charactersAlphabet; }
         }
-        public string DictionaryToShow
+        public override string DictionaryToShow
         {
             get { return _charactersAlphabet + "+ ' '"; }
-        }
-
-        public List<char> SymbolsList
-        {
-            get { return Dictionary.ToCharArray().ToList(); }
-        }
-        public List<int> IndexList
-        {
-            get
-            {
-                List<int> list = new List<int>();
-                foreach (char c in Dictionary)
-                {
-                    list.Add(Dictionary.IndexOf(c) + 1);
-                }
-                return list;
-            }
-        }
-
-
-        public int Length
-        {
-            get { return _charactersAlphabet.Length; }
-        }
-
-        public int GetIndex(char symbol)
-        {
-            return _charactersAlphabet.IndexOf(symbol);
-        }
-
-        public char GetSymbol(int index)
-        {
-            return _charactersAlphabet.ElementAt(index);
         }
 
         public override string ToString() {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Documents;
 using icApplication.ViewModel;
@@ -10,6 +11,7 @@ using icModel.Model.Alphabet;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
 using icModel.Model.Keys;
+using icModel.Model.Providers;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
@@ -19,7 +21,7 @@ namespace icApplication.Exmaination {
 
         private ObservableCollection<ExaminationVariant> _variants;
         private HashSet<HillKey> _marixList;
-        private IAlphabet _alphabet;
+        private Alphabet _alphabet;
         private int _matrixSize;
         private int _textLength;
         private int _variantsAmount;
@@ -44,7 +46,7 @@ namespace icApplication.Exmaination {
             }
         }
 
-        public IAlphabet Alphabet
+        public Alphabet Alphabet
         {
             get { return _alphabet; }
             set { _alphabet = value; }
@@ -107,11 +109,17 @@ namespace icApplication.Exmaination {
 
                 try {
                     HillKey key = new HillKey(arrDoubles, _alphabet);
+                    HillCipher p = new HillCipher();
+                    p.Key = key;
+                    var s = p.DecryptoMatrix;
                     if (_marixList.Add(key))
                         return key;
                 }
                 catch (ValidationException ex) {
-                    //MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message);
+                }
+                catch (ArgumentException ex) {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }

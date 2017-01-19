@@ -3,6 +3,6 @@
 namespace icApplication.ViewModel.Interface
 {
     public interface IExaminationView {
-        void SetAlphabet(IAlphabet alphabet);
+        void SetAlphabet(Alphabet alphabet);
     }
 }

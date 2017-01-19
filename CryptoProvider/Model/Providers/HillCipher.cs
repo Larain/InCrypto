@@ -7,6 +7,7 @@ using icModel.Model.Entities;
 using System.Windows.Input;
 using icModel.Model.Helpers;
 using icModel.Model.Keys;
+using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
@@ -26,22 +27,11 @@ namespace icModel.Model.Providers {
         }
 
         public int ReciprocalValue {
-            get { return CryptoHelper.Reciprocal(DeterminantModule, Key.Alphabet.Length); }
+            get { return ModInverse(DeterminantModule, Key.Alphabet.Length); }
         }
 
         public double[,] AdjugateMatrix {
-            get {
-                double[,] adjugateMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
-
-                Matrix<double> matrix = Key.Matrix.Inverse();
-
-                for (int i = 0; i < adjugateMatrix.GetLength(0); i++) {
-                    for (int j = 0; j < adjugateMatrix.GetLength(1); j++) {
-                        adjugateMatrix[i, j] = Math.Round((matrix[i, j]*Determinant));
-                    }
-                }
-                return adjugateMatrix;
-            }
+            get { return Invert(Key.Matrix); }
         }
 
         public double[,] DecryptoMatrix {
@@ -83,8 +73,10 @@ namespace icModel.Model.Providers {
             string[] proccessedString = new string[message.Length];
 
             double[,] matrix = Key.Matrix.ToArray();
-            if (mode == Mode.Decrypt)
+            if (mode == Mode.Decrypt) {
                 matrix = DecryptoMatrix;
+                var s = Invert(Key.Matrix);
+            }
 
             foreach (string line in message) {
 
@@ -113,7 +105,7 @@ namespace icModel.Model.Providers {
                             charPosition += (int)matrix[j,i] * Key.Alphabet.GetIndex(substring[j]);
                         }
 
-                        result += Key.Alphabet.GetSymbol(charPosition % Key.Alphabet.Length);
+                        result += Key.Alphabet.GetSymbol(CryptoHelper.Mod(charPosition, Key.Alphabet.Length));
                     }
 
                     newLine += result;
@@ -141,7 +133,83 @@ namespace icModel.Model.Providers {
                     decryptoMatrix[i, j] = CryptoHelper.Mod((int) adjugateMatrix[i, j] * rec, Key.Alphabet.Length);
                 }
             }
+
             return decryptoMatrix;
+        }
+
+        double CalculateMinor(Matrix<double> src, int row, int col)
+        {
+            var minorSubmatrix = GetSubmatrix(src, row, col);
+            return minorSubmatrix.Determinant();
+        }
+
+        double[,] Invert(Matrix<double> m) {
+            // Calculate the inverse of the determinant of m.
+            double det = m.Determinant();
+            double inverseDet = ModInverse((int)det, Key.Alphabet.Length);
+            double[,] result = new double[m.RowCount, m.RowCount];
+
+            for (int j = 0; j < m.RowCount; j++)
+                for (int i = 0; i < m.RowCount; i++) {
+                    // Get minor of element (j, i) - not (i, j) because
+                    // this is where the transpose happens.
+                    double cofactor = 0;
+                    double minor = CalculateMinor(m, j, i);
+
+                    // Multiply by (−1)^{i+j}
+                    double factor = (CryptoHelper.Mod((i + j),2) == 1) ? -1.0f : 1.0f;
+                    cofactor = minor*factor;
+
+                    result[i, j] = cofactor;
+                }
+
+            return result;
+        }
+        Matrix<double> GetSubmatrix(Matrix<double> src, int row, int col)
+        {
+            int rowCount = 0;
+
+            double[,] arr = new double[src.RowCount - 1, src.RowCount - 1];
+            for (int i = 0; i < src.RowCount; i++)
+            {
+                if (i != row)
+                {
+                    var colCount = 0;
+                    for (int j = 0; j < src.RowCount; j++)
+                    {
+                        if (j != col)
+                        {
+                            arr[rowCount, colCount] = src[i, j];
+                            colCount++;
+                        }
+                    }
+                    rowCount++;
+                }
+            }
+            return DenseMatrix.OfArray(arr);
+        }
+
+        Tuple<int, Tuple<int, int>> ExtendedEuclid(int a, int b)
+        {
+            int x = 1, y = 0;
+            int xLast = 0, yLast = 1;
+            int q, r, m, n;
+            while (a != 0)
+            {
+                q = b / a;
+                r = b % a;
+                m = xLast - q * x;
+                n = yLast - q * y;
+                xLast = x; yLast = y;
+                x = m; y = n;
+                b = a; a = r;
+            }
+            return new Tuple<int, Tuple<int, int>>(b, new Tuple<int, int>(xLast, yLast));
+        }
+
+        int ModInverse(int a, int m)
+        {
+            return CryptoHelper.Mod((ExtendedEuclid(a, m).Item2.Item1 + m), m);
         }
 
         #endregion

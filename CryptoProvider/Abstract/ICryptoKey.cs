@@ -8,7 +8,7 @@ namespace icModel.Abstract {
         [SoapIgnore]
         ObservableCollection<ObservableCollection<double>> ObservableMatrix { get; }
         Matrix<double> Matrix { get; }
-        IAlphabet Alphabet { get; set; }
+        Alphabet Alphabet { get; set; }
         ICryptoKeyValidator Validator { get; }
         string ToString();
     }

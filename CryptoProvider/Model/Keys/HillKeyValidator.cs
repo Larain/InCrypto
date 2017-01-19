@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Numerics;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
@@ -18,12 +19,18 @@ namespace icModel.Model.Keys
                 throw new ValidationException("Key Matrix is null");
             if (key.Matrix.ColumnCount != key.Matrix.RowCount)
                 throw new ValidationException("Wrong matrix size");
-
             int det = (int)key.Matrix.Determinant();
-            if(det == 0)
+
+            if (det == 0)
                 throw new ValidationException("Matrix Determinant = 0");
-            if (!CryptoHelper.IsNod(CryptoHelper.Mod(det, key.Alphabet.Length), key.Alphabet.Length))
-                throw new ValidationException("Module and determinant are not Nod");
+            try {
+                if (!CryptoHelper.IsNod((int)(CryptoHelper.ModInv(det, key.Alphabet.Length)), key.Alphabet.Length))
+                    throw new ValidationException("Module and determinant are not Nod");
+            }
+            catch (DivideByZeroException ex) {
+                throw new ValidationException("Invalid matrix");
+            }
+
 
             return true;
         }

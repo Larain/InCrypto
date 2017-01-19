@@ -20,7 +20,7 @@ namespace icApplication.ViewModel {
         private ObservableCollection<ObservableCollection<double>> _userMatrix;
         private string _message;
         private HillCipher _provider;
-        private IAlphabet _alphabet;
+        private Alphabet _alphabet;
         private ICryptoKey _key;
         private string _determinant;
         private string _determinantModule;
@@ -221,7 +221,7 @@ namespace icApplication.ViewModel {
             try
             {
                 Provider = new HillCipher();
-                IAlphabet alphabet = new SimpleAlphabet();
+                Alphabet alphabet = new SimpleAlphabet();
 
                 Key = new HillKey(UserMatrix, alphabet);
                 Provider.Key = Key;

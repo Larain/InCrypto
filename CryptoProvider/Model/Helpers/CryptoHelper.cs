@@ -64,7 +64,7 @@ namespace icModel.Model.Helpers {
         /// <param name="codedDigitMessage">Message represented in digit format</param>
         /// <param name="alphabet">Used Crypto Alphabet</param>
         /// <returns></returns>
-        public static string[] ConvertDigitsToChar(List<int[]> codedDigitMessage, IAlphabet alphabet) {
+        public static string[] ConvertDigitsToChar(List<int[]> codedDigitMessage, Abstract.Alphabet alphabet) {
             List<string> codedMessage = new List<string>();
             for (int i = 0; i < codedDigitMessage.Count; i++) {
                 char[] codedLineMessage = new char[codedDigitMessage[i].Length];
@@ -85,7 +85,7 @@ namespace icModel.Model.Helpers {
         /// <param name="length">Legth of generated string</param>
         /// <param name="alphabet">Alphabet of charaters to use for generating</param>
         /// <returns></returns>
-        public static string RandomString(int length, IAlphabet alphabet) {
+        public static string RandomString(int length, Abstract.Alphabet alphabet) {
             return new string(Enumerable.Repeat(alphabet.Dictionary, length)
                 .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
@@ -102,6 +102,26 @@ namespace icModel.Model.Helpers {
                 output += "\n";
             }
             return output;
+        }
+
+        public static int ModInv(int a, int b)
+        {
+            int b0 = b, t, q;
+            int x0 = 0, x1 = 1;
+            if (b == 1)
+                return 1;
+            while (a > 1)
+            {
+                q = a / b;
+                t = b;
+                b = Mod(a, b);
+                a = t;
+                t = x0;
+                x0 = x1 - q*x0;
+                x1 = t;
+            }
+            if (x1 < 0) x1 += b0;
+            return x1;
         }
     }
 }

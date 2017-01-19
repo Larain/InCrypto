@@ -24,9 +24,9 @@ namespace icApplication.ViewModel
         private int _generatedMatrixSize;
         private int _generatedTextLength;
         private int _variantAmount;
-        private IAlphabet _alphabet;
+        private Alphabet _alphabet;
 
-        public List<IAlphabet> _alphavetList;
+        public List<Alphabet> _alphavetList;
         private ObservableCollection<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
         private readonly ExaminationManager _examinationManager = new ExaminationManager();
@@ -36,7 +36,7 @@ namespace icApplication.ViewModel
             GeneratedMatrixSize = 2;
             GeneratedTextLength = GeneratedMatrixSize * 2;
             VariantAmount = 20;
-            AlphavetList = new List<IAlphabet> {new SimpleAlphabet(), new CharactersAlphabet(), new RusExtendedAlphabet()};
+            AlphavetList = new List<Alphabet> {new SimpleAlphabet(), new CharactersAlphabet(), new RusExtendedAlphabet()};
             Alphabet = AlphavetList.FirstOrDefault();
 
             CreateVariants(null);
@@ -129,7 +129,7 @@ namespace icApplication.ViewModel
             }
         }
 
-        public IAlphabet Alphabet
+        public Alphabet Alphabet
         {
             get { return _alphabet; }
             set
@@ -140,7 +140,7 @@ namespace icApplication.ViewModel
             }
         }
 
-        public List<IAlphabet> AlphavetList
+        public List<Alphabet> AlphavetList
         {
             get
             {
@@ -221,7 +221,7 @@ namespace icApplication.ViewModel
 
         #endregion
 
-        public void SetAlphabet(IAlphabet alphabet)
+        public void SetAlphabet(Alphabet alphabet)
         {
             Alphabet = alphabet;
         }

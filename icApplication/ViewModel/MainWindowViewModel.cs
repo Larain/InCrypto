@@ -22,7 +22,7 @@ namespace icApplication.ViewModel {
     {
         #region fields
 
-        private IAlphabet _alphabet;
+        private Alphabet _alphabet;
         private ICryptoKey _key;
         private ExaminationVariant _examinationVariant;
         private ICryptoProvider _provider;

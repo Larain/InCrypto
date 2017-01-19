@@ -15,23 +15,23 @@ namespace icModel.Model.Keys {
         private ICryptoKeyValidator _validator;
         private Matrix<double> _matrix;
 
-        public HillKey(Matrix<double> matrix, IAlphabet alphabet) {
+        public HillKey(Matrix<double> matrix, Abstract.Alphabet alphabet) {
             Alphabet = alphabet;
             Matrix = matrix;
         }
 
-        public HillKey(double[,] matrix, IAlphabet alphabet) {
+        public HillKey(double[,] matrix, Abstract.Alphabet alphabet) {
             Alphabet = alphabet;
             Matrix = DenseMatrix.OfArray(matrix);
         }
 
-        public HillKey(int[][] matrix, IAlphabet alphabet)
+        public HillKey(int[][] matrix, Abstract.Alphabet alphabet)
         {
             Alphabet = alphabet;
             Matrix = MatrixConverters.ConvertIntListToMatrix(matrix);
         }
 
-        public HillKey(ObservableCollection<ObservableCollection<double>> matrix, IAlphabet alphabet)
+        public HillKey(ObservableCollection<ObservableCollection<double>> matrix, Abstract.Alphabet alphabet)
         {
             Alphabet = alphabet;
             Matrix = MatrixConverters.ConvertIntObservableCollectionToMatrix(matrix);
@@ -43,7 +43,7 @@ namespace icModel.Model.Keys {
             get { return _validator ?? (_validator = new HillKeyValidator()); }
         }
 
-        public IAlphabet Alphabet { get; set; }
+        public Abstract.Alphabet Alphabet { get; set; }
         [SoapIgnore]
         public ObservableCollection<ObservableCollection<double>> ObservableMatrix { get; private set; }
 
