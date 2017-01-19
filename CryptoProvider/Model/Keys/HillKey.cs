@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
@@ -9,6 +10,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace icModel.Model.Keys {
+    [Serializable]
     public class HillKey : ICryptoKey, IEquatable<HillKey> {
         private ICryptoKeyValidator _validator;
         private Matrix<double> _matrix;
@@ -41,8 +43,8 @@ namespace icModel.Model.Keys {
             get { return _validator ?? (_validator = new HillKeyValidator()); }
         }
 
-        public IAlphabet Alphabet { get; }
-
+        public IAlphabet Alphabet { get; set; }
+        [SoapIgnore]
         public ObservableCollection<ObservableCollection<double>> ObservableMatrix { get; private set; }
 
         public Matrix<double> Matrix {

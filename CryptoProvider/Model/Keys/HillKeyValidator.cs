@@ -8,6 +8,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace icModel.Model.Keys
 {
+    [Serializable]
     public class HillKeyValidator : ICryptoKeyValidator
     {
         public bool IsValid(ICryptoKey key) {

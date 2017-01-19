@@ -10,7 +10,7 @@
     </ItemsControl.Resources>
 
     <ItemsControl.ItemTemplate>
-        <DynamicResource ResourceKey="DataTemplateLevel1" />
+        <DynamicResource ResourceKey="DataTemplateFixedMatrix" />
     </ItemsControl.ItemTemplate>
     <ItemsControl.HorizontalAlignment>Center</ItemsControl.HorizontalAlignment>
     <ItemsControl.VerticalAlignment>Center</ItemsControl.VerticalAlignment>

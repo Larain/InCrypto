@@ -110,5 +110,30 @@ namespace icModel.Model.Helpers {
             }
             return outer;
         }
+
+        public static ObservableCollection<ObservableCollection<double>> ConvertMatrixToObservableCollection(double[,] arr)
+        {
+            if (arr == null)
+                throw new NullReferenceException();
+
+            int m = arr.GetLength(0);
+            int n = arr.GetLength(1);
+
+            if (m != n)
+                throw new ArgumentException("Wrong matrix size: " + m + "x" + n);
+
+            ObservableCollection<ObservableCollection<double>> outer =
+                new ObservableCollection<ObservableCollection<double>>();
+
+            for (int i = 0; i < n; i++)
+            {
+                ObservableCollection<double> inner = new ObservableCollection<double>();
+                for (int j = 0; j < n; j++)
+                    inner.Add(arr[i, j]);
+                outer.Add(inner);
+
+            }
+            return outer;
+        }
     }
 }

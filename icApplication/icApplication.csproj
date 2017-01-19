@@ -42,6 +42,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -94,9 +96,11 @@
     <Compile Include="Converter\MultilineConverter.cs" />
     <Compile Include="Exmaination\ExaminationManager.cs" />
     <Compile Include="Helper\OperationHelper.cs" />
+    <Compile Include="Helper\Serializer.cs" />
     <Compile Include="ViewModel\ExaminationViewModel.cs" />
     <Compile Include="ViewModel\Interface\ICryptoView.cs" />
     <Compile Include="ViewModel\Interface\IExaminationView.cs" />
+    <Compile Include="ViewModel\Interface\IMatrixValidationVew.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MatrixValidationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

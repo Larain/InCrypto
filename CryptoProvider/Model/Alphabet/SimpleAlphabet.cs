@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using icModel.Abstract;
 
 namespace icModel.Model.Alphabet {
+    [Serializable]
     public class SimpleAlphabet : IAlphabet {
         private string _charactersAlphabet;
 

@@ -9,18 +9,25 @@ using icApplication.ViewModel.Interface;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Entities;
+using icModel.Model.Helpers;
 using icModel.Model.Keys;
 using icModel.Model.Providers;
 
 namespace icApplication.ViewModel {
-    public class MatrixValidationViewModel : ViewModelBase {
+    public class MatrixValidationViewModel : ViewModelBase, IMatrixValidationView {
 
         private int _matrixSize;
         private ObservableCollection<ObservableCollection<double>> _userMatrix;
         private string _message;
-        private ICryptoProvider _provider;
+        private HillCipher _provider;
         private IAlphabet _alphabet;
         private ICryptoKey _key;
+        private string _determinant;
+        private string _determinantModule;
+        private string _reciprocalValue;
+        private ObservableCollection<ObservableCollection<double>> _adjugateMatrix;
+        private ObservableCollection<ObservableCollection<double>> _decryptoMatrix;
+        private ObservableCollection<ObservableCollection<double>> _observableMatrix;
 
         public MatrixValidationViewModel() {
             MatrixViewInitializtion();
@@ -29,10 +36,6 @@ namespace icApplication.ViewModel {
         private void MatrixViewInitializtion() {
             MatrixSize = 3;
             UserMatrix = FillMatrixWithZeros();
-
-            Provider = new HillCipher();
-            Alphabet = new SimpleAlphabet();
-            Provider.Alphabet = Alphabet;
 
             SetMatrixCommand = new RelayCommand(SetMatrixAsKey, CanSetMatrixAsKey);
             FindInvertCommand = new RelayCommand(FindInvert, CanFindInvert);
@@ -74,18 +77,78 @@ namespace icApplication.ViewModel {
             }
         }
 
-        public ICryptoProvider Provider {
-            get { return _provider; }
-            set { _provider = value; }
-        }
+        #region Matrix Detail
 
-        public IAlphabet Alphabet {
-            get { return _alphabet; }
-            set {
-                _alphabet = value;
-                Provider.Alphabet = value;
+        public HillCipher Provider {
+            get { return _provider; }
+            set
+            {
+                _provider = value;
+                base.NotifyPropertyChanged("Provider");
             }
         }
+
+        public string Determinant
+        {
+            get { return _determinant; }
+            set
+            {
+                _determinant = value;
+                base.NotifyPropertyChanged("Determinant");
+            }
+        }
+
+        public string DeterminantModule
+        {
+            get { return _determinantModule; }
+            set
+            {
+                _determinantModule = value;
+                base.NotifyPropertyChanged("DeterminantModule");
+            }
+        }
+
+        public string ReciprocalValue
+        {
+            get { return _reciprocalValue; }
+            set
+            {
+                _reciprocalValue = value;
+                base.NotifyPropertyChanged("ReciprocalValue");
+            }
+        }
+
+        public ObservableCollection<ObservableCollection<double>> AdjugateMatrix
+        {
+            get { return _adjugateMatrix; }
+            set
+            {
+                _adjugateMatrix = value;
+                base.NotifyPropertyChanged("AdjugateMatrix");
+            }
+        }
+
+        public ObservableCollection<ObservableCollection<double>> DecryptoMatrix
+        {
+            get { return _decryptoMatrix; }
+            set
+            {
+                _decryptoMatrix = value;
+                base.NotifyPropertyChanged("DecryptoMatrix");
+            }
+        }
+
+        public ObservableCollection<ObservableCollection<double>> ObservableMatrix
+        {
+            get { return _observableMatrix; }
+            set
+            {
+                _observableMatrix = value;
+                base.NotifyPropertyChanged("ObservableMatrix");
+            }
+        }
+
+        #endregion
 
         public ICryptoKey Key {
             get { return _key; }
@@ -115,7 +178,7 @@ namespace icApplication.ViewModel {
 
         private void SetMatrixAsKey(object obj) {
             try {
-                Key = new HillKey(UserMatrix, Provider.Alphabet);
+                Key = new HillKey(UserMatrix, Provider.Key.Alphabet);
                 MainView.SetCryptoKey(Key);
             }
             catch (ValidationException ex) {
@@ -137,7 +200,7 @@ namespace icApplication.ViewModel {
         private void ValidateUserMatrix(object obj) {
             try
             {
-                Key = new HillKey(UserMatrix, Provider.Alphabet);
+                Key = new HillKey(UserMatrix, Provider.Key.Alphabet);
             }
             catch (ValidationException ex)
             {
@@ -153,12 +216,15 @@ namespace icApplication.ViewModel {
         private void FindInvert(object obj) {
             try
             {
-                Key = new HillKey(UserMatrix, Provider.Alphabet);
+                Provider = new HillCipher();
+                IAlphabet alphabet = new SimpleAlphabet();
+
+                Key = new HillKey(UserMatrix, alphabet);
                 Provider.Key = Key;
-                Provider.Alphabet = Alphabet;
             }
             catch (ValidationException ex)
             {
+                Provider = null;
                 MessageBox.Show(ex.Message);
             }
 
@@ -167,6 +233,20 @@ namespace icApplication.ViewModel {
         private bool CanFindInvert(object obj)
         {
             return UserMatrix != null;
+        }
+
+        public void SetKey(HillKey hillKey)
+        {
+            Provider = new HillCipher();
+            Provider.Key = hillKey;
+            Key = hillKey;
+
+            Determinant = Provider.Determinant.ToString();
+            DeterminantModule = Provider.DeterminantModule.ToString();
+            ReciprocalValue = Provider.ReciprocalValue.ToString();
+            AdjugateMatrix = MatrixConverters.ConvertMatrixToObservableCollection(Provider.AdjugateMatrix);
+            DecryptoMatrix = MatrixConverters.ConvertMatrixToObservableCollection(Provider.DecryptoMatrix);
+            ObservableMatrix = Provider.Key.ObservableMatrix;
         }
 
         #endregion

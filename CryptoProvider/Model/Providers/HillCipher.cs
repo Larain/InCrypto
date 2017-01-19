@@ -11,6 +11,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace icModel.Model.Providers {
+    [Serializable]
     public class HillCipher : ICryptoProvider {
         private ICryptoKey _key;
 
@@ -21,11 +22,11 @@ namespace icModel.Model.Providers {
         }
 
         public int DeterminantModule {
-            get { return CryptoHelper.Mod(Determinant, Alphabet.Length); }
+            get { return CryptoHelper.Mod(Determinant, Key.Alphabet.Length); }
         }
 
         public int ReciprocalValue {
-            get { return CryptoHelper.Reciprocal(DeterminantModule, Alphabet.Length); }
+            get { return CryptoHelper.Reciprocal(DeterminantModule, Key.Alphabet.Length); }
         }
 
         public double[,] AdjugateMatrix {
@@ -50,7 +51,7 @@ namespace icModel.Model.Providers {
                 for (int i = 0; i < decryptoMatrix.GetLength(0); i++) {
                     for (int j = 0; j < decryptoMatrix.GetLength(1); j++) {
                         decryptoMatrix[i, j] = CryptoHelper.Mod((int) AdjugateMatrix[i, j]*ReciprocalValue,
-                            Alphabet.Length);
+                            Key.Alphabet.Length);
                     }
                 }
                 return decryptoMatrix;
@@ -58,9 +59,6 @@ namespace icModel.Model.Providers {
         }
 
         #endregion
-
-
-        public IAlphabet Alphabet { set; get; }
 
         public ICryptoKey Key {
             get { return _key; }
@@ -112,10 +110,10 @@ namespace icModel.Model.Providers {
                         var charPosition = 0;
 
                         for (int j = 0; j < matrixSize; j++) {
-                            charPosition += (int)matrix[j,i] * Alphabet.GetIndex(substring[j]);
+                            charPosition += (int)matrix[j,i] * Key.Alphabet.GetIndex(substring[j]);
                         }
 
-                        result += Alphabet.GetSymbol(charPosition%Alphabet.Length);
+                        result += Key.Alphabet.GetSymbol(charPosition % Key.Alphabet.Length);
                     }
 
                     newLine += result;
@@ -129,8 +127,8 @@ namespace icModel.Model.Providers {
         private double[,] GetDecryptMatrix() {
 
             double det = Key.Matrix.Determinant();
-            double moduleDet = CryptoHelper.Mod((int)det, Alphabet.Length);
-            int rec = CryptoHelper.Reciprocal((int)moduleDet, Alphabet.Length);
+            double moduleDet = CryptoHelper.Mod((int)det, Key.Alphabet.Length);
+            int rec = CryptoHelper.Reciprocal((int)moduleDet, Key.Alphabet.Length);
 
             double[,] adjugateMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
             double[,] decryptoMatrix = new double[Key.Matrix.RowCount, Key.Matrix.ColumnCount];
@@ -140,7 +138,7 @@ namespace icModel.Model.Providers {
             for (int i = 0; i < adjugateMatrix.GetLength(0); i++) {
                 for (int j = 0; j < adjugateMatrix.GetLength(1); j++) {
                     adjugateMatrix[i, j] = Math.Round((matrix[i, j] * det));
-                    decryptoMatrix[i, j] = CryptoHelper.Mod((int) adjugateMatrix[i, j] * rec, Alphabet.Length);
+                    decryptoMatrix[i, j] = CryptoHelper.Mod((int) adjugateMatrix[i, j] * rec, Key.Alphabet.Length);
                 }
             }
             return decryptoMatrix;

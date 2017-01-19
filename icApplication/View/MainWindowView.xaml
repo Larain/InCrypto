@@ -75,43 +75,50 @@
 
                     <StackPanel Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="0">
                         
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*"/>
                                 <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="5*"/>
                                 <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <TextBlock>Enter amount of required variants:</TextBlock>
-                                <TextBox Text="{Binding VariantAmount, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <TextBlock>Enter generated matrix size:</TextBlock>
-                                <TextBox Text="{Binding GeneratedMatrixSize, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
+                                <TextBox Text="{Binding VariantAmount, UpdateSourceTrigger=PropertyChanged}" Margin="10, 0, 20, 0" Width="40"></TextBox>
                             </StackPanel>
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <TextBlock>Enter generated matrix size:</TextBlock>
+                                <TextBox Text="{Binding GeneratedMatrixSize, UpdateSourceTrigger=PropertyChanged}" Margin="10, 0, 20, 0" Width="40"></TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4" Orientation="Horizontal">
                                 <TextBlock>Enter generated string length:</TextBlock>
-                                <TextBox Text="{Binding GeneratedTextLength, UpdateSourceTrigger=PropertyChanged}" Margin="12, 0, 0, 0" Width="40"></TextBox>
+                                <TextBox Text="{Binding GeneratedTextLength, UpdateSourceTrigger=PropertyChanged}" Margin="10, 0, 20, 0" Width="40"></TextBox>
                             </StackPanel>
                         </Grid>
                         
-                        <Button Command="{Binding GenerateVariantsCommand}" Margin="10">Generate</Button>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Command="{Binding GenerateVariantsCommand}" Width="150" Height="30" Margin="10">Generate</Button>
+                            <Button Width="150" Height="30" Margin="10" Click="Button_Click">Print</Button>
+                            <Button Command="{Binding LoadVariantsCommand}" Width="150" Height="30" Margin="10">Load</Button>
+                            <Button Command="{Binding SaveVariantsCommand}" Width="150" Height="30" Margin="10">Save</Button>
+                        </StackPanel>
                         <Label HorizontalAlignment="Center"  Content="Generated examination variants"></Label>
-                        <ListBox Height="500" SelectedItem="{Binding Path=SelectedExaminationVariant, Mode=TwoWay}"
+                        <ListBox x:Name="PrintableVariantsListBox" Height="500" SelectedItem="{Binding Path=SelectedExaminationVariant, Mode=TwoWay}"
                                   ItemsSource="{Binding Path=ExaminationVariantCollection}" ScrollViewer.CanContentScroll="True">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <controls:ExaminationControl HorizontalAlignment="Center" x:Name="Matrix2"
-                                                 Number="{Binding Number}" Message="{Binding Text}" Key="{Binding Key}">
+                                    <controls:ExaminationControl Margin="50, 5, 50, 5" Number="{Binding Number}" 
+                                                                 Message="{Binding Text}" Key="{Binding Key}">
                                     </controls:ExaminationControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="4"/>
+                                    <UniformGrid HorizontalAlignment="Center" x:Name="VariantsUniformGrid" Columns="4"/>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
@@ -126,13 +133,13 @@
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="4.5*" />
-                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <converter:MultilineConverter x:Key="MultilineConverter" />
@@ -140,15 +147,68 @@
 
                     <StackPanel HorizontalAlignment="Center" Margin="5" Orientation="Vertical" Grid.Row="0" Grid.Column="0">
                         <TextBlock>Enter size of Matrix NxN</TextBlock>
-                        <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Left" Width="50"></TextBox>
+                        <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Center" Width="50"></TextBox>
                         <Button Command="{Binding ValidateCommand}" Margin="0, 10, 0, 10">Validate user matrix</Button>
                         <Button Command="{Binding FindInvertCommand}" Margin="0, 10, 0, 10">Find inverted</Button>
                         <Button Command="{Binding SetMatrixCommand}" Margin="0, 10, 0, 10">Set matrix as a key</Button>
                     </StackPanel>
 
-                    <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2">
+                    <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
                         <TextBlock>User Matrix:</TextBlock>
-                        <controls:MatrixControl x:Name="UserMatrixControl2" ItemsSource="{Binding UserMatrix}"/>
+                        <controls:MatrixControl x:Name="UserMatrixControl2" ItemsSource="{Binding UserMatrix, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Left">Determinant of matrix D</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding Determinant}"></TextBlock>
+                            <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Left" >Module of Determinant D</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" Text="{Binding DeterminantModule}"></TextBlock>
+                            <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Left" >Reciprocal value of (Mod) D</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding ReciprocalValue}"></TextBlock>
+
+                        </Grid>
+                    </StackPanel>
+                    
+                    <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Vertical">
+                                <TextBlock TextAlignment="Left" >Selected variant matrix:</TextBlock>
+                                <controls:MatrixControl ItemsSource="{Binding ObservableMatrix, Mode=TwoWay}"></controls:MatrixControl>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Orientation="Vertical">
+                                <TextBlock TextAlignment="Left" Grid.Column="0" Grid.Row="1">Adjugate matrix:</TextBlock>
+                                <controls:MatrixControl ItemsSource="{Binding AdjugateMatrix, Mode=TwoWay}"></controls:MatrixControl>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <TextBlock TextAlignment="Left" Grid.Column="0" Grid.Row="2">Matrix for decryption:</TextBlock>
+                                <controls:MatrixControl ItemsSource="{Binding DecryptoMatrix, Mode=TwoWay}"></controls:MatrixControl>
+                            </StackPanel>
+
+
+
+                        </Grid>
                     </StackPanel>
 
                 </Grid>

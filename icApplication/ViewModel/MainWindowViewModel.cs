@@ -42,13 +42,10 @@ namespace icApplication.ViewModel {
         }
 
         private void InitializeCryptoComponents() {
-            _alphabet = new SimpleAlphabet();
-
             EncryptCommand = new RelayCommand(EncryptMessage, CanEncrypt);
             DecryptCommand = new RelayCommand(DecryptMessage, CanDecrypt);
 
             _provider = new HillCipher();
-            _provider.Alphabet = _alphabet;
         }
 
         #region Properties

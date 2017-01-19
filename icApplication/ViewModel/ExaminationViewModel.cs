@@ -1,14 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Documents.Serialization;
 using icApplication.Command;
 using icApplication.Exmaination;
+using icApplication.Helper;
 using icApplication.ViewModel.Interface;
 using icModel.Abstract;
 using icModel.Model.Alphabet;
 using icModel.Model.Entities;
+using icModel.Model.Keys;
+using icModel.Model.Providers;
 
-namespace icApplication.ViewModel {
-    public class ExaminationViewModel : ViewModelBase, IExaminationView {
+namespace icApplication.ViewModel
+{
+    public class ExaminationViewModel : ViewModelBase, IExaminationView
+    {
 
         private int _generatedMatrixSize;
         private int _generatedTextLength;
@@ -19,26 +30,38 @@ namespace icApplication.ViewModel {
         private ExaminationVariant _examinationVariant;
         private readonly ExaminationManager _examinationManager = new ExaminationManager();
 
-        public ExaminationViewModel() {
+        public ExaminationViewModel()
+        {
             GeneratedMatrixSize = 2;
-            GeneratedTextLength = GeneratedMatrixSize*2;
+            GeneratedTextLength = GeneratedMatrixSize * 2;
             VariantAmount = 20;
             Alphabet = new SimpleAlphabet();
 
-            _examinationManager.GenerateNewVariants(VariantAmount);
+            CreateVariants(null);
+            SelectedExaminationVariant = ExaminationVariantCollection.First();
 
             GenerateVariantsCommand = new RelayCommand(CreateVariants, CanCreateVariants);
+            LoadVariantsCommand = new RelayCommand(LoadVariants, CanLoadVariants);
+            SaveVariantsCommand = new RelayCommand(SaveVariants, CanSaveVariants);
         }
 
         public RelayCommand GenerateVariantsCommand { get; set; }
+        public RelayCommand LoadVariantsCommand { get; set; }
+        public RelayCommand SaveVariantsCommand { get; set; }
 
         #region Properties
 
-        public ExaminationVariant SelectedExaminationVariant {
+        public ExaminationVariant SelectedExaminationVariant
+        {
             get { return _examinationVariant; }
-            set {
+            set
+            {
+                if (value == null)
+                    return;
                 _examinationVariant = value;
-                if (MainView != null) {
+                if (MainView != null)
+                {
+                    MatrixView.SetKey((HillKey) value.Key);
                     MainView.SetCryptoKey(value.Key);
                     MainView.SendMessage("Key used from examination variant #" + value.Number);
                     MainView.SetEncryptoText(value.Text);
@@ -48,26 +71,32 @@ namespace icApplication.ViewModel {
             }
         }
 
-        public ObservableCollection<ExaminationVariant> ExaminationVariantCollection {
+        public ObservableCollection<ExaminationVariant> ExaminationVariantCollection
+        {
             get { return _examVariants; }
-            set {
+            set
+            {
                 _examVariants = value;
                 base.NotifyPropertyChanged("ExaminationVariantCollection");
             }
         }
 
-        public int GeneratedMatrixSize {
+        public int GeneratedMatrixSize
+        {
             get { return _generatedMatrixSize; }
-            set {
+            set
+            {
                 _generatedMatrixSize = value;
                 _examinationManager.MatrixSize = value;
                 base.NotifyPropertyChanged("GeneratedMatrixSize");
             }
         }
 
-        public int VariantAmount {
+        public int VariantAmount
+        {
             get { return _variantAmount; }
-            set {
+            set
+            {
                 _variantAmount = value;
                 _examinationManager.VariantsAmount = value;
                 base.NotifyPropertyChanged("VariantAmount");
@@ -75,8 +104,10 @@ namespace icApplication.ViewModel {
         }
 
         public ICryptoView MainView { get; set; }
+        public IMatrixValidationView MatrixView { get; set; }
 
-        public int MatrixMaxGeneratedValue {
+        public int MatrixMaxGeneratedValue
+        {
             get { return _examinationManager.GeneratedMaxValue; }
         }
 
@@ -85,18 +116,22 @@ namespace icApplication.ViewModel {
             get { return _examinationManager.GeneratedMinValue; }
         }
 
-        public int GeneratedTextLength {
+        public int GeneratedTextLength
+        {
             get { return _generatedTextLength; }
-            set {
+            set
+            {
                 _generatedTextLength = value;
                 _examinationManager.TextLength = value;
                 base.NotifyPropertyChanged("GeneratedTextLength");
             }
         }
 
-        public IAlphabet Alphabet {
+        public IAlphabet Alphabet
+        {
             get { return _alphabet; }
-            set {
+            set
+            {
                 _alphabet = value;
                 _examinationManager.Alphabet = value;
                 base.NotifyPropertyChanged("Alphabet");
@@ -107,19 +142,70 @@ namespace icApplication.ViewModel {
 
         #region Commands
 
-        private void CreateVariants(object obj) {
+        private void SaveVariants(object obj)
+        {
+            string path = Serializer.OpenDirectoryDialog();
+            string title = "";
+            string message = "";
+            try
+            {
+                Serializer.XmlSerialization(ExaminationVariantCollection.ToList(), path);
+                message = "Variants loaded in amount: " + ExaminationVariantCollection.Count + "loaded successfully";
+                title = "Success";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                title = "Fail";
+            }
+
+            MessageBox.Show(message, title);
+        }
+        private bool CanSaveVariants(object obj)
+        {
+            return ExaminationVariantCollection?.Count > 0;
+        }
+
+        private void LoadVariants(object obj)
+        {
+            string path = Serializer.OpenFileDialog();
+            string title = "";
+            string message = "";
+            try
+            {
+                ExaminationVariantCollection =
+                new ObservableCollection<ExaminationVariant>(Serializer.XmlDeserialization(path));
+                message = "Variants loaded in amount: " + ExaminationVariantCollection.Count + "loaded successfully";
+                title = "Success";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                title = "Fail";
+            }
+            
+            MessageBox.Show(message, title);
+        }
+        private bool CanLoadVariants(object obj)
+        {
+            return true;
+        }
+
+        private void CreateVariants(object obj)
+        {
             _examinationManager.GenerateNewVariants(VariantAmount);
             ExaminationVariantCollection = _examinationManager.VariantsList;
         }
-
-        private bool CanCreateVariants(object obj) {
+        private bool CanCreateVariants(object obj)
+        {
             return VariantAmount > 0 && VariantAmount < 100;
         }
 
         #endregion
 
-        public void SetAlphabet(IAlphabet alphabet) {
-            throw new System.NotImplementedException();
+        public void SetAlphabet(IAlphabet alphabet)
+        {
+            Alphabet = alphabet;
         }
     }
 }

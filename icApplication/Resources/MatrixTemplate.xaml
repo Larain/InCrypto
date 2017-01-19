@@ -2,12 +2,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:icApplication.Resources">
 
-    <DataTemplate x:Key="DataTemplateLevel2">
-        <TextBox Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+    <DataTemplate x:Key="DataTemplateFixedTextBoxes">
+        <TextBox IsEnabled="False" Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+    </DataTemplate>
+    <DataTemplate x:Key="DataTemplateEditableTextBoxes">
+        <TextBox IsEnabled="False" Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="DataTemplateLevel1">
-        <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateLevel2}">
+    <DataTemplate x:Key="DataTemplateDynamicMatrix">
+        <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateEditableTextBoxes}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="DataTemplateFixedMatrix">
+        <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplateFixedTextBoxes}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>

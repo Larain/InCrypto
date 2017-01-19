@@ -1,14 +1,13 @@
-﻿using icModel.Abstract;
+﻿using System;
+using System.Xml.Serialization;
+using icModel.Abstract;
 
 namespace icModel.Model.Entities
 {
+    [Serializable]
     public class ExaminationVariant
     {
-        public ExaminationVariant(int number)
-        {
-            Number = number;
-        }
-        public int Number { get; private set; }
+        public int Number { get; set; }
         public ICryptoKey Key { get; set; }
         public string Text { get; set; }
     }

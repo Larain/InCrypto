@@ -89,5 +89,19 @@ namespace icModel.Model.Helpers {
             return new string(Enumerable.Repeat(alphabet.Dictionary, length)
                 .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
+
+        public static string ArrayToString(this double[,] arr)
+        {
+            string output = "";
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                for (int j = 0; j < arr.GetLength(1); j++)
+                {
+                    output += "[" + arr[i, j] + "] ";
+                }
+                output += "\n";
+            }
+            return output;
+        }
     }
 }

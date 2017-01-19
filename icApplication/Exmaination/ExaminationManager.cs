@@ -84,9 +84,12 @@ namespace icApplication.Exmaination {
 
             for (int i = 1; i < variantsAmount + 1; i++) {
 
-                ExaminationVariant variant = new ExaminationVariant(i);
-                variant.Text = CryptoHelper.RandomString(TextLength, _alphabet);
-                variant.Key = GenerateUniqueIvertableMatrix();
+                ExaminationVariant variant = new ExaminationVariant
+                {
+                    Number = i,
+                    Text = CryptoHelper.RandomString(TextLength, _alphabet),
+                    Key = GenerateUniqueIvertableMatrix()
+                };
 
                 VariantsList.Add(variant);
             }
