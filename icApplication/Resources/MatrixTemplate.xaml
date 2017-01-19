@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:icApplication.Resources">
 
     <DataTemplate x:Key="DataTemplateFixedTextBoxes">
-        <TextBox IsEnabled="False" Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox IsEnabled="False" Text="{Binding Mode=OneWay}" Height="30" Width="45" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </DataTemplate>
     <DataTemplate x:Key="DataTemplateEditableTextBoxes">
         <TextBox IsEnabled="False" Text="{Binding Mode=OneWay}" Height="30" Width="30" Margin="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>

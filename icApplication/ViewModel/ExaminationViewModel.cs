@@ -26,6 +26,7 @@ namespace icApplication.ViewModel
         private int _variantAmount;
         private IAlphabet _alphabet;
 
+        public List<IAlphabet> _alphavetList;
         private ObservableCollection<ExaminationVariant> _examVariants;
         private ExaminationVariant _examinationVariant;
         private readonly ExaminationManager _examinationManager = new ExaminationManager();
@@ -35,7 +36,8 @@ namespace icApplication.ViewModel
             GeneratedMatrixSize = 2;
             GeneratedTextLength = GeneratedMatrixSize * 2;
             VariantAmount = 20;
-            Alphabet = new SimpleAlphabet();
+            AlphavetList = new List<IAlphabet> {new SimpleAlphabet(), new CharactersAlphabet(), new RusExtendedAlphabet()};
+            Alphabet = AlphavetList.FirstOrDefault();
 
             CreateVariants(null);
             SelectedExaminationVariant = ExaminationVariantCollection.First();
@@ -138,17 +140,30 @@ namespace icApplication.ViewModel
             }
         }
 
+        public List<IAlphabet> AlphavetList
+        {
+            get
+            {
+                return _alphavetList;
+            }
+            set
+            {
+                _alphavetList = value;
+                base.NotifyPropertyChanged("AlphavetList");
+            }
+        }
+
         #endregion
 
         #region Commands
 
         private void SaveVariants(object obj)
         {
-            string path = Serializer.OpenDirectoryDialog();
             string title = "";
             string message = "";
             try
             {
+                string path = Serializer.OpenDirectoryDialog();
                 Serializer.XmlSerialization(ExaminationVariantCollection.ToList(), path);
                 message = "Variants loaded in amount: " + ExaminationVariantCollection.Count + "loaded successfully";
                 title = "Success";
@@ -168,11 +183,11 @@ namespace icApplication.ViewModel
 
         private void LoadVariants(object obj)
         {
-            string path = Serializer.OpenFileDialog();
             string title = "";
             string message = "";
             try
             {
+                string path = Serializer.OpenFileDialog();
                 ExaminationVariantCollection =
                 new ObservableCollection<ExaminationVariant>(Serializer.XmlDeserialization(path));
                 message = "Variants loaded in amount: " + ExaminationVariantCollection.Count + "loaded successfully";
@@ -198,7 +213,10 @@ namespace icApplication.ViewModel
         }
         private bool CanCreateVariants(object obj)
         {
-            return VariantAmount > 0 && VariantAmount < 100;
+            bool amount = VariantAmount > 0 && VariantAmount < 100;
+            bool size = GeneratedMatrixSize > 1 && GeneratedMatrixSize < 10;
+            bool len = GeneratedTextLength > 0 && GeneratedTextLength < 100;
+            return amount && size && len;
         }
 
         #endregion

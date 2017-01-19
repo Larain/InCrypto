@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\ICryptoKeyValidator.cs" />
+    <Compile Include="Model\Alphabet\RusExtendedAlphabet.cs" />
     <Compile Include="Model\Alphabet\SimpleAlphabet.cs" />
     <Compile Include="Model\Entities\ExaminationVariant.cs" />
     <Compile Include="Model\Alphabet\CharactersAlphabet.cs" />

@@ -10,7 +10,7 @@
         Title="MainWindow" Height="720" Width="1280">
     <Grid>
         <TabControl x:Name="TabControl" HorizontalAlignment="Left" Margin="10,10,0,10" Width="1252">
-            
+
             <TabItem x:Name="Tab1" Header="Encrypting" Height="Auto" Width="Auto">
                 <Grid Margin="50">
                     <Grid.ColumnDefinitions>
@@ -20,37 +20,57 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
+                        <RowDefinition Height="1*" />
                         <RowDefinition Height="8*" />
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <TextBlock Text="{Binding Message}"></TextBlock>
-                    <StackPanel Visibility="Hidden" Grid.Row="0" Grid.ColumnSpan="3">
+
+                    <StackPanel Visibility="Visible" Grid.Row="0" Grid.ColumnSpan="3">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Margin="0 0 0 5">Select Method</TextBlock>
-                            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvaibleKeys}"
-                      SelectedItem="{Binding Path=SelectedKey, Mode=TwoWay}">
-                                <ListView.ItemsPanel>
+                            <TextBlock Margin="0 0 0 5">Alphabet</TextBlock>
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SelectedKey.Alphabet.SymbolsList, Mode=OneWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="25" IsEnabled="False" Text="{Binding Mode=OneWay}"></TextBox>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                        <StackPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                            <ListBox Margin="0, -2, 0, 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SelectedKey.Alphabet.IndexList, Mode=OneWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="25" IsEnabled="False" Text="{Binding Mode=OneWay}"></TextBox>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                            
                         </StackPanel>
                     </StackPanel>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Message}"></TextBlock>
 
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="0"
-            Text="{Binding Path=EncryptoText, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="0"
+                             Text="{Binding Path=EncryptoText, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button Command="{Binding EncryptCommand}"  Width="120" Height="40" Margin="10">Encrypt>></Button>
                         <Button Command="{Binding DecryptCommand}" Width="120" Height="40" Margin="10">&lt;&lt;Decrypt</Button>
                     </StackPanel>
 
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" 
-            Text="{Binding Path=DecryptoText, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="2" 
+                             Text="{Binding Path=DecryptoText, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </TabItem>
 
@@ -74,7 +94,16 @@
                     </Grid.Resources>
 
                     <StackPanel Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="0">
-                        
+                        <ComboBox Margin="10" ItemsSource="{Binding AlphavetList}" SelectedItem="{Binding Alphabet}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding}"></TextBlock>
+                                        <TextBlock Text="{Binding DictionaryToShow}"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5*"/>
@@ -99,7 +128,7 @@
                                 <TextBox Text="{Binding GeneratedTextLength, UpdateSourceTrigger=PropertyChanged}" Margin="10, 0, 20, 0" Width="40"></TextBox>
                             </StackPanel>
                         </Grid>
-                        
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Command="{Binding GenerateVariantsCommand}" Width="150" Height="30" Margin="10">Generate</Button>
                             <Button Width="150" Height="30" Margin="10" Click="Button_Click">Print</Button>
@@ -108,10 +137,10 @@
                         </StackPanel>
                         <Label HorizontalAlignment="Center"  Content="Generated examination variants"></Label>
                         <ListBox x:Name="PrintableVariantsListBox" Height="500" SelectedItem="{Binding Path=SelectedExaminationVariant, Mode=TwoWay}"
-                                  ItemsSource="{Binding Path=ExaminationVariantCollection}" ScrollViewer.CanContentScroll="True">
+                                  ItemsSource="{Binding Path=ExaminationVariantCollection}" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <controls:ExaminationControl Margin="50, 5, 50, 5" Number="{Binding Number}" 
+                                    <controls:ExaminationControl Margin="40, 5, 40, 5" Number="{Binding Number}" 
                                                                  Message="{Binding Text}" Key="{Binding Key}">
                                     </controls:ExaminationControl>
                                 </DataTemplate>
@@ -132,10 +161,10 @@
 
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*" />
+                        <ColumnDefinition Width="0.1*" />
                         <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
@@ -145,17 +174,25 @@
                         <converter:MultilineConverter x:Key="MultilineConverter" />
                     </Grid.Resources>
 
-                    <StackPanel HorizontalAlignment="Center" Margin="5" Orientation="Vertical" Grid.Row="0" Grid.Column="0">
-                        <TextBlock>Enter size of Matrix NxN</TextBlock>
-                        <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Center" Width="50"></TextBox>
-                        <Button Command="{Binding ValidateCommand}" Margin="0, 10, 0, 10">Validate user matrix</Button>
-                        <Button Command="{Binding FindInvertCommand}" Margin="0, 10, 0, 10">Find inverted</Button>
-                        <Button Command="{Binding SetMatrixCommand}" Margin="0, 10, 0, 10">Set matrix as a key</Button>
-                    </StackPanel>
+                    <GroupBox BorderBrush="Gainsboro" Padding="10">
+                        <StackPanel HorizontalAlignment="Center" Margin="5" Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                            <TextBlock>Enter size of Matrix NxN</TextBlock>
+                            <TextBox Text="{Binding MatrixSize, UpdateSourceTrigger=PropertyChanged }" HorizontalAlignment="Center" Width="50"></TextBox>
+                            <Button Command="{Binding ValidateCommand}" Margin="0, 10, 0, 10">Validate user matrix</Button>
+                            <Button Command="{Binding FindInvertCommand}" Margin="0, 10, 0, 10">Find inverted</Button>
+                            <Button Command="{Binding SetMatrixCommand}" Margin="0, 10, 0, 10">Set matrix as a key</Button>
+                        </StackPanel>
+                    </GroupBox>
 
-                    <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
-                        <TextBlock>User Matrix:</TextBlock>
-                        <controls:MatrixControl x:Name="UserMatrixControl2" ItemsSource="{Binding UserMatrix, Mode=TwoWay}"/>
+                    <GroupBox Grid.Row="1" Grid.Column="0" BorderBrush="Gainsboro" Padding="10">
+                        <StackPanel HorizontalAlignment="Center" >
+                            <TextBlock>User Matrix:</TextBlock>
+                            <controls:MatrixControl x:Name="UserMatrixControl2" ItemsSource="{Binding UserMatrix, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <StackPanel Margin="10, 0, 0, 0" Grid.Column="1" Grid.RowSpan="2" Orientation="Horizontal">
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3">
@@ -170,12 +207,12 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Left">Determinant of matrix D</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding Determinant}"></TextBlock>
-                            <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Left" >Module of Determinant D</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" Text="{Binding DeterminantModule}"></TextBlock>
-                            <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Left" >Reciprocal value of (Mod) D</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding ReciprocalValue}"></TextBlock>
+                            <TextBlock Margin="7" Grid.Column="0" Grid.Row="0" TextAlignment="Left">Determinant of matrix D</TextBlock>
+                            <TextBlock Margin="7" Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding Determinant}"></TextBlock>
+                            <TextBlock Margin="7" Grid.Column="0" Grid.Row="1" TextAlignment="Left" >Module of Determinant D</TextBlock>
+                            <TextBlock Margin="7" Grid.Column="1" Grid.Row="1" TextAlignment="Right" Text="{Binding DeterminantModule}"></TextBlock>
+                            <TextBlock Margin="7" Grid.Column="0" Grid.Row="2" TextAlignment="Left" >Reciprocal value of (Mod) D</TextBlock>
+                            <TextBlock Margin="7" Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding ReciprocalValue}"></TextBlock>
 
                         </Grid>
                     </StackPanel>
@@ -191,22 +228,18 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0" Orientation="Vertical">
+                            <ListBox Padding="10" Height="590" Grid.RowSpan="3" ScrollViewer.CanContentScroll="True">
+
                                 <TextBlock TextAlignment="Left" >Selected variant matrix:</TextBlock>
-                                <controls:MatrixControl ItemsSource="{Binding ObservableMatrix, Mode=TwoWay}"></controls:MatrixControl>
-                            </StackPanel>
+                                <controls:MatrixControl Margin="0, 0, 20, 0" ItemsSource="{Binding ObservableMatrix, Mode=TwoWay}"></controls:MatrixControl>
 
-                            <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <TextBlock TextAlignment="Left" Grid.Column="0" Grid.Row="1">Adjugate matrix:</TextBlock>
-                                <controls:MatrixControl ItemsSource="{Binding AdjugateMatrix, Mode=TwoWay}"></controls:MatrixControl>
-                            </StackPanel>
+                                <controls:MatrixControl Margin="0, 0, 20, 0" ItemsSource="{Binding AdjugateMatrix, Mode=TwoWay}"></controls:MatrixControl>
 
-                            <StackPanel Grid.Row="2" Orientation="Vertical">
                                 <TextBlock TextAlignment="Left" Grid.Column="0" Grid.Row="2">Matrix for decryption:</TextBlock>
                                 <controls:MatrixControl ItemsSource="{Binding DecryptoMatrix, Mode=TwoWay}"></controls:MatrixControl>
-                            </StackPanel>
 
-
+                            </ListBox>
 
                         </Grid>
                     </StackPanel>

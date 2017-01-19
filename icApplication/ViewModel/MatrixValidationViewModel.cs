@@ -206,6 +206,10 @@ namespace icApplication.ViewModel {
             {
                 MessageBox.Show(ex.Message);
             }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private bool CanValidateUserMatrix(object obj)
