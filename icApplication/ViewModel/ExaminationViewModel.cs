@@ -31,16 +31,16 @@ namespace icApplication.ViewModel
         private ExaminationVariant _examinationVariant;
         private readonly ExaminationManager _examinationManager = new ExaminationManager();
 
-        public ExaminationViewModel()
-        {
+        public ExaminationViewModel() {
+            InitializeComponents();
+        }
+
+        private void InitializeComponents() {
             GeneratedMatrixSize = 2;
             GeneratedTextLength = GeneratedMatrixSize * 2;
             VariantAmount = 20;
-            AlphavetList = new List<Alphabet> {new SimpleAlphabet(), new CharactersAlphabet(), new RusExtendedAlphabet()};
+            AlphavetList = new List<Alphabet> { new SimpleAlphabet(), new CharactersAlphabet(), new RusExtendedAlphabet() };
             Alphabet = AlphavetList.FirstOrDefault();
-
-            CreateVariants(null);
-            SelectedExaminationVariant = ExaminationVariantCollection.First();
 
             GenerateVariantsCommand = new RelayCommand(CreateVariants, CanCreateVariants);
             LoadVariantsCommand = new RelayCommand(LoadVariants, CanLoadVariants);

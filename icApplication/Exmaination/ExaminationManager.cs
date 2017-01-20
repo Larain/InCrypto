@@ -118,10 +118,10 @@ namespace icApplication.Exmaination {
                         return key;
                 }
                 catch (ValidationException ex) {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
                 catch (ArgumentException ex) {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
             }
         }
