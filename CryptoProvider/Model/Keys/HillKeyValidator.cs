@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
+using System.Windows.Input;
 using icModel.Abstract;
 using icModel.Model.Entities;
 using icModel.Model.Helpers;
@@ -12,7 +13,8 @@ namespace icModel.Model.Keys
     [Serializable]
     public class HillKeyValidator : ICryptoKeyValidator
     {
-        public bool IsValid(ICryptoKey key) {
+        public bool IsValid(ICryptoKey cryptoKey) {
+            HillKey key = (HillKey) cryptoKey;
             if (key == null)
                 throw new ValidationException("Key is null");
             if (key.Matrix == null)
@@ -20,18 +22,16 @@ namespace icModel.Model.Keys
             if (key.Matrix.ColumnCount != key.Matrix.RowCount)
                 throw new ValidationException("Wrong matrix size");
             int det = (int)key.Matrix.Determinant();
-
             if (det == 0)
                 throw new ValidationException("Matrix Determinant = 0");
             try {
-                if (!CryptoHelper.IsNod((int)(CryptoHelper.ModInv(det, key.Alphabet.Length)), key.Alphabet.Length))
-                    throw new ValidationException("Module and determinant are not Nod");
+                if (!CryptoHelper.IsNod(det, key.Alphabet.Length))
+                    throw new ValidationException("Matrix has no inverse");
             }
             catch (DivideByZeroException ex) {
                 throw new ValidationException("Invalid matrix");
             }
-
-
+            
             return true;
         }
 

@@ -58,6 +58,7 @@
     <Compile Include="Model\Entities\ValidationException.cs" />
     <Compile Include="Model\Helpers\CryptoHelper.cs" />
     <Compile Include="Model\Helpers\MatrixConverters.cs" />
+    <Compile Include="Model\Helpers\MatrixOperation.cs" />
     <Compile Include="Model\Keys\AffineKeyValidator.cs" />
     <Compile Include="Model\Keys\DefaultValidator.cs" />
     <Compile Include="Model\Keys\HillKey.cs" />

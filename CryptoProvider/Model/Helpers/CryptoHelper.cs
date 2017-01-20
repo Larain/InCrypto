@@ -38,27 +38,6 @@ namespace icModel.Model.Helpers {
         }
 
         /// <summary>
-        /// Search reciprocal number
-        /// </summary>
-        /// <param name="a">The number to which find reciprocation</param>
-        /// <param name="length">Length of alphabet</param>
-        /// <returns></returns>
-        public static int Reciprocal(int a, int length) {
-            int? invA = null;
-            for (int i = 0;; i++) {
-                if ((i*a)%length == 1) {
-                    invA = i;
-                    break;
-                }
-                if (i > 200)
-                    break;
-            }
-            if (invA == null)
-                throw new ArgumentException("Reciprocal InvA is unracheable");
-            return invA.Value;
-        }
-
-        /// <summary>
         /// Convert digits to char Array.
         /// </summary>
         /// <param name="codedDigitMessage">Message represented in digit format</param>
@@ -104,24 +83,27 @@ namespace icModel.Model.Helpers {
             return output;
         }
 
-        public static int ModInv(int a, int b)
+        private static Tuple<int, Tuple<int, int>> ExtendedEuclid(int a, int b)
         {
-            int b0 = b, t, q;
-            int x0 = 0, x1 = 1;
-            if (b == 1)
-                return 1;
-            while (a > 1)
+            int x = 1, y = 0;
+            int xLast = 0, yLast = 1;
+            int q, r, m, n;
+            while (a != 0)
             {
-                q = a / b;
-                t = b;
-                b = Mod(a, b);
-                a = t;
-                t = x0;
-                x0 = x1 - q*x0;
-                x1 = t;
+                q = b / a;
+                r = b % a;
+                m = xLast - q * x;
+                n = yLast - q * y;
+                xLast = x; yLast = y;
+                x = m; y = n;
+                b = a; a = r;
             }
-            if (x1 < 0) x1 += b0;
-            return x1;
+            return new Tuple<int, Tuple<int, int>>(b, new Tuple<int, int>(xLast, yLast));
+        }
+
+        public static int ModInverse(int a, int m)
+        {
+            return CryptoHelper.Mod((ExtendedEuclid(a, m).Item2.Item1 + m), m);
         }
     }
 }

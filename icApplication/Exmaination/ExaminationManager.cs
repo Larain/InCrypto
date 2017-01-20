@@ -109,10 +109,12 @@ namespace icApplication.Exmaination {
 
                 try {
                     HillKey key = new HillKey(arrDoubles, _alphabet);
-                    HillCipher p = new HillCipher();
-                    p.Key = key;
-                    var s = p.DecryptoMatrix;
-                    if (_marixList.Add(key))
+                    HillCipher p = new HillCipher {Key = key};
+                    string[] originalText = new string[1] { CryptoHelper.RandomString(MatrixSize * 2, _alphabet)};
+                    string[] encryptedText = p.Encrypt(originalText);
+                    string[] decryptedText = p.Decrypt(encryptedText);
+
+                    if (_marixList.Add(key) && originalText[0] == decryptedText[0])
                         return key;
                 }
                 catch (ValidationException ex) {

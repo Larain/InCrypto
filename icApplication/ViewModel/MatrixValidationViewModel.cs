@@ -248,7 +248,7 @@ namespace icApplication.ViewModel {
             Determinant = Provider.Determinant.ToString();
             DeterminantModule = Provider.DeterminantModule.ToString();
             ReciprocalValue = Provider.ReciprocalValue.ToString();
-            AdjugateMatrix = MatrixConverters.ConvertMatrixToObservableCollection(Provider.AdjugateMatrix);
+            AdjugateMatrix = MatrixConverters.ConvertMatrixToObservableCollection(Provider.CofactorMatrix);
             DecryptoMatrix = MatrixConverters.ConvertMatrixToObservableCollection(Provider.DecryptoMatrix);
             ObservableMatrix = Provider.Key.ObservableMatrix;
         }
